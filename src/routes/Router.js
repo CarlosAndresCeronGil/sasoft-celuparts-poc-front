@@ -19,6 +19,8 @@ const Breadcrumbs = lazy(() => import("../views/ui/Breadcrumbs"));
 const SignIn = lazy(() => import("../views/ui/SignIn"));
 const SignUp = lazy(() => import("../views/ui/SignUp"))
 const UsersTable = lazy(() => import("../views/ui/UsersTable"));
+const RequestsTable = lazy(() => import("../views/ui/RequestsTable"));
+const EquipmentsTable = lazy(() => import("../views/ui/EquipmentsTable"));
 
 /*****Routes******/
 
@@ -39,6 +41,8 @@ const ThemeRoutes = [
       { path: "/starter/forms", exact: true, element: <Forms /> },
       { path: "/starter/breadcrumbs", exact: true, element: <Breadcrumbs /> },
       { path: "/starter/users-table", exact: true, element: <UsersTable /> },
+      { path: "/starter/requests-table", exact: true, element: <RequestsTable /> },
+      { path: "/starter/equipments-table", exact: true, element: <EquipmentsTable /> },
     ],
   },
   {

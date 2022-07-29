@@ -22,7 +22,11 @@ export default function SignIn() {
         e.preventDefault();
         console.log(e.target.elements.email.value);
         console.log(e.target.elements.password.value);
-        navigate('/starter');
+        if(e.target.elements.email.value === 'user1@email.com' && e.target.password.value === '12345'){
+            navigate('/starter');
+        }else {
+            alert('Usuario o contraseña incorrectos');
+        }
     }
 
     return (

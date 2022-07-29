@@ -57,7 +57,17 @@ const navigation = [
   {
     title: "List of users",
     href: "./users-table",
-  }
+  },
+  {
+    title: "List of requests",
+    href: "./requests-table",
+  },
+  {
+    title: "List of equipments",
+    href: "./equipments-table",
+  },
+
+
 ];
 
 const Sidebar = () => {
