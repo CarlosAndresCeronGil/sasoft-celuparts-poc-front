@@ -21,6 +21,8 @@ const SignUp = lazy(() => import("../views/ui/SignUp"))
 const UsersTable = lazy(() => import("../views/ui/UsersTable"));
 const RequestsTable = lazy(() => import("../views/ui/RequestsTable"));
 const EquipmentsTable = lazy(() => import("../views/ui/EquipmentsTable"));
+const RequestStatesTable = lazy(() => import("../views/ui/RequestStatesTable"));
+const ProductReviewTable = lazy(() => import("../views/ui/ProductReviewTable"));
 
 /*****Routes******/
 
@@ -43,6 +45,8 @@ const ThemeRoutes = [
       { path: "/starter/users-table", exact: true, element: <UsersTable /> },
       { path: "/starter/requests-table", exact: true, element: <RequestsTable /> },
       { path: "/starter/equipments-table", exact: true, element: <EquipmentsTable /> },
+      { path: "/starter/request-state-table", exact: true, element: <RequestStatesTable /> },
+      { path: "/starter/product-review-table", exact: true, element: <ProductReviewTable /> },
     ],
   },
   {

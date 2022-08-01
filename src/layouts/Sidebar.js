@@ -57,16 +57,28 @@ const navigation = [
   {
     title: "List of users",
     href: "./users-table",
+    icon: "bi bi-layout-split",
   },
   {
     title: "List of requests",
     href: "./requests-table",
+    icon: "bi bi-layout-split",
   },
   {
     title: "List of equipments",
     href: "./equipments-table",
+    icon: "bi bi-layout-split",
   },
-
+  {
+    title: "State of request",
+    href: "./request-state-table",
+    icon: "bi bi-layout-split",
+  },
+  {
+    title: "Review of product",
+    href: "./product-review-table",
+    icon: "bi bi-layout-split",
+  }
 
 ];
 
@@ -95,7 +107,7 @@ const Sidebar = () => {
         </div>
         <div className="bg-dark text-white p-2 opacity-75">Steave Rojer</div>
       </div>
-      <div className="p-3 mt-2">
+      <div className="p-2 mt-2">
         <Nav vertical className="sidebarNav">
           {navigation.map((navi, index) => (
             <NavItem key={index} className="sidenav-bg">
@@ -112,7 +124,7 @@ const Sidebar = () => {
               </Link>
             </NavItem>
           ))}
-          <Button
+          {/* <Button
             color="danger"
             tag="a"
             target="_blank"
@@ -120,7 +132,7 @@ const Sidebar = () => {
             href="https://wrappixel.com/templates/materialpro-react-admin/?ref=33"
           >
             Upgrade To Pro
-          </Button>
+          </Button> */}
         </Nav>
       </div>
     </div>

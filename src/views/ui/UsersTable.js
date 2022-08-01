@@ -1,5 +1,6 @@
-import React from 'react'
-import { Card, CardBody, CardTitle, CardSubtitle, Table } from "reactstrap";
+import React, { useState, useEffect } from 'react'
+import { Card, CardBody, CardTitle, Table } from "reactstrap";
+import getUsers from '../../services/getUsers';
 
 const tableData = [
     {
@@ -41,6 +42,17 @@ const tableData = [
 ];
 
 export default function UsersTable() {
+    const [users, setUsers] = useState([]);
+
+
+    useEffect(function () {
+        getUsers()
+            .then((response) => {
+                console.log("response", response);
+                setUsers(response);
+            })
+    }, [setUsers])
+
     return (
         <div>
             <Card>
@@ -63,12 +75,37 @@ export default function UsersTable() {
                             </tr>
                         </thead>
                         <tbody>
-                            {tableData.map((tdata, index) => (
+                            {/* {tableData.map((tdata, index) => (
                                 <tr key={index} className="border-top">
                                     <td>
                                         <div className="d-flex align-items-center p-1">
                                             <div className="ms-0">
                                                 <span className="text-muted">{tdata.id}</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>{tdata.idNumber}</td>
+                                    <td>{tdata.name}</td>
+                                    <td>{tdata.email}</td>
+                                    <td>{tdata.phone}</td>
+                                    <td>{tdata.AlternativePhone}</td>
+                                    <td>
+                                        {tdata.AccountStatus === "Cerrada" ? (
+                                            <span className="p-2 bg-danger rounded-circle d-inline-block ms-3"></span>
+                                        ) : tdata.AccountStatus === "Inhabilitada" ? (
+                                            <span className="p-2 bg-warning rounded-circle d-inline-block ms-3"></span>
+                                        ) : (
+                                            <span className="p-2 bg-success rounded-circle d-inline-block ms-3"></span>
+                                        )}
+                                    </td>
+                                </tr>
+                            ))} */}
+                            {users.map((tdata, index) => (
+                                <tr key={index} className="border-top">
+                                    <td>
+                                        <div className="d-flex align-items-center p-1">
+                                            <div className="ms-0">
+                                                <span className="text-muted">{tdata.idUser}</span>
                                             </div>
                                         </div>
                                     </td>
