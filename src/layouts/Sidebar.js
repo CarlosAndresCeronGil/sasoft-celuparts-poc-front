@@ -55,29 +55,24 @@ const navigation = [
     icon: "bi bi-people",
   },
   {
-    title: "List of users",
+    title: "Lista de usuarios",
     href: "./users-table",
-    icon: "bi bi-layout-split",
   },
   {
-    title: "List of requests",
+    title: "Lista de solicitudes",
     href: "./requests-table",
-    icon: "bi bi-layout-split",
   },
   {
-    title: "List of equipments",
+    title: "Lista de equipos",
     href: "./equipments-table",
-    icon: "bi bi-layout-split",
   },
   {
-    title: "State of request",
+    title: "Estado de las solicitudes",
     href: "./request-state-table",
-    icon: "bi bi-layout-split",
   },
   {
-    title: "Review of product",
+    title: "Revisión de los productos",
     href: "./product-review-table",
-    icon: "bi bi-layout-split",
   }
 
 ];

@@ -99,7 +99,11 @@ const Header = () => {
             <DropdownItem>My Account</DropdownItem>
             <DropdownItem>Edit Profile</DropdownItem>
             <DropdownItem divider />
-            <DropdownItem>My Balance</DropdownItem>
+            <DropdownItem>
+              <Link to="/starter/request-form">
+                Nueva solicitud 
+              </Link>
+            </DropdownItem>
             <DropdownItem>Inbox</DropdownItem>
             <DropdownItem>
               <Link to="/">

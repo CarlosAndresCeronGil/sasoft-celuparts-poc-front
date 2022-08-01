@@ -1,5 +1,4 @@
 import { lazy } from "react";
-import { Navigate } from "react-router-dom";
 
 /****Layouts*****/
 const FullLayout = lazy(() => import("../layouts/FullLayout.js"));
@@ -23,6 +22,7 @@ const RequestsTable = lazy(() => import("../views/ui/RequestsTable"));
 const EquipmentsTable = lazy(() => import("../views/ui/EquipmentsTable"));
 const RequestStatesTable = lazy(() => import("../views/ui/RequestStatesTable"));
 const ProductReviewTable = lazy(() => import("../views/ui/ProductReviewTable"));
+const RequestForm = lazy(() => import("../views/ui/RequestForm"));
 
 /*****Routes******/
 
@@ -47,6 +47,7 @@ const ThemeRoutes = [
       { path: "/starter/equipments-table", exact: true, element: <EquipmentsTable /> },
       { path: "/starter/request-state-table", exact: true, element: <RequestStatesTable /> },
       { path: "/starter/product-review-table", exact: true, element: <ProductReviewTable /> },
+      { path: "/starter/request-form", exact: true, element: <RequestForm /> },
     ],
   },
   {

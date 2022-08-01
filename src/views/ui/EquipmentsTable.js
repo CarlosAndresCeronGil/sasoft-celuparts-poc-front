@@ -1,34 +1,19 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Card, CardBody, CardTitle, Table } from "reactstrap";
-
-const tableData = [
-    {
-        idEquipment: 1,
-        typeOfEquipment: "Telefono celular",
-        equipmentBrand: "Samsung",
-        equipmentModel: "S10",
-        imei: "123456789",
-        equipmentInvoice: "Comprado X fecha",
-    },
-    {
-        idEquipment: 2,
-        typeOfEquipment: "Telefono celular",
-        equipmentBrand: "Xiaomi",
-        equipmentModel: "Pro 5",
-        imei: "123456789",
-        equipmentInvoice: "Comprado X fecha",
-    },
-    {
-        idEquipment: 3,
-        typeOfEquipment: "Computador portatil",
-        equipmentBrand: "Dell",
-        equipmentModel: "Inspiron",
-        imei: "123456789",
-        equipmentInvoice: "Comprado X fecha",
-    },
-];
+import getEquipments from '../../services/getEquipments';
 
 export default function EquipmentsTable() {
+    const [equipments, setEquipments] = useState([])
+
+    useEffect(function() {
+        getEquipments()
+            .then((response) => {
+                console.log(response)
+                setEquipments(response)
+            }
+        )
+    },[setEquipments])
+
     return (
         <div>
             <Card>
@@ -47,14 +32,14 @@ export default function EquipmentsTable() {
                             </tr>
                         </thead>
                         <tbody>
-                            {tableData.map((tdata, index) => (
+                            {equipments.map((tdata, index) => (
                                 <tr key={index} className="border-top">
                                     <td>
                                         <span className="text-muted">{tdata.idEquipment}</span>
                                     </td>
                                     <td>{tdata.typeOfEquipment}</td>
                                     <td>{tdata.equipmentBrand}</td>
-                                    <td>{tdata.equipmentModel}</td>
+                                    <td>{tdata.modelOrReference}</td>
                                     <td>{tdata.imei}</td>
                                     <td>{tdata.equipmentInvoice}</td>
                                 </tr>

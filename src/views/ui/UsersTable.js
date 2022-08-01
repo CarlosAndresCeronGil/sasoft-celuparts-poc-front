@@ -2,45 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { Card, CardBody, CardTitle, Table } from "reactstrap";
 import getUsers from '../../services/getUsers';
 
-const tableData = [
-    {
-        id: 1,
-        idNumber: "54548",
-        name: "User Test 1",
-        email: "user1@gmail.com",
-        phone: "457515",
-        AlternativePhone: "51848",
-        AccountStatus: "Habilitada",
-    },
-    {
-        id: 2,
-        idNumber: "821548",
-        name: "User Test 2",
-        email: "user2@email.com",
-        phone: "848915",
-        AlternativePhone: "",
-        AccountStatus: "Habilitada",
-    },
-    {
-        id: 3,
-        idNumber: "8481548",
-        name: "User Test 3",
-        email: "user3@email.com",
-        phone: "848915",
-        AlternativePhone: "",
-        AccountStatus: "Inhabilitada",
-    },
-    {
-        id: 4,
-        idNumber: "84848948",
-        name: "User Test 4",
-        email: "user4@email.com",
-        phone: "845123",
-        AlternativePhone: "484541",
-        AccountStatus: "Cerrada",
-    },
-];
-
 export default function UsersTable() {
     const [users, setUsers] = useState([]);
 
@@ -48,7 +9,6 @@ export default function UsersTable() {
     useEffect(function () {
         getUsers()
             .then((response) => {
-                console.log("response", response);
                 setUsers(response);
             })
     }, [setUsers])
@@ -110,17 +70,17 @@ export default function UsersTable() {
                                         </div>
                                     </td>
                                     <td>{tdata.idNumber}</td>
-                                    <td>{tdata.name}</td>
+                                    <td>{tdata.names} {tdata.surnames}</td>
                                     <td>{tdata.email}</td>
                                     <td>{tdata.phone}</td>
-                                    <td>{tdata.AlternativePhone}</td>
+                                    <td>{tdata.alternativePhone}</td>
                                     <td>
-                                        {tdata.AccountStatus === "Cerrada" ? (
-                                            <span className="p-2 bg-danger rounded-circle d-inline-block ms-3"></span>
-                                        ) : tdata.AccountStatus === "Inhabilitada" ? (
-                                            <span className="p-2 bg-warning rounded-circle d-inline-block ms-3"></span>
+                                        {tdata.accountStatus === "Cerrada" ? (
+                                            <span className="p-2 bg-danger rounded-circle d-inline-block ms-3">{tdata.AccountStatus}asasdasdasd</span>
+                                        ) : tdata.accountStatus === "Inhabilitada" ? (
+                                            <span className="p-2 bg-warning rounded-circle d-inline-block ms-3">{tdata.AccountStatus}</span>
                                         ) : (
-                                            <span className="p-2 bg-success rounded-circle d-inline-block ms-3"></span>
+                                            <span className="p-2 bg-success rounded-circle d-inline-block ms-3">{tdata.AccountStatus}</span>
                                         )}
                                     </td>
                                 </tr>

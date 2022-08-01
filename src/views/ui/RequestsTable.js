@@ -1,54 +1,19 @@
-import React from 'react'
-import { Card, CardBody, CardTitle, CardSubtitle, Table } from "reactstrap";
-
-const tableData = [
-    {
-        idRequest: 101,
-        requestType: "Reparación",
-        pickUpAddrress: "Calle 123",
-        deliveryAddress: "Calle 123",
-        pickUpDate: "2022-07-26T10:30:00",
-        paymentMethod: "Contra entrega",
-        status: "Reparado pendiente de pago",
-        quote: "$100",
-        statusQuote: "Aceptada",
-    },
-    {
-        idRequest: 102,
-        requestType: "Reparación",
-        pickUpAddrress: "Calle 321",
-        deliveryAddress: "Calle 321",
-        pickUpDate: "2022-07-26T10:30:00",
-        paymentMethod: "Nequi",
-        status: "Reparado pendiente de pago",
-        quote: "$200",
-        statusQuote: "Aceptada",
-    },
-    {
-        idRequest: 103,
-        requestType: "Remonta",
-        pickUpAddrress: "Calle 455",
-        deliveryAddress: "Calle 455",
-        pickUpDate: "2022-07-26T10:30:00",
-        paymentMethod: "Contra entrega",
-        status: "Devuelto sin reparación",
-        quote: "$300",
-        statusQuote: "Rechazada",
-    },
-    {
-        idRequest: 104,
-        requestType: "Remonta",
-        pickUpAddrress: "Calle 567",
-        deliveryAddress: "Calle 567",
-        pickUpDate: "2022-07-26T10:30:00",
-        paymentMethod: "Contra entrega",
-        status: "Recibida tecnico",
-        quote: "$0",
-        statusQuote: "Pendiente",
-    },
-];
+import React, { useEffect, useState } from 'react'
+import { Card, CardBody, CardTitle, Table } from "reactstrap";
+import getRequests from '../../services/getRequests';
 
 export default function RequestsTable() {
+    const [requests, setRequests] = useState([])
+
+    useEffect(function() {
+        getRequests()
+            .then((response) => {
+                console.log(response)
+                setRequests(response)
+            }
+        )
+    },[setRequests])
+
     return (
         <div>
             <Card>
@@ -70,15 +35,15 @@ export default function RequestsTable() {
                             </tr>
                         </thead>
                         <tbody>
-                            {tableData.map((tdata, index) => (
+                            {requests.map((tdata, index) => (
                                 <tr key={index} className="border-top">
                                     <td>
                                         <span className="text-muted">{tdata.idRequest}</span>
                                     </td>
                                     <td>{tdata.requestType}</td>
-                                    <td>{tdata.pickUpAddrress}</td>
+                                    <td>{tdata.pickUpAddress}</td>
                                     <td>{tdata.deliveryAddress}</td>
-                                    <td>{tdata.pickUpDate}</td>
+                                    <td>{tdata.pickUpTime}</td>
                                     <td>{tdata.paymentMethod}</td>
                                     <td>{tdata.status}</td>
                                     <td>{tdata.quote}</td>

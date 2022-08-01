@@ -11,7 +11,6 @@ import {
     FormGroup,
     Label,
     Input,
-    FormText,
 } from "reactstrap";
 
 export default function SignIn() {

@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Card, CardBody, CardTitle, Table } from "reactstrap";
+import getProductReviews from '../../services/getProductReviews';
 
 const tableData = [
     {
@@ -10,9 +11,20 @@ const tableData = [
 ]
 
 export default function ProductReviewTable() {
-  return (
-    <div>
-        <Card>
+    const [productReviews, setProductReviews] = useState([]);
+
+    useEffect(function() {
+        getProductReviews()
+            .then((response) => {
+                console.log(response)
+                setProductReviews(response)
+            }
+        )
+    },[setProductReviews])
+
+    return (
+        <div>
+            <Card>
                 <CardBody>
                     <CardTitle tag="h5">Revisión del producto</CardTitle>
 
@@ -25,7 +37,7 @@ export default function ProductReviewTable() {
                             </tr>
                         </thead>
                         <tbody>
-                            {tableData.map((tdata, index) => (
+                            {productReviews.map((tdata, index) => (
                                 <tr key={index} className="border-top">
                                     <td>
                                         <span className="text-muted">{tdata.idProductReview}</span>
@@ -38,6 +50,6 @@ export default function ProductReviewTable() {
                     </Table>
                 </CardBody>
             </Card>
-    </div>
-  )
+        </div>
+    )
 }
