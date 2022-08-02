@@ -2,14 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { Card, CardBody, CardTitle, Table } from "reactstrap";
 import getProductReviews from '../../services/getProductReviews';
 
-const tableData = [
-    {
-        idProductReview: 1,
-        repairDate: "2020-01-01",
-        technicalRemarks: "Se tuvo que arreglar la pantalla del celular debido a que no estaba bien, ademas se reemplazo el boton de encendido por uno nuevo",
-    },
-]
-
 export default function ProductReviewTable() {
     const [productReviews, setProductReviews] = useState([]);
 
