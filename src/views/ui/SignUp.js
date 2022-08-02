@@ -12,8 +12,32 @@ import {
     Input,
     FormText,
 } from "reactstrap";
+import postUser from '../../services/postUser';
 
 export default function SignUp() {
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        postUser({
+            idType: e.target.elements.idType.value,
+            idNumber: e.target.elements.idNumber.value,
+            names: e.target.elements.names.value,
+            surnames: e.target.elements.surnames.value,
+            phone: e.target.elements.phone.value,
+            alternativePhone: e.target.elements.alternativePhone.value,
+            email: e.target.elements.email.value,
+            password: e.target.elements.password.value,
+            accountStatus: "Habilitada"
+        })
+        .then(data => {
+            console.log(data);
+        }
+        ).catch(error => {
+            console.log(error);
+        }
+        );
+    }
+
     return (
         <div>
             <Row>
@@ -23,28 +47,28 @@ export default function SignUp() {
                             Registrate
                         </CardTitle>
                         <CardBody>
-                            <Form>
+                            <Form onSubmit={handleSubmit}>
                                 <FormGroup>
-                                    <Label for="exampleSelect">Select</Label>
-                                    <Input id="exampleSelect" name="select" type="select">
+                                    <Label for="idType">Tipo de documento</Label>
+                                    <Input id="idType" name="select" type="select">
                                         <option>CC</option>
                                         <option>TI</option>
                                     </Input>
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label for="IdNumer">Numero de cedula</Label>
+                                    <Label for="idNumber">Numero de cedula</Label>
                                     <Input
-                                        id="IdNumber"
-                                        name="IdNumber"
+                                        id="idNumber"
+                                        name="idNumber"
                                         placeholder="Ingrese su número de cedula"
                                         type="number"
                                         required
                                     />
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label for="Names">Nombres</Label>
+                                    <Label for="names">Nombres</Label>
                                     <Input
-                                        id="Names"
+                                        id="names"
                                         name="names"
                                         placeholder="Ingrese sus nombres"
                                         type='text'
@@ -52,9 +76,9 @@ export default function SignUp() {
                                     />
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label for="Surnames">Apellidos</Label>
+                                    <Label for="surnames">Apellidos</Label>
                                     <Input
-                                        id="Surnames"
+                                        id="surnames"
                                         name="surnames"
                                         placeholder="Ingrese sus apellidos"
                                         type='text'
@@ -62,28 +86,28 @@ export default function SignUp() {
                                     />
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label for="PhoneNumber">Número de telefono</Label>
+                                    <Label for="phone">Número de telefono</Label>
                                     <Input
-                                        id="PhoneNumber"
-                                        name="phonenumber"
+                                        id="phone"
+                                        name="phone"
                                         placeholder="Ingrese su número de telefono"
                                         type='number'
                                         required
                                     />
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label for="AlternativePhoneNumber">Número de telefono alternativo (opcional)</Label>
+                                    <Label for="alternativePhone">Número de telefono alternativo (opcional)</Label>
                                     <Input
-                                        id="AlternativePhoneNumber"
-                                        name="alternativephonenumber"
+                                        id="alternativePhone"
+                                        name="alternativePhone"
                                         placeholder="Ingrese su número de telefono alternativo"
                                         type='number'
                                     />
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label for="Email">Email</Label>
+                                    <Label for="email">Email</Label>
                                     <Input
-                                        id="exampleEmail"
+                                        id="email"
                                         name="email"
                                         placeholder="Ingrese su email"
                                         type="email"
@@ -91,9 +115,9 @@ export default function SignUp() {
                                     />
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label for="Password">Contraseña</Label>
+                                    <Label for="password">Contraseña</Label>
                                     <Input
-                                        id="examplePassword"
+                                        id="password"
                                         name="password"
                                         placeholder="Ingrese su contraseña"
                                         type="password"

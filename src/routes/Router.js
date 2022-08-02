@@ -23,6 +23,7 @@ const EquipmentsTable = lazy(() => import("../views/ui/EquipmentsTable"));
 const RequestStatesTable = lazy(() => import("../views/ui/RequestStatesTable"));
 const ProductReviewTable = lazy(() => import("../views/ui/ProductReviewTable"));
 const RequestForm = lazy(() => import("../views/ui/RequestForm"));
+const ProductReviewForm = lazy(() => import("../views/ui/ProductReviewForm"));
 
 /*****Routes******/
 
@@ -48,6 +49,7 @@ const ThemeRoutes = [
       { path: "/starter/request-state-table", exact: true, element: <RequestStatesTable /> },
       { path: "/starter/product-review-table", exact: true, element: <ProductReviewTable /> },
       { path: "/starter/request-form", exact: true, element: <RequestForm /> },
+      { path: "/starter/product-review-form", exact: true, element: <ProductReviewForm /> },
     ],
   },
   {

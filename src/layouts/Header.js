@@ -101,10 +101,14 @@ const Header = () => {
             <DropdownItem divider />
             <DropdownItem>
               <Link to="/starter/request-form">
-                Nueva solicitud 
+                Nueva solicitud
               </Link>
             </DropdownItem>
-            <DropdownItem>Inbox</DropdownItem>
+            <DropdownItem>
+              <Link to="/starter/product-review-form">
+                Registrar Revisión
+              </Link>
+            </DropdownItem>
             <DropdownItem>
               <Link to="/">
                 Logout
