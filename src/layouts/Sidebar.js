@@ -73,8 +73,11 @@ const navigation = [
   {
     title: "Revisión de los productos",
     href: "./product-review-table",
-  }
-
+  },
+  {
+    title: "Lista de estados de solicitudes",
+    href: "./request-state-form",
+  },
 ];
 
 const Sidebar = () => {

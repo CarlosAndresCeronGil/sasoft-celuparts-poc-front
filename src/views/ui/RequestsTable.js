@@ -8,7 +8,7 @@ export default function RequestsTable() {
     useEffect(function() {
         getRequests()
             .then((response) => {
-                console.log(response)
+                //console.log(response)
                 setRequests(response)
             }
         )
@@ -45,7 +45,7 @@ export default function RequestsTable() {
                                     <td>{tdata.deliveryAddress}</td>
                                     <td>{tdata.pickUpTime}</td>
                                     <td>{tdata.paymentMethod}</td>
-                                    <td>{tdata.status}</td>
+                                    <td>{tdata.requestStatus[0].status}</td>
                                     <td>{tdata.quote}</td>
                                     <td>{tdata.statusQuote}</td>
                                 </tr>

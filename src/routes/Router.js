@@ -24,6 +24,7 @@ const RequestStatesTable = lazy(() => import("../views/ui/RequestStatesTable"));
 const ProductReviewTable = lazy(() => import("../views/ui/ProductReviewTable"));
 const RequestForm = lazy(() => import("../views/ui/RequestForm"));
 const ProductReviewForm = lazy(() => import("../views/ui/ProductReviewForm"));
+const RequestStateForm = lazy(() => import("../views/ui/RequestStateForm"));
 
 /*****Routes******/
 
@@ -50,6 +51,7 @@ const ThemeRoutes = [
       { path: "/starter/product-review-table", exact: true, element: <ProductReviewTable /> },
       { path: "/starter/request-form", exact: true, element: <RequestForm /> },
       { path: "/starter/product-review-form", exact: true, element: <ProductReviewForm /> },
+      { path: "/starter/request-state-form", exact: true, element: <RequestStateForm /> },
     ],
   },
   {

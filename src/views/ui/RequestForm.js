@@ -16,13 +16,13 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import postRequest from '../../services/postRequest';
 import postEquipment from '../../services/postEquipment';
+import postRequestStatus from '../../services/postRequestStatus';
 
 export default function RequestForm() {
     const [startDate, setStartDate] = useState(new Date());
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Fecha: ", startDate);
         postRequest({
             idUser: 1002,
             requestType: e.target.elements.tipoSolicitud.value,
@@ -30,11 +30,9 @@ export default function RequestForm() {
             deliveryAddress: e.target.elements.DeliveryAddress.value,
             pickUpTime: startDate,
             paymentMethod: e.target.elements.PaymentMethod.value,
-            status: "Iniciada",
             quote: 0,
             statusQuote: "Pendiente"
         }).then(data => {
-            console.log(data.idRequest);
             postEquipment({
                 idRequest: data.idRequest,
                 typeOfEquipment: e.target.elements.typeOfEquipment.value,
@@ -42,15 +40,26 @@ export default function RequestForm() {
                 modelOrReference: e.target.elements.modelOrReference.value,
                 imei: e.target.elements.imei.value,
                 equipmentInvoice: e.target.elements.equipmentInvoice.value,
-            }).then(data => {
-                console.log(data);
+            })
+                .catch(error => {
+                    console.log(error);
+                }
+                );
+            postRequestStatus({
+                idRequest: data.idRequest,
+                status: "Iniciada",
+                paymentStatus: "Iniciada",
+                productReturned: false
+            })
+                .catch(error => {
+                    console.log(error);
+                }
+                );
+        })
+            .catch(error => {
+                console.log(error);
             }
-            )
-        }
-        ).catch(error => {
-            console.log(error);
-        }
-        );
+            );
     }
 
     return (
@@ -115,7 +124,7 @@ export default function RequestForm() {
                                             <option>Nequi</option>
                                         </Input>
                                     </FormGroup>
-                                    {/* ------------ Datos equipo ------------- */}
+                                    {/* --------------- Datos equipo ---------------- */}
                                     <CardSubtitle tag="h6" className="border-bottom p-1 mb-2">
                                         <i className="bi bi-box-seam"> </i>
                                         <strong>Datos del equipo</strong>

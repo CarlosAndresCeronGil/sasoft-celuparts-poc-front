@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
     Card,
     Row,
@@ -12,15 +12,12 @@ import {
     Label,
     Input,
 } from "reactstrap";
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
 
-export default function ProductReviewForm() {
-    const [startDate, setStartDate] = useState(new Date());
+export default function RequestStateForm() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Fecha: ", startDate);
+        console.log("Fecha: ");
     }
 
     return (
@@ -46,17 +43,6 @@ export default function ProductReviewForm() {
                                             placeholder="Ingrese la dirección donde se devolvera el producto"
                                             type="text"
                                             required
-                                        />
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <Label for="PickUpTime">Fecha de recogida</Label>
-                                        <DatePicker
-                                            id='PickUpTime'
-                                            dateFormat="yyyy-MM-dd h:mm aa"
-                                            showTimeSelect
-                                            selected={startDate}
-                                            onChange={(date) => setStartDate(date)}
-                                            timeFormat="HH:mm"
                                         />
                                     </FormGroup>
                                     <FormGroup>
