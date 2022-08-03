@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { Card, CardBody, CardTitle, Table } from "reactstrap";
-import getRequestStates from '../../services/getRequestStates';
+import getRequestStatus from '../../services/getRequestStatus';
 
-export default function RequestStatesTable() {
+export default function RequestStatusTable() {
     const [requestStates, setRequestStates] = useState([]);
 
     useEffect(function() {
-        getRequestStates()
+        getRequestStatus()
             .then((response) => {
                 console.log(response)
                 setRequestStates(response)
@@ -32,7 +32,7 @@ export default function RequestStatesTable() {
                             {requestStates.map((tdata, index) => (
                                 <tr key={index} className="border-top">
                                     <td>
-                                        <span className="text-muted">{tdata.idRequestState}</span>
+                                        <span className="text-muted">{tdata.idRequestStatus}</span>
                                     </td>
                                     <td>{tdata.paymentStatus}</td>
                                     <td>{tdata.productReturned === true ? "Sí" : "No"}</td>

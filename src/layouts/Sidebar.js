@@ -68,15 +68,11 @@ const navigation = [
   },
   {
     title: "Estado de las solicitudes",
-    href: "./request-state-table",
+    href: "./request-status-table",
   },
   {
     title: "Revisión de los productos",
     href: "./product-review-table",
-  },
-  {
-    title: "Lista de estados de solicitudes",
-    href: "./request-state-form",
   },
 ];
 

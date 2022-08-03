@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Card, CardBody, CardTitle, Table } from "reactstrap";
 import getRequests from '../../services/getRequests';
+import { Link } from "react-router-dom";
 
 export default function RequestsTable() {
     const [requests, setRequests] = useState([])
@@ -32,6 +33,7 @@ export default function RequestsTable() {
                                 <th>Estado solicitud</th>
                                 <th>Cotización</th>
                                 <th>Estado cotización</th>
+                                <th>Actualizar estado solicitud</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -48,6 +50,11 @@ export default function RequestsTable() {
                                     <td>{tdata.requestStatus[0].status}</td>
                                     <td>{tdata.quote}</td>
                                     <td>{tdata.statusQuote}</td>
+                                    <td>
+                                        <Link to={`/starter/request-status-form/${tdata.requestStatus[0].idRequestStatus}`}>
+                                            <button className="btn btn-primary">Actualizar</button>
+                                        </Link>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>

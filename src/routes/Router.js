@@ -20,11 +20,11 @@ const SignUp = lazy(() => import("../views/ui/SignUp"))
 const UsersTable = lazy(() => import("../views/ui/UsersTable"));
 const RequestsTable = lazy(() => import("../views/ui/RequestsTable"));
 const EquipmentsTable = lazy(() => import("../views/ui/EquipmentsTable"));
-const RequestStatesTable = lazy(() => import("../views/ui/RequestStatesTable"));
+const RequestStatusTable = lazy(() => import("../views/ui/RequestStatusTable"));
 const ProductReviewTable = lazy(() => import("../views/ui/ProductReviewTable"));
 const RequestForm = lazy(() => import("../views/ui/RequestForm"));
 const ProductReviewForm = lazy(() => import("../views/ui/ProductReviewForm"));
-const RequestStateForm = lazy(() => import("../views/ui/RequestStateForm"));
+const RequestStatusForm = lazy(() => import("../views/ui/RequestStatusForm"));
 
 /*****Routes******/
 
@@ -33,7 +33,6 @@ const ThemeRoutes = [
     path: "/starter",
     element: <FullLayout />,
     children: [
-      // { path: "/", element: <Navigate to="/starter" /> },
       { path: "/starter", exact: true, element: <Starter /> },
       { path: "/starter/about", exact: true, element: <About /> },
       { path: "/starter/alerts", exact: true, element: <Alerts /> },
@@ -46,12 +45,12 @@ const ThemeRoutes = [
       { path: "/starter/breadcrumbs", exact: true, element: <Breadcrumbs /> },
       { path: "/starter/users-table", exact: true, element: <UsersTable /> },
       { path: "/starter/requests-table", exact: true, element: <RequestsTable /> },
-      { path: "/starter/equipments-table", exact: true, element: <EquipmentsTable /> },
-      { path: "/starter/request-state-table", exact: true, element: <RequestStatesTable /> },
-      { path: "/starter/product-review-table", exact: true, element: <ProductReviewTable /> },
       { path: "/starter/request-form", exact: true, element: <RequestForm /> },
+      { path: "/starter/equipments-table", exact: true, element: <EquipmentsTable /> },
+      { path: "/starter/product-review-table", exact: true, element: <ProductReviewTable /> },
       { path: "/starter/product-review-form", exact: true, element: <ProductReviewForm /> },
-      { path: "/starter/request-state-form", exact: true, element: <RequestStateForm /> },
+      { path: "/starter/request-status-table", exact: true, element: <RequestStatusTable /> },
+      { path: "/starter/request-status-form/:id", exact: true, element: <RequestStatusForm /> },
     ],
   },
   {
