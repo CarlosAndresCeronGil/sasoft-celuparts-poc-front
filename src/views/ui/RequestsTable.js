@@ -28,12 +28,7 @@ export default function RequestsTable() {
                                 <th>Tipo solicitud</th>
                                 <th>Dirección recogida</th>
                                 <th>Dirección entrega</th>
-                                <th>Fecha recogida</th>
-                                <th>Metodo de pago</th>
-                                <th>Estado solicitud</th>
-                                <th>Cotización</th>
-                                <th>Estado cotización</th>
-                                <th>Actualizar estado solicitud</th>
+                                <th>Estado de cotización</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -45,10 +40,6 @@ export default function RequestsTable() {
                                     <td>{tdata.requestType}</td>
                                     <td>{tdata.pickUpAddress}</td>
                                     <td>{tdata.deliveryAddress}</td>
-                                    <td>{tdata.pickUpTime}</td>
-                                    <td>{tdata.paymentMethod}</td>
-                                    <td>{tdata.requestStatus[0].status}</td>
-                                    <td>{tdata.quote}</td>
                                     <td>{tdata.statusQuote}</td>
                                     <td>
                                         <Link to={`/starter/request-status-form/${tdata.requestStatus[0].idRequestStatus}`}>

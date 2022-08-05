@@ -5,7 +5,6 @@ export default function getSingleRequestStatus({id}) {
     return fetch(apiURL)
         .then(response => response.json())
         .then((response) => {
-            console.log(response);
             return response;
         }
         )
