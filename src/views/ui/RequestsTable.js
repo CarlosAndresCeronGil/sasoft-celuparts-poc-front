@@ -29,6 +29,8 @@ export default function RequestsTable() {
                                 <th>Dirección recogida</th>
                                 <th>Dirección entrega</th>
                                 <th>Estado de cotización</th>
+                                <th>Actualizar estado</th>
+                                <th>Actualizar estado reparación</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -44,6 +46,11 @@ export default function RequestsTable() {
                                     <td>
                                         <Link to={`/starter/request-status-form/${tdata.requestStatus[0].idRequestStatus}`}>
                                             <button className="btn btn-primary">Actualizar</button>
+                                        </Link>
+                                    </td>
+                                    <td>
+                                        <Link to={`/starter/update-repair-form/${tdata.repairs[0].idRepair}`}>
+                                            <button className="btn btn-secondary">Actualizar</button>
                                         </Link>
                                     </td>
                                 </tr>

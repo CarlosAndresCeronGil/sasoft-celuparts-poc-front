@@ -67,12 +67,16 @@ const navigation = [
     href: "./equipments-table",
   },
   {
+    title: "Lista de técnicos",
+    href: "./technicians-table",
+  },
+  {
     title: "Estado de las solicitudes",
     href: "./request-status-table",
   },
   {
-    title: "Revisión de los productos",
-    href: "./product-review-table",
+    title: "Lista de reparaciones",
+    href: "./repair-table",
   },
 ];
 

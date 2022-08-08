@@ -14,7 +14,6 @@ import {
     Input,
 } from "reactstrap";
 import getSingleRequestStatus from '../../services/getSingleRequestStatus';
-import postRequestStatus from '../../services/postRequestStatus';
 import putRequestStatus from '../../services/putRequestStatus';
 
 export default function RequestStatusForm() {

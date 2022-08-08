@@ -10,7 +10,6 @@ import {
     FormGroup,
     Label,
     Input,
-    FormText,
 } from "reactstrap";
 import postUser from '../../services/postUser';
 

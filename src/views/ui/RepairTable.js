@@ -1,41 +1,42 @@
 import React, { useState, useEffect } from 'react'
 import { Card, CardBody, CardTitle, Table } from "reactstrap";
-import getProductReviews from '../../services/getProductReviews';
+import getRepairs from '../../services/getRepairs';
 
-export default function ProductReviewTable() {
-    const [productReviews, setProductReviews] = useState([]);
+export default function RepairTable() {
+    const [repairs, setRepairs] = useState([]);
 
     useEffect(function() {
-        getProductReviews()
+        getRepairs()
             .then((response) => {
-                console.log(response)
-                setProductReviews(response)
+                setRepairs(response)
             }
         )
-    },[setProductReviews])
+    },[setRepairs])
 
     return (
         <div>
             <Card>
                 <CardBody>
-                    <CardTitle tag="h5">Revisión del producto</CardTitle>
+                    <CardTitle tag="h5">Lista de reparaciones</CardTitle>
 
                     <Table className="no-wrap mt-3 align-middle" responsive borderless>
                         <thead>
                             <tr>
                                 <th>Id</th>
                                 <th>Fecha de reparación</th>
-                                <th>Observaciones técnicas</th>
+                                <th>Diagnositco del dispositivo</th>
+                                <th>Cuota de reparación</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {productReviews.map((tdata, index) => (
+                            {repairs.map((tdata, index) => (
                                 <tr key={index} className="border-top">
                                     <td>
-                                        <span className="text-muted">{tdata.idProductReview}</span>
+                                        <span className="text-muted">{tdata.idRepair}</span>
                                     </td>
                                     <td>{tdata.repairDate}</td>
-                                    <td>{tdata.technicalRemarks}</td>
+                                    <td>{tdata.deviceDiagnostic}</td>
+                                    <td>{tdata.repairQuote}</td>
                                 </tr>
                             ))}
                         </tbody>

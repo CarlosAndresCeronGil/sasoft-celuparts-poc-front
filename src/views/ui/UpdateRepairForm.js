@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Card,
     Row,
@@ -14,14 +14,29 @@ import {
 } from "reactstrap";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { useParams } from 'react-router-dom';
+import getSingleRepair from '../../services/getSingleRepair';
 
-export default function ProductReviewForm() {
+export default function UpdateRepairForm() {
     const [startDate, setStartDate] = useState(new Date());
+
+    const params = useParams()
 
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log("Fecha: ", startDate);
     }
+
+    useEffect(function() {
+        getSingleRepair({id : params.id})
+            .then(data => {
+                console.log(data)
+            })
+            .catch(error => {
+                console.log(error);
+            }
+            );
+    },[params.id])
 
     return (
         <div>
@@ -30,7 +45,7 @@ export default function ProductReviewForm() {
                     <Col>
                         <Card className='container'>
                             <CardTitle tag="h2" className="border-bottom p-3 mb-0 row justify-content-center">
-                                Nueva Revisión
+                                Estado de reparación
                             </CardTitle>
                             <CardBody>
                                 <Form onSubmit={handleSubmit}>

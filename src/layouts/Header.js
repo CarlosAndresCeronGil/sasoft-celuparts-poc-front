@@ -105,11 +105,6 @@ const Header = () => {
               </Link>
             </DropdownItem>
             <DropdownItem>
-              <Link to="/starter/product-review-form">
-                Registrar Revisión
-              </Link>
-            </DropdownItem>
-            <DropdownItem>
               <Link to="/">
                 Logout
               </Link>

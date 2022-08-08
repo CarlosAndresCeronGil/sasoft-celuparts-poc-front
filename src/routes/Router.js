@@ -21,9 +21,10 @@ const UsersTable = lazy(() => import("../views/ui/UsersTable"));
 const RequestsTable = lazy(() => import("../views/ui/RequestsTable"));
 const EquipmentsTable = lazy(() => import("../views/ui/EquipmentsTable"));
 const RequestStatusTable = lazy(() => import("../views/ui/RequestStatusTable"));
-const ProductReviewTable = lazy(() => import("../views/ui/ProductReviewTable"));
+const TechniciansTable = lazy(() => import("../views/ui/TechniciansTable"));
+const RepairTable = lazy(() => import("../views/ui/RepairTable"));
 const RequestForm = lazy(() => import("../views/ui/RequestForm"));
-const ProductReviewForm = lazy(() => import("../views/ui/ProductReviewForm"));
+const UpdateRepairForm = lazy(() => import("../views/ui/UpdateRepairForm"));
 const RequestStatusForm = lazy(() => import("../views/ui/RequestStatusForm"));
 
 /*****Routes******/
@@ -47,10 +48,11 @@ const ThemeRoutes = [
       { path: "/starter/requests-table", exact: true, element: <RequestsTable /> },
       { path: "/starter/request-form", exact: true, element: <RequestForm /> },
       { path: "/starter/equipments-table", exact: true, element: <EquipmentsTable /> },
-      { path: "/starter/product-review-table", exact: true, element: <ProductReviewTable /> },
-      { path: "/starter/product-review-form", exact: true, element: <ProductReviewForm /> },
+      { path: "/starter/repair-table", exact: true, element: <RepairTable /> },
+      { path: "/starter/update-repair-form/:id", exact: true, element: <UpdateRepairForm /> },
       { path: "/starter/request-status-table", exact: true, element: <RequestStatusTable /> },
       { path: "/starter/request-status-form/:id", exact: true, element: <RequestStatusForm /> },
+      { path: "/starter/technicians-table", exact: true, element: <TechniciansTable /> },
     ],
   },
   {
