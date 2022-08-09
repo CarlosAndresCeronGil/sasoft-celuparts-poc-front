@@ -26,6 +26,7 @@ const RepairTable = lazy(() => import("../views/ui/RepairTable"));
 const RequestForm = lazy(() => import("../views/ui/RequestForm"));
 const UpdateRepairForm = lazy(() => import("../views/ui/UpdateRepairForm"));
 const RequestStatusForm = lazy(() => import("../views/ui/RequestStatusForm"));
+const UserRequests = lazy(() => import("../views/ui/UserRequests"));
 
 /*****Routes******/
 
@@ -53,6 +54,7 @@ const ThemeRoutes = [
       { path: "/starter/request-status-table", exact: true, element: <RequestStatusTable /> },
       { path: "/starter/request-status-form/:id", exact: true, element: <RequestStatusForm /> },
       { path: "/starter/technicians-table", exact: true, element: <TechniciansTable /> },
+      { path: "/starter/user-requests", exact: true, element: <UserRequests /> },
     ],
   },
   {

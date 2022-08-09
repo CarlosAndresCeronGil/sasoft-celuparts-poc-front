@@ -72,7 +72,7 @@ export default function RequestForm() {
         })
             .then(data => {
                 postRequest({
-                    idUser: 3010,
+                    idUser: 3009,
                     idEquipment: data.idEquipment,
                     requestType: e.target.elements.requestType.value,
                     pickUpAddress: e.target.elements.pickUpAddress.value,
@@ -82,11 +82,12 @@ export default function RequestForm() {
                     .then(data => {
                         postRepair({
                             idRequest: data.idRequest,
-                            repairQuote: 0
+                            repairQuote: "0"
                         })
-                            .then(data => {
+                            .then(data2 => {
+                                console.log("Entro al then de repair", data2);
                                 postRepairPayment({
-                                    idRepair: data.idRepair,
+                                    idRepair: data2.idRepair,
                                     paymentMethod: e.target.elements.paymentMethod.value,
                                 })
                                     .catch(error => {

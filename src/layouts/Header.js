@@ -106,6 +106,12 @@ const Header = () => {
               </Link>
             </DropdownItem>
             <DropdownItem>
+              <Link to="/starter/user-requests">
+                Mis Solicitudes
+              </Link>
+            </DropdownItem>
+            <DropdownItem divider />
+            <DropdownItem>
               <Link to="/">
                 Salir
               </Link>
