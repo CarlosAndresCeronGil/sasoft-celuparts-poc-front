@@ -17,49 +17,102 @@ import 'react-datepicker/dist/react-datepicker.css';
 import postRequest from '../../services/postRequest';
 import postEquipment from '../../services/postEquipment';
 import postRequestStatus from '../../services/postRequestStatus';
+import postRepair from '../../services/postRepair';
+import postRepairPayment from '../../services/postRepairPayment';
+import postHomeService from '../../services/postHomeService';
 
 export default function RequestForm() {
     const [startDate, setStartDate] = useState(new Date());
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        postRequest({
-            idUser: 1002,
-            requestType: e.target.elements.tipoSolicitud.value,
-            pickUpAddress: e.target.elements.PickUpAddress.value,
-            deliveryAddress: e.target.elements.DeliveryAddress.value,
-            pickUpTime: startDate,
-            paymentMethod: e.target.elements.PaymentMethod.value,
-            quote: 0,
-            statusQuote: "Pendiente"
-        }).then(data => {
-            postEquipment({
-                idRequest: data.idRequest,
-                typeOfEquipment: e.target.elements.typeOfEquipment.value,
-                equipmentBrand: e.target.elements.equipmentBrand.value,
-                modelOrReference: e.target.elements.modelOrReference.value,
-                imei: e.target.elements.imei.value,
-                equipmentInvoice: e.target.elements.equipmentInvoice.value,
-            })
-                .catch(error => {
-                    console.log(error);
-                }
-                );
-            postRequestStatus({
-                idRequest: data.idRequest,
-                status: "Iniciada",
-                paymentStatus: "Iniciada",
-                productReturned: false
-            })
-                .catch(error => {
-                    console.log(error);
-                }
-                );
+        // postRequest({
+        //     idUser: 1002,
+        //     requestType: e.target.elements.tipoSolicitud.value,
+        //     pickUpAddress: e.target.elements.PickUpAddress.value,
+        //     deliveryAddress: e.target.elements.DeliveryAddress.value,
+        //     // pickUpTime: startDate,
+        //     paymentMethod: e.target.elements.PaymentMethod.value,
+        //     quote: 0,
+        //     statusQuote: "Pendiente"
+        // }).then(data => {
+        //     postEquipment({
+        //         idRequest: data.idRequest,
+        //         typeOfEquipment: e.target.elements.typeOfEquipment.value,
+        //         equipmentBrand: e.target.elements.equipmentBrand.value,
+        //         modelOrReference: e.target.elements.modelOrReference.value,
+        //         imei: e.target.elements.imei.value,
+        //         equipmentInvoice: e.target.elements.equipmentInvoice.value,
+        //     })
+        //         .catch(error => {
+        //             console.log(error);
+        //         }
+        //         );
+        //     postRequestStatus({
+        //         idRequest: data.idRequest,
+        //         status: "Iniciada",
+        //         paymentStatus: "Iniciada",
+        //         productReturned: false
+        //     })
+        //         .catch(error => {
+        //             console.log(error);
+        //         }
+        //         );
+        // })
+        //     .catch(error => {
+        //         console.log(error);
+        //     }
+        //     );
+        postEquipment({
+            typeOfEquipment: e.target.elements.typeOfEquipment.value,
+            equipmentBrand: e.target.elements.equipmentBrand.value,
+            modelOrReference: e.target.elements.modelOrReference.value,
+            imei: e.target.elements.imei.value,
+            equipmentInvoice: e.target.elements.equipmentInvoice.value,
         })
+            .then(data => {
+                postRequest({
+                    idUser: 3010,
+                    idEquipment: data.idEquipment,
+                    requestType: e.target.elements.requestType.value,
+                    pickUpAddress: e.target.elements.pickUpAddress.value,
+                    deliveryAddress: e.target.elements.deliveryAddress.value,
+                    statusQuote: "Pendiente",
+                })
+                    .then(data => {
+                        postRepair({
+                            idRequest: data.idRequest,
+                            repairQuote: 0
+                        })
+                            .then(data => {
+                                postRepairPayment({
+                                    idRepair: data.idRepair,
+                                    paymentMethod: e.target.elements.paymentMethod.value,
+                                })
+                                    .catch(error => {
+                                        console.log(error);
+                                    });
+                            })
+                        postRequestStatus({
+                            idRequest: data.idRequest,
+                            status: "Iniciada",
+                            paymentStatus: "No pago",
+                            productReturned: false
+                        })
+                            .catch(error => {
+                                console.log(error);
+                            });
+                        postHomeService({
+                            idRequest: data.idRequest,
+                            pickUpDate: startDate,
+                        })
+                    }).catch(error => {
+                        console.log(error);
+                    })
+            })
             .catch(error => {
                 console.log(error);
-            }
-            );
+            });
     }
 
     return (
@@ -78,34 +131,34 @@ export default function RequestForm() {
                                         <strong>Datos de la solicitud</strong>
                                     </CardSubtitle>
                                     <FormGroup>
-                                        <Label for="tipoSolicitud">Tipo de solicitud</Label>
-                                        <Input id="tipoSolicitud" name="select" type="select">
+                                        <Label for="requestType">Tipo de solicitud</Label>
+                                        <Input id="requestType" name="requestType" type="select">
                                             <option value="Reparacion">Reparación</option>
-                                            <option>Remonta</option>
+                                            <option>Retoma</option>
                                         </Input>
                                     </FormGroup>
                                     <FormGroup>
-                                        <Label for="PickUpAddress">Dirección de recogida</Label>
+                                        <Label for="pickUpAddress">Dirección de recogida</Label>
                                         <Input
-                                            id="PickUpAddress"
-                                            name="PickUpAddress"
+                                            id="pickUpAddress"
+                                            name="pickUpAddress"
                                             placeholder="Ingrese la dirección donde se recogera el producto"
                                             type="text"
                                             required
                                         />
                                     </FormGroup>
                                     <FormGroup>
-                                        <Label for="DeliveryAddress">Dirección de entrega</Label>
+                                        <Label for="deliveryAddress">Dirección de entrega</Label>
                                         <Input
-                                            id="DeliveryAddress"
-                                            name="DeliveryAddress"
+                                            id="deliveryAddress"
+                                            name="deliveryAddress"
                                             placeholder="Ingrese la dirección donde se devolvera el producto"
                                             type="text"
                                             required
                                         />
                                     </FormGroup>
                                     <FormGroup>
-                                        <Label for="PickUpTime">Fecha de recogida</Label>
+                                        <Label for="PickUpTime">Fecha y hora de recogida</Label>
                                         <DatePicker
                                             id='PickUpTime'
                                             dateFormat="yyyy-MM-dd h:mm aa"
@@ -116,8 +169,8 @@ export default function RequestForm() {
                                         />
                                     </FormGroup>
                                     <FormGroup>
-                                        <Label for="PaymentMethod">Metodo de pago</Label>
-                                        <Input id="PaymentMethod" name="select" type="select">
+                                        <Label for="paymentMethod">Metodo de pago</Label>
+                                        <Input id="paymentMethod" name="paymentMethod" type="select">
                                             <option>Contraentrega</option>
                                             <option>Tarjeta de credito</option>
                                             <option>Tarjeta de debito</option>

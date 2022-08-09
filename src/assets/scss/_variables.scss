@@ -14,6 +14,8 @@ $warning: #ffbc34;
 $dark: #343a40;
 $light: #eaf2fb;
 $secondary: #35363b;
+$celuparts-dark-blue: #0000ff !default;
+$celuparts-light-blue: #00ffff !default;
 
 $theme-colors: (
   "primary": $primary,
@@ -29,6 +31,8 @@ $theme-colors: (
   "light-info": #d3edfa,
   "light-warning": #f8ecdc,
   "light-danger": #f8dddd,
+  "celuparts-dark-blue": $celuparts-dark-blue,
+  "celuparts-light-blue": $celuparts-light-blue,
 );
 // scss-docs-start gray-color-variables
 $white: #fff !default;

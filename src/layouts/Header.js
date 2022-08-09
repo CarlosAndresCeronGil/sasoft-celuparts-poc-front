@@ -30,10 +30,11 @@ const Header = () => {
     document.getElementById("sidebarArea").classList.toggle("showSidebar");
   };
   return (
-    <Navbar color="primary" dark expand="md" className="fix-header">
+    <Navbar color="celuparts-dark-blue" dark expand="md" className="fix-header">
       <div className="d-flex align-items-center">
         <div className="d-lg-block d-none me-5 pe-3">
-          <Logo />
+          {/* <Logo /> */}
+          <img src="/celuparts-transparent.png" alt="celuparts-logo" className="small-image"></img>
         </div>
         <NavbarBrand href="/">
           <LogoWhite className=" d-lg-none" />
@@ -61,8 +62,8 @@ const Header = () => {
         </Button>
       </div>
 
-      <Collapse navbar isOpen={isOpen}>
-        <Nav className="me-auto" navbar>
+      <Collapse navbar isOpen={isOpen} className="d-flex flex-row-reverse">
+        {/* <Nav className="me-auto" navbar>
           <NavItem>
             <Link to="/starter" className="nav-link">
               Starter
@@ -84,7 +85,7 @@ const Header = () => {
               <DropdownItem>Reset</DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
-        </Nav>
+        </Nav> */}
         <Dropdown isOpen={dropdownOpen} toggle={toggle}>
           <DropdownToggle color="transparent">
             <img
@@ -96,17 +97,17 @@ const Header = () => {
           </DropdownToggle>
           <DropdownMenu>
             <DropdownItem header>Info</DropdownItem>
-            <DropdownItem>My Account</DropdownItem>
-            <DropdownItem>Edit Profile</DropdownItem>
+            <DropdownItem>Mi Cuenta</DropdownItem>
+            <DropdownItem>Editar Perfil</DropdownItem>
             <DropdownItem divider />
             <DropdownItem>
               <Link to="/starter/request-form">
-                Nueva solicitud
+                Nueva Solicitud
               </Link>
             </DropdownItem>
             <DropdownItem>
               <Link to="/">
-                Logout
+                Salir
               </Link>
             </DropdownItem>
           </DropdownMenu>
