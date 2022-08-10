@@ -9,7 +9,6 @@ export default function RequestsTable() {
     useEffect(function() {
         getRequests()
             .then((response) => {
-                //console.log(response)
                 setRequests(response)
             }
         )
@@ -24,25 +23,23 @@ export default function RequestsTable() {
                     <Table className="no-wrap mt-3 align-middle" responsive borderless>
                         <thead>
                             <tr>
-                                <th>Id solicitud</th>
                                 <th>Tipo solicitud</th>
                                 <th>Dirección recogida</th>
                                 <th>Dirección entrega</th>
                                 <th>Estado de cotización</th>
-                                <th>Actualizar estado</th>
+                                <th>Estado de solicitud</th>
+                                <th>Actualizar estado Solicitud</th>
                                 <th>Actualizar estado reparación</th>
                             </tr>
                         </thead>
                         <tbody>
                             {requests.map((tdata, index) => (
                                 <tr key={index} className="border-top">
-                                    <td>
-                                        <span className="text-muted">{tdata.idRequest}</span>
-                                    </td>
                                     <td>{tdata.requestType}</td>
                                     <td>{tdata.pickUpAddress}</td>
                                     <td>{tdata.deliveryAddress}</td>
                                     <td>{tdata.statusQuote}</td>
+                                    <td>{tdata.requestStatus[0].status}</td>
                                     <td>
                                         <Link to={`/starter/request-status-form/${tdata.requestStatus[0].idRequestStatus}`}>
                                             <button className="btn btn-primary">Actualizar</button>

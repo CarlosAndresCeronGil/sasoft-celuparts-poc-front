@@ -118,6 +118,11 @@ const Header = () => {
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
+        <Dropdown>
+          <DropdownToggle color="transparent">
+            <i className="bi bi-bell-fill"></i>
+          </DropdownToggle>
+        </Dropdown>
       </Collapse>
     </Navbar>
   );

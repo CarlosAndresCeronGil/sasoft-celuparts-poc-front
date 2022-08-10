@@ -70,10 +70,10 @@ const navigation = [
     title: "Lista de técnicos",
     href: "./technicians-table",
   },
-  {
-    title: "Estado de las solicitudes",
-    href: "./request-status-table",
-  },
+  // {
+  //   title: "Estado de las solicitudes",
+  //   href: "./request-status-table",
+  // },
   {
     title: "Lista de reparaciones",
     href: "./repair-table",

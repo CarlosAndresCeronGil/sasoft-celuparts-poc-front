@@ -94,7 +94,7 @@ export default function RequestStatusForm() {
                                             <strong>Datos del estado</strong>
                                         </CardSubtitle>
                                         <FormGroup>
-                                            <Label for="status">Metodo de pago</Label>
+                                            <Label for="status">Estado solicitud</Label>
                                             <Input
                                                 type="select"
                                                 name="status"
