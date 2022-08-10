@@ -9,44 +9,39 @@ export default function UserRequests() {
     const [loading, setLoading] = useState(false);
 
     useEffect(function () {
-        let unmounted = false;
-        console.log("useEffect 1");
         setLoading(true);
         getSingleUser({ id: 3010 })
             .then(response => {
                 setUserInfo(response);
-                if (!unmounted) {
-                    response[0].requests.forEach(request => {
-                        getSingleEquipment({ id: request.idEquipment })
-                            .then(response => {
-                                if (!unmounted) {
-                                    setEquipments(prev => [...prev, response]);
-                                }
-                            })
-                            .catch(error => {
-                                console.log(error);
-                            })
-                    })
-                    setLoading(false)
+                response[0].requests.forEach(request => {
+                    if(request.idEquipment) {
+                    getSingleEquipment({ id: request.idEquipment })
+                        .then(response => {
+                            setEquipments(prev => [...prev, response]);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        })
+                    }else {
+                        console.log('No tiene equipo asociado')
+                    }
+                })
+                setLoading(false)
 
-                    console.log(response);
-                }
+                console.log(response);
             })
             .catch(error => {
                 console.log(error);
                 setLoading(false)
             })
-        return () => {
-            unmounted = true;
-        };
-    }, [])
+    }, []);
 
     return (
         loading ? <div>Loading...</div> : (
             <div>
                 <Card>
                     <CardBody>
-                        <CardTitle tag="h5">Lista de Solicitudes</CardTitle>
+                        <CardTitle tag="h5">Lista de Mis Solicitudes</CardTitle>
                         <Table className="no-wrap mt-3 align-middle" responsive>
                             <thead>
                                 <tr>
@@ -75,9 +70,17 @@ export default function UserRequests() {
                                                 ))
                                             }
                                         </td>
-                                        <td>{tdata.phone}</td>
-                                        <td>{tdata.email}</td>
-                                        <td>{tdata.accountStatus}</td>
+                                        <td>{tdata.requestType}</td>
+                                        <td>{tdata.repairs[0].repairQuote}</td>
+                                        <td>{tdata.requestStatus[0].status}</td>
+                                        {
+                                            tdata.homeServices[0].deliveryDate ? (
+                                                <td>{tdata.homeServices[0].deliveryDate}</td>
+                                            ) : (
+                                                <td>Fecha sin definir</td>
+                                            )
+
+                                        }
                                     </tr>
                                 ))}
                             </tbody>

@@ -26,43 +26,6 @@ export default function RequestForm() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // postRequest({
-        //     idUser: 1002,
-        //     requestType: e.target.elements.tipoSolicitud.value,
-        //     pickUpAddress: e.target.elements.PickUpAddress.value,
-        //     deliveryAddress: e.target.elements.DeliveryAddress.value,
-        //     // pickUpTime: startDate,
-        //     paymentMethod: e.target.elements.PaymentMethod.value,
-        //     quote: 0,
-        //     statusQuote: "Pendiente"
-        // }).then(data => {
-        //     postEquipment({
-        //         idRequest: data.idRequest,
-        //         typeOfEquipment: e.target.elements.typeOfEquipment.value,
-        //         equipmentBrand: e.target.elements.equipmentBrand.value,
-        //         modelOrReference: e.target.elements.modelOrReference.value,
-        //         imei: e.target.elements.imei.value,
-        //         equipmentInvoice: e.target.elements.equipmentInvoice.value,
-        //     })
-        //         .catch(error => {
-        //             console.log(error);
-        //         }
-        //         );
-        //     postRequestStatus({
-        //         idRequest: data.idRequest,
-        //         status: "Iniciada",
-        //         paymentStatus: "Iniciada",
-        //         productReturned: false
-        //     })
-        //         .catch(error => {
-        //             console.log(error);
-        //         }
-        //         );
-        // })
-        //     .catch(error => {
-        //         console.log(error);
-        //     }
-        //     );
         postEquipment({
             typeOfEquipment: e.target.elements.typeOfEquipment.value,
             equipmentBrand: e.target.elements.equipmentBrand.value,
