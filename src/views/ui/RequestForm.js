@@ -35,7 +35,7 @@ export default function RequestForm() {
         })
             .then(data => {
                 postRequest({
-                    idUser: 3009,
+                    idUser: 1002,
                     idEquipment: data.idEquipment,
                     requestType: e.target.elements.requestType.value,
                     pickUpAddress: e.target.elements.pickUpAddress.value,
