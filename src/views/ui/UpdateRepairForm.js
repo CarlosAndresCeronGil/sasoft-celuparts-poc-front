@@ -26,15 +26,13 @@ export default function UpdateRepairForm() {
     const [repairQuote, setRepairQuote] = useState({ repairQuote: 0 });
     const [idRequest, setIdRequest] = useState({ idRequest: 0 });
     const [loading, setLoading] = useState(false);
+    const [loadingPut, setLoadingPut] = useState(false);
 
     const params = useParams()
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(idTechnician.idTechnician);
-        console.log(deviceDiagnostic.deviceDiagnostic);
-        console.log(repairDate.repairDate);
-        console.log(repairQuote.repairQuote);
+        setLoadingPut(true);
         putRepair({
             idRepair: params.id,
             idRequest: idRequest.idRequest,
@@ -43,6 +41,13 @@ export default function UpdateRepairForm() {
             deviceDiagnostic: deviceDiagnostic.deviceDiagnostic,
             repairQuote: repairQuote.repairQuote,
         })
+            .then(data => {
+                setLoadingPut(false);
+            })
+            .catch(error => {
+                console.log(error);
+                setLoadingPut(false);
+            });
     }
 
     useEffect(function () {
@@ -175,9 +180,18 @@ export default function UpdateRepairForm() {
                                                 required
                                             />
                                         </FormGroup>
-                                        <Button className="btn" color="primary">
-                                            Envíar
-                                        </Button>
+                                        {
+                                            loadingPut ? (
+                                                <button className="btn btn-primary" type="button" disabled>
+                                                    <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                    <span className="sr-only">Cargando...</span>
+                                                </button>
+                                            ) : (
+                                                <Button color="primary">
+                                                    Guardar
+                                                </Button>
+                                            )
+                                        }
                                     </Form>
                                 </CardBody>
                             </Card>

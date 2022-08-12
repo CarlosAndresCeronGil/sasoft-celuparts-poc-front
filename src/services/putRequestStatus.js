@@ -1,4 +1,5 @@
 import { API_URL } from "./settings";
+import Swal from 'sweetalert2'
 
 export default function putRequestStatus(data) {
     const apiURL = `${API_URL}/RequestStatus`;
@@ -12,5 +13,20 @@ export default function putRequestStatus(data) {
         body: JSON.stringify(data)
     })
         .then(response => response.json())
-        .catch(error => console.log(error));
+        .then(data => {
+            Swal.fire({
+                icon: 'success',
+                title: 'Exito!',
+                text: 'Estado de solicitud actualizado!',
+            })
+            return data
+        })
+        .catch(error => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Parece que algo falló!',
+            })
+            console.log(error);
+        });
 }

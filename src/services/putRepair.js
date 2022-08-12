@@ -1,4 +1,5 @@
 import { API_URL } from "./settings";
+import Swal from 'sweetalert2'
 
 export default function putRepair(data) {
     const apiURL = `${API_URL}/Repair`;
@@ -12,5 +13,20 @@ export default function putRepair(data) {
         body: JSON.stringify(data)
     })
         .then(response => response.json())
-        .catch(error => console.log(error));
+        .then(data => {
+            Swal.fire({
+                icon: 'success',
+                title: 'Exito!',
+                text: 'Estado de reparación actualizado!',
+            })
+            return data
+        })
+        .catch(error => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Parece que algo falló!',
+            })
+            console.log(error)
+        });
 }

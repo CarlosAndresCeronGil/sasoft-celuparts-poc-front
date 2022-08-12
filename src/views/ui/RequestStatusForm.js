@@ -15,6 +15,7 @@ import {
 } from "reactstrap";
 import getSingleRequestStatus from '../../services/getSingleRequestStatus';
 import putRequestStatus from '../../services/putRequestStatus';
+import Swal from 'sweetalert2'
 
 export default function RequestStatusForm() {
     const [dataRequestStatus, setDataRequestStatus] = useState({});
@@ -22,21 +23,31 @@ export default function RequestStatusForm() {
     const [paymentStatus, setPaymentStatus] = useState({ paymentStatus: "" });
     const [productReturned, setProductReturned] = useState({ productReturned: false });
     const [loading, setLoading] = useState(false);
+    const [loadingPut, setLoadingPut] = useState(false);
 
     const params = useParams()
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(status.status);
-        console.log(paymentStatus.paymentStatus);
-        console.log(productReturned.productReturned);
+        setLoadingPut(true);
         putRequestStatus({
             idRequestStatus: dataRequestStatus.idRequestStatus,
             idRequest: dataRequestStatus.idRequest,
             status: status.status,
             paymentStatus: paymentStatus.paymentStatus,
+            // productReturned: productReturned.productReturned === 'true' ? 'htr' : '¿asgferg',
             productReturned: productReturned.productReturned === 'true' ? true : false,
         })
+            .then(data => {
+                console.log("DATA", data);
+                setLoadingPut(false);
+            })
+            .catch(error => {
+                console.log(error);
+                setLoadingPut(false);
+            }
+            );
+
     }
 
     const handleStatusChange = (e) => {
@@ -105,6 +116,7 @@ export default function RequestStatusForm() {
                                                 <option>Iniciada</option>
                                                 <option>En proceso de recogida</option>
                                                 <option value="Recibida tecnico">Recibida técnico</option>
+                                                <option>Revisado</option>
                                                 <option value="En reparacion">En reparación</option>
                                                 <option value="Reparado pendiente de pago">Reparado, pendiente de pago</option>
                                                 <option>En camino</option>
@@ -130,20 +142,28 @@ export default function RequestStatusForm() {
                                         </FormGroup>
                                         <FormGroup>
                                             <Label for="productReturned">Producto devuelto</Label>
-                                            <Input 
-                                                id="productReturned" 
-                                                name="productReturned" 
-                                                type="select" 
+                                            <Input
+                                                id="productReturned"
+                                                name="productReturned"
+                                                type="select"
                                                 defaultValue={productReturned.productReturned}
                                                 onChange={handleProductReturnedChange}
-                                                >
+                                            >
                                                 <option value={true}>Devuelto</option>
                                                 <option value={false}>No devuelto</option>
                                             </Input>
                                         </FormGroup>
-                                        <Button className="btn" color="primary">
-                                            Envíar
-                                        </Button>
+                                        {
+                                            loadingPut ? (
+                                                <button className="btn btn-primary" type="button" disabled>
+                                                    <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                    <span className="sr-only">Cargando...</span>
+                                                </button>
+                                            )
+                                                : (
+                                                    <Button className="btn" color="primary">Guardar</Button>
+                                                )
+                                        }
                                     </Form>
                                 </CardBody>
                             </Card>

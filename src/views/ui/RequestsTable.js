@@ -33,7 +33,7 @@ export default function RequestsTable() {
                                     JSON.parse(localStorage.getItem('user')).role === "mensajero" ? (
                                         null
                                     ) : (
-                                        <th>Actualizar estado Cotización</th>
+                                        <th>Actualizar estado Reparación</th>
                                     )
                                 }
                             </tr>
@@ -56,9 +56,22 @@ export default function RequestsTable() {
                                             null
                                         ) : (
                                             <td>
-                                                <Link to={`/update-repair-form/${tdata.repairs[0].idRepair}`}>
-                                                    <button className="btn btn-secondary">Actualizar</button>
-                                                </Link>
+                                                {
+                                                    tdata.requestStatus[0].status === 'Iniciada' ||
+                                                    tdata.requestStatus[0].status === 'En proceso de recogida' ||
+                                                    tdata.requestStatus[0].status === 'Recibida tecnico' || 
+                                                    tdata.requestStatus[0].status === 'En devolucion' ||
+                                                    tdata.requestStatus[0].status === 'Devuelto sin reparacion' ||
+                                                    tdata.requestStatus[0].status === 'Abandonada' ||
+                                                    tdata.requestStatus[0].status === 'Terminada' ||
+                                                    tdata.requestStatus[0].status === 'En camino' ? (
+                                                            <button className="btn btn-secondary" disabled>Actualizar</button>
+                                                    ) : (
+                                                        <Link to={`/update-repair-form/${tdata.repairs[0].idRepair}`}>
+                                                            <button className="btn btn-secondary">Actualizar</button>
+                                                        </Link>
+                                                    )
+                                                }
                                             </td>
                                         )
                                     }

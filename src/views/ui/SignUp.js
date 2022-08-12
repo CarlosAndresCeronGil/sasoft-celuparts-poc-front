@@ -15,9 +15,11 @@ import authRegister from '../../services/authRegister';
 
 
 export default function SignUp() {
+    const [loading, setLoading] = React.useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setLoading(true);
         authRegister({
             idType: e.target.elements.idType.value,
             idNumber: e.target.elements.idNumber.value,
@@ -29,13 +31,14 @@ export default function SignUp() {
             password: e.target.elements.password.value,
             accountStatus: "Habilitada"
         })
-        .then(data => {
-            console.log(data);
-        }
-        ).catch(error => {
-            console.log(error);
-        }
-        );
+            .then(data => {
+                console.log(data);
+                setLoading(false);
+                console.log("DATA",data)
+            }).catch(error => {
+                console.log("ERROR", error);
+                setLoading(false);
+            });
     }
 
     return (
@@ -49,14 +52,14 @@ export default function SignUp() {
                         <CardBody>
                             <Form onSubmit={handleSubmit}>
                                 <FormGroup>
-                                    <Label for="idType">Tipo de documento</Label>
+                                    <Label for="idType">Tipo de documento*</Label>
                                     <Input id="idType" name="select" type="select">
                                         <option>CC</option>
                                         <option>TI</option>
                                     </Input>
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label for="idNumber">Numero de cedula</Label>
+                                    <Label for="idNumber">Numero de cedula*</Label>
                                     <Input
                                         id="idNumber"
                                         name="idNumber"
@@ -66,7 +69,7 @@ export default function SignUp() {
                                     />
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label for="names">Nombres</Label>
+                                    <Label for="names">Nombres*</Label>
                                     <Input
                                         id="names"
                                         name="names"
@@ -76,7 +79,7 @@ export default function SignUp() {
                                     />
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label for="surnames">Apellidos</Label>
+                                    <Label for="surnames">Apellidos*</Label>
                                     <Input
                                         id="surnames"
                                         name="surnames"
@@ -86,7 +89,7 @@ export default function SignUp() {
                                     />
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label for="phone">Número de telefono</Label>
+                                    <Label for="phone">Número de telefono*</Label>
                                     <Input
                                         id="phone"
                                         name="phone"
@@ -105,7 +108,7 @@ export default function SignUp() {
                                     />
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label for="email">Email</Label>
+                                    <Label for="email">Email*</Label>
                                     <Input
                                         id="email"
                                         name="email"
@@ -115,7 +118,7 @@ export default function SignUp() {
                                     />
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label for="password">Contraseña</Label>
+                                    <Label for="password">Contraseña*</Label>
                                     <Input
                                         id="password"
                                         name="password"
@@ -124,9 +127,18 @@ export default function SignUp() {
                                         required
                                     />
                                 </FormGroup>
-                                <Button className="btn" color="primary">
-                                    Login
-                                </Button>
+                                {
+                                    loading ? (
+                                        <button className="btn btn-primary" type="button" disabled>
+                                            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                            <span className="sr-only">Cargando...</span>
+                                        </button>
+                                    ) : (
+                                        <Button color="primary">
+                                            Registrate
+                                        </Button>
+                                    )
+                                }
                             </Form>
                         </CardBody>
                     </Card>

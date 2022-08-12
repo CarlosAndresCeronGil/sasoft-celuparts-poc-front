@@ -211,9 +211,10 @@ export default function RequestForm() {
                                     </FormGroup>
                                     {
                                         loading ? (
-                                            <Button color="primary" disabled>
-                                                Enviar
-                                            </Button>
+                                            <button className="btn btn-primary" type="button" disabled>
+                                                <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                <span className="sr-only">Cargando...</span>
+                                            </button>
                                         ) : (
                                             <Button color="primary">
                                                 Enviar
