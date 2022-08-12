@@ -23,9 +23,11 @@ import postHomeService from '../../services/postHomeService';
 
 export default function RequestForm() {
     const [startDate, setStartDate] = useState(new Date());
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setLoading(true);
         postEquipment({
             typeOfEquipment: e.target.elements.typeOfEquipment.value,
             equipmentBrand: e.target.elements.equipmentBrand.value,
@@ -55,8 +57,13 @@ export default function RequestForm() {
                                 })
                                     .catch(error => {
                                         console.log(error);
+                                        setLoading(false);
                                     });
                             })
+                            .catch(error => {
+                                console.log(error);
+                                setLoading(false);
+                            });
                         postRequestStatus({
                             idRequest: data.idRequest,
                             status: "Iniciada",
@@ -64,17 +71,26 @@ export default function RequestForm() {
                             productReturned: false
                         })
                             .catch(error => {
+                                setLoading(false);
                                 console.log(error);
                             });
                         postHomeService({
                             idRequest: data.idRequest,
                             pickUpDate: startDate,
                         })
-                    }).catch(error => {
+                            .catch(error => {
+                                setLoading(false);
+                                console.log(error);
+                            });
+                        setLoading(false);
+                    })
+                    .catch(error => {
+                        setLoading(false);
                         console.log(error);
                     })
             })
             .catch(error => {
+                setLoading(false);
                 console.log(error);
             });
     }
@@ -95,14 +111,14 @@ export default function RequestForm() {
                                         <strong>Datos de la solicitud</strong>
                                     </CardSubtitle>
                                     <FormGroup>
-                                        <Label for="requestType">Tipo de solicitud</Label>
+                                        <Label for="requestType">Tipo de solicitud*</Label>
                                         <Input id="requestType" name="requestType" type="select">
                                             <option value="Reparacion">Reparación</option>
                                             <option>Retoma</option>
                                         </Input>
                                     </FormGroup>
                                     <FormGroup>
-                                        <Label for="pickUpAddress">Dirección de recogida</Label>
+                                        <Label for="pickUpAddress">Dirección de recogida*</Label>
                                         <Input
                                             id="pickUpAddress"
                                             name="pickUpAddress"
@@ -112,7 +128,7 @@ export default function RequestForm() {
                                         />
                                     </FormGroup>
                                     <FormGroup>
-                                        <Label for="deliveryAddress">Dirección de entrega</Label>
+                                        <Label for="deliveryAddress">Dirección de entrega*</Label>
                                         <Input
                                             id="deliveryAddress"
                                             name="deliveryAddress"
@@ -122,7 +138,7 @@ export default function RequestForm() {
                                         />
                                     </FormGroup>
                                     <FormGroup>
-                                        <Label for="PickUpTime">Fecha y hora de recogida</Label>
+                                        <Label for="PickUpTime">Fecha y hora de recogida*</Label>
                                         <DatePicker
                                             id='PickUpTime'
                                             dateFormat="yyyy-MM-dd h:mm aa"
@@ -133,7 +149,7 @@ export default function RequestForm() {
                                         />
                                     </FormGroup>
                                     <FormGroup>
-                                        <Label for="paymentMethod">Metodo de pago</Label>
+                                        <Label for="paymentMethod">Metodo de pago*</Label>
                                         <Input id="paymentMethod" name="paymentMethod" type="select">
                                             <option>Contraentrega</option>
                                             <option>Tarjeta de credito</option>
@@ -147,14 +163,14 @@ export default function RequestForm() {
                                         <strong>Datos del equipo</strong>
                                     </CardSubtitle>
                                     <FormGroup>
-                                        <Label for="typeOfEquipment">Tipo de dispositivo</Label>
+                                        <Label for="typeOfEquipment">Tipo de dispositivo*</Label>
                                         <Input id="typeOfEquipment" name="select" type="select">
                                             <option value="Computador portatil">Computador portátil</option>
                                             <option value="Telefono celular">Teléfono celular</option>
                                         </Input>
                                     </FormGroup>
                                     <FormGroup>
-                                        <Label for="equipmentBrand">Marca del dispositivo</Label>
+                                        <Label for="equipmentBrand">Marca del dispositivo*</Label>
                                         <Input
                                             id="equipmentBrand"
                                             name="equipmentBrand"
@@ -164,7 +180,7 @@ export default function RequestForm() {
                                         />
                                     </FormGroup>
                                     <FormGroup>
-                                        <Label for="modelOrReference">Modelo o referencia dispositivo</Label>
+                                        <Label for="modelOrReference">Modelo o referencia dispositivo*</Label>
                                         <Input
                                             id="modelOrReference"
                                             name="modelOrReference"
@@ -174,7 +190,7 @@ export default function RequestForm() {
                                         />
                                     </FormGroup>
                                     <FormGroup>
-                                        <Label for="imei">Imei del dispositivo</Label>
+                                        <Label for="imei">Imei del dispositivo*</Label>
                                         <Input
                                             id="imei"
                                             name="imei"
@@ -184,7 +200,7 @@ export default function RequestForm() {
                                         />
                                     </FormGroup>
                                     <FormGroup>
-                                        <Label for="equipmentInvoice">Factura del dispositivo</Label>
+                                        <Label for="equipmentInvoice">Factura del dispositivo*</Label>
                                         <Input
                                             id="equipmentInvoice"
                                             name="equipmentInvoice"
@@ -193,9 +209,17 @@ export default function RequestForm() {
                                             required
                                         />
                                     </FormGroup>
-                                    <Button className="btn" color="primary">
-                                        Envíar
-                                    </Button>
+                                    {
+                                        loading ? (
+                                            <Button color="primary" disabled>
+                                                Enviar
+                                            </Button>
+                                        ) : (
+                                            <Button color="primary">
+                                                Enviar
+                                            </Button>
+                                        )
+                                    }
                                 </Form>
                             </CardBody>
                         </Card>

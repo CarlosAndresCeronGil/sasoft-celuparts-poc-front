@@ -1,86 +1,108 @@
+import React, { useContext } from "react";
 import { Button, Nav, NavItem } from "reactstrap";
 import { Link, useLocation } from "react-router-dom";
 import user1 from "../assets/images/users/user4.jpg";
 import probg from "../assets/images/bg/download.jpg";
 
-const navigation = [
-  // {
-  //   title: "Dashboard",
-  //   href: "/starter",
-  //   icon: "bi bi-speedometer2",
-  // },
-  // {
-  //   title: "Alert",
-  //   href: "./alerts",
-  //   icon: "bi bi-bell",
-  // },
-  // {
-  //   title: "Badges",
-  //   href: "./badges",
-  //   icon: "bi bi-patch-check",
-  // },
-  // {
-  //   title: "Buttons",
-  //   href: "./buttons",
-  //   icon: "bi bi-hdd-stack",
-  // },
-  // {
-  //   title: "Cards",
-  //   href: "./cards",
-  //   icon: "bi bi-card-text",
-  // },
-  // {
-  //   title: "Grid",
-  //   href: "./grid",
-  //   icon: "bi bi-columns",
-  // },
-  // {
-  //   title: "Table",
-  //   href: "./table",
-  //   icon: "bi bi-layout-split",
-  // },
-  // {
-  //   title: "Forms",
-  //   href: "./forms",
-  //   icon: "bi bi-textarea-resize",
-  // },
-  // {
-  //   title: "Breadcrumbs",
-  //   href: "./breadcrumbs",
-  //   icon: "bi bi-link",
-  // },
-  // {
-  //   title: "About",
-  //   href: "./about",
-  //   icon: "bi bi-people",
-  // },
-  {
-    title: "Lista de usuarios",
-    href: "./users-table",
-  },
-  {
-    title: "Lista de solicitudes",
-    href: "./requests-table",
-  },
-  {
-    title: "Lista de equipos",
-    href: "./equipments-table",
-  },
-  {
-    title: "Lista de técnicos",
-    href: "./technicians-table",
-  },
-  // {
-  //   title: "Estado de las solicitudes",
-  //   href: "./request-status-table",
-  // },
-  {
-    title: "Lista de reparaciones",
-    href: "./repair-table",
-  },
-];
-
 const Sidebar = () => {
+
+  const navigation = [];
+
+  if(JSON.parse(localStorage.getItem('user')).role === "admin" ) {
+    navigation.push(
+      // {
+      //   title: "Dashboard",
+      //   href: "/starter",
+      //   icon: "bi bi-speedometer2",
+      // },
+      // {
+      //   title: "Alert",
+      //   href: "./alerts",
+      //   icon: "bi bi-bell",
+      // },
+      // {
+      //   title: "Badges",
+      //   href: "./badges",
+      //   icon: "bi bi-patch-check",
+      // },
+      // {
+      //   title: "Buttons",
+      //   href: "./buttons",
+      //   icon: "bi bi-hdd-stack",
+      // },
+      // {
+      //   title: "Cards",
+      //   href: "./cards",
+      //   icon: "bi bi-card-text",
+      // },
+      // {
+      //   title: "Grid",
+      //   href: "./grid",
+      //   icon: "bi bi-columns",
+      // },
+      // {
+      //   title: "Table",
+      //   href: "./table",
+      //   icon: "bi bi-layout-split",
+      // },
+      // {
+      //   title: "Forms",
+      //   href: "./forms",
+      //   icon: "bi bi-textarea-resize",
+      // },
+      // {
+      //   title: "Breadcrumbs",
+      //   href: "./breadcrumbs",
+      //   icon: "bi bi-link",
+      // },
+      // {
+      //   title: "About",
+      //   href: "./about",
+      //   icon: "bi bi-people",
+      // },
+      {
+        title: "Lista de usuarios",
+        href: "./users-table",
+      },
+      {
+        title: "Lista de solicitudes",
+        href: "./requests-table",
+      },
+      {
+        title: "Lista de equipos",
+        href: "./equipments-table",
+      },
+      {
+        title: "Lista de técnicos",
+        href: "./technicians-table",
+      },
+      {
+        title: "Lista de reparaciones",
+        href: "./repair-table",
+      },
+    );
+  } else if(JSON.parse(localStorage.getItem('user')).role === "tecnico" ) {
+    navigation.push(
+      {
+        title: "Lista de solicitudes",
+        href: "./requests-table",
+      },
+      {
+        title: "Lista de reparaciones",
+        href: "./repair-table",
+      },
+    );
+  } else if (JSON.parse(localStorage.getItem('user')).role === "mensajero" ) {
+    navigation.push(
+      {
+        title: "Lista de solicitudes",
+        href: "./requests-table",
+      },
+    );
+  } else if(JSON.parse(localStorage.getItem('user')).role === "user" ) {
+    console.log("user");
+  }
+
   const showMobilemenu = () => {
     document.getElementById("sidebarArea").classList.toggle("showSidebar");
   };

@@ -1,23 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import {
   Navbar,
   Collapse,
-  Nav,
-  NavItem,
   NavbarBrand,
-  UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
   Dropdown,
   Button,
 } from "reactstrap";
-import Logo from "./Logo";
 import { ReactComponent as LogoWhite } from "../assets/images/logos/materialprowhite.svg";
 import user1 from "../assets/images/users/user4.jpg";
+import AuthContext from "../context/AuthProvider";
 
 const Header = () => {
+  const { setAuth } = useContext(AuthContext)
+
   const [isOpen, setIsOpen] = React.useState(false);
 
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
@@ -29,6 +28,17 @@ const Header = () => {
   const showMobilemenu = () => {
     document.getElementById("sidebarArea").classList.toggle("showSidebar");
   };
+
+  const handleLogOut = () => {
+    setAuth({
+      email: '',
+      name: '',
+      role: '',
+      id: 0
+    })
+    localStorage.removeItem('user');
+  };
+
   return (
     <Navbar color="celuparts-dark-blue" dark expand="md" className="fix-header">
       <div className="d-flex align-items-center">
@@ -100,19 +110,28 @@ const Header = () => {
             <DropdownItem>Mi Cuenta</DropdownItem>
             <DropdownItem>Editar Perfil</DropdownItem>
             <DropdownItem divider />
-            <DropdownItem>
-              <Link to="/starter/request-form">
-                Nueva Solicitud
-              </Link>
-            </DropdownItem>
-            <DropdownItem>
-              <Link to="/starter/user-requests">
-                Mis Solicitudes
-              </Link>
-            </DropdownItem>
+            {
+              JSON.parse(localStorage.getItem('user')).role === "user" ? (
+                <DropdownItem>
+                  <Link to="/request-form">
+                    Nueva Solicitud
+                  </Link>
+                </DropdownItem>
+              ) : null
+            }
+            {
+              JSON.parse(localStorage.getItem('user')).role === "user" ? (
+                <DropdownItem>
+                  <Link to="/user-requests">
+                    Mis Solicitudes
+                  </Link>
+                </DropdownItem>
+              ) : null
+            }
+
             <DropdownItem divider />
             <DropdownItem>
-              <Link to="/">
+              <Link to="/SignIn" onClick={handleLogOut}>
                 Salir
               </Link>
             </DropdownItem>

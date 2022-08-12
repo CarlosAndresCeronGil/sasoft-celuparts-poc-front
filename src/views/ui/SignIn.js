@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useState, useContext } from 'react'
+import jwtDecode from 'jwt-decode'
 import { Link, useNavigate } from 'react-router-dom';
+import AuthContext from '../../context/AuthProvider';
 import {
     Card,
     Row,
@@ -12,18 +14,81 @@ import {
     Label,
     Input,
 } from "reactstrap";
+import authLogin from '../../services/authLogin';
 
 export default function SignIn() {
+    const { setAuth } = useContext(AuthContext);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(e.target.elements.email.value);
-        console.log(e.target.elements.password.value);
+        // try {
+        //     authLogin({
+        //         email,
+        //         password
+        //     })
+        //         .then(response => {
+        //             console.log("Response", response);
+        //             if(response !== undefined) {
+        //                 const user = jwtDecode(response)
+        //                 console.log("user", user);
+        //             }
+        //         })
+        //         .catch(error => {
+        //             console.log(error);
+        //         });
+
+        //      setAuth(true);
+        //      navigate('/');
+        // } catch (error) {
+        //     console.log(error);
+        // }
+
+        console.log(email, password);
         if(e.target.elements.email.value === 'user1@email.com' && e.target.password.value === '12345'){
-            navigate('/starter');
-        }else {
+            navigate('/');
+            const user = {
+                email: 'user1@email.com',
+                name: 'User 1',
+                role: 'user',
+                id: 1002
+            }
+            setAuth(user);
+            localStorage.setItem('user', JSON.stringify(user));
+        } else if(email === 'userAdmin1@email.com' && password === '12345'){
+            navigate('/');
+            const user = {
+                email: 'userAdmin1@email.com',
+                name: 'User Admin 1',
+                role: 'admin',
+                id: 1001
+            }
+            setAuth(user);
+            localStorage.setItem('user', JSON.stringify(user));
+        } else if (email === 'userTecnico1@email.com' && password === '12345'){ 
+            navigate('/');
+            const user = {
+                email: 'userTecnico1@email.com',
+                name: 'User Tecnico 1',
+                role: 'tecnico',
+                id: 1
+            }
+            setAuth(user);
+            localStorage.setItem('user', JSON.stringify(user));
+        } else if (email === 'userMensajero1@email.com' && password === '12345'){
+            navigate('/');
+            const user = {
+                email: 'userMensajero1@email.com',
+                name: 'User Mensajero 1',
+                role: 'mensajero',
+                id: 3
+            }
+            setAuth(user);
+            localStorage.setItem('user', JSON.stringify(user));
+        } else {
             alert('Usuario o contraseña incorrectos');
         }
     }
@@ -44,8 +109,10 @@ export default function SignIn() {
                                         <Input
                                             id="exampleEmail"
                                             name="email"
+                                            value={email}
                                             placeholder="Ingrese su email"
                                             type="email"
+                                            onChange={(e) => setEmail(e.target.value)}
                                         />
                                     </FormGroup>
                                     <FormGroup>
@@ -53,15 +120,17 @@ export default function SignIn() {
                                         <Input
                                             id="examplePassword"
                                             name="password"
+                                            value={password}
                                             placeholder="Ingrese su contraseña"
                                             type="password"
+                                            onChange={(e) => setPassword(e.target.value)}
                                         />
                                     </FormGroup>
                                     <Button className="btn" color="primary">
                                         Login
                                     </Button>
                                 </Form>
-                                ¿No tienes cuenta? <Link to='/Signup'>registrate! </Link> 
+                                ¿No tienes cuenta? <Link to='/Signup'>registrate! </Link>
                             </CardBody>
                         </Card>
                     </Col>

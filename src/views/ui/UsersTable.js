@@ -13,6 +13,8 @@ export default function UsersTable() {
             })
     }, [setUsers])
 
+    // console.log(JSON.parse(localStorage.getItem('user')).role);
+
     return (
         <div>
             <Card>

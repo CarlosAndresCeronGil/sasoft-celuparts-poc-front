@@ -1,13 +1,16 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState, useContext } from 'react'
 import { Card, CardBody, CardTitle, Table } from "reactstrap";
 import getSingleRequest from '../../services/getSingleRequest';
 import getSingleUser from '../../services/getSingleUser';
 import putRequest from '../../services/putRequest';
+import AuthContext from '../../context/AuthProvider';
 
 export default function UserRequests() {
     const [userInfo, setUserInfo] = useState([]);
     const [showButtons, setShowButtons] = useState(true);
     const [loading, setLoading] = useState(false);
+
+    const { auth } = useContext(AuthContext);
 
     useEffect(function () {
         setLoading(true);
@@ -79,7 +82,7 @@ export default function UserRequests() {
             <div>
                 <Card>
                     <CardBody>
-                        <CardTitle tag="h5">Lista de Mis Solicitudes</CardTitle>
+                        <CardTitle tag="h5">Esta es la lista de tus solicitudes { auth.name } </CardTitle>
                         <Table className="no-wrap mt-3 align-middle" responsive>
                             <thead>
                                 <tr>

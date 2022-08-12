@@ -11,13 +11,14 @@ import {
     Label,
     Input,
 } from "reactstrap";
-import postUser from '../../services/postUser';
+import authRegister from '../../services/authRegister';
+
 
 export default function SignUp() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        postUser({
+        authRegister({
             idType: e.target.elements.idType.value,
             idNumber: e.target.elements.idNumber.value,
             names: e.target.elements.names.value,

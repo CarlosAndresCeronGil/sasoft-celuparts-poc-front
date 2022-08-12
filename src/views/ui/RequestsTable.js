@@ -6,13 +6,13 @@ import { Link } from "react-router-dom";
 export default function RequestsTable() {
     const [requests, setRequests] = useState([])
 
-    useEffect(function() {
+    useEffect(function () {
         getRequests()
             .then((response) => {
                 setRequests(response)
             }
-        )
-    },[setRequests])
+            )
+    }, [setRequests])
 
     return (
         <div>
@@ -29,7 +29,13 @@ export default function RequestsTable() {
                                 <th>Estado de cotización</th>
                                 <th>Estado de solicitud</th>
                                 <th>Actualizar estado Solicitud</th>
-                                <th>Actualizar estado reparación</th>
+                                {
+                                    JSON.parse(localStorage.getItem('user')).role === "mensajero" ? (
+                                        null
+                                    ) : (
+                                        <th>Actualizar estado Cotización</th>
+                                    )
+                                }
                             </tr>
                         </thead>
                         <tbody>
@@ -41,15 +47,21 @@ export default function RequestsTable() {
                                     <td>{tdata.statusQuote}</td>
                                     <td>{tdata.requestStatus[0].status}</td>
                                     <td>
-                                        <Link to={`/starter/request-status-form/${tdata.requestStatus[0].idRequestStatus}`}>
+                                        <Link to={`/request-status-form/${tdata.requestStatus[0].idRequestStatus}`}>
                                             <button className="btn btn-primary">Actualizar</button>
                                         </Link>
                                     </td>
-                                    <td>
-                                        <Link to={`/starter/update-repair-form/${tdata.repairs[0].idRepair}`}>
-                                            <button className="btn btn-secondary">Actualizar</button>
-                                        </Link>
-                                    </td>
+                                    {
+                                        JSON.parse(localStorage.getItem('user')).role === "mensajero" ? (
+                                            null
+                                        ) : (
+                                            <td>
+                                                <Link to={`/update-repair-form/${tdata.repairs[0].idRepair}`}>
+                                                    <button className="btn btn-secondary">Actualizar</button>
+                                                </Link>
+                                            </td>
+                                        )
+                                    }
                                 </tr>
                             ))}
                         </tbody>

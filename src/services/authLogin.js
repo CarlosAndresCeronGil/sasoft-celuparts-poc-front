@@ -1,22 +1,21 @@
 import { API_URL } from "./settings";
 
-export default function postUser(data) {
-    const apiURL = `${API_URL}/Auth/register`;
+export default function authLogin(data) {
+    const apiURL = `${API_URL}/Auth/login`;
 
     return fetch(apiURL, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            // withCredentials: true
         },
         body: JSON.stringify(data)
     })
-        .then(response => response.json())
-        .then(data => {
-            return data;
+        .then(response => {
+            return response.text()
         })
         .catch(error => {
             console.log(error);
             return error;
-        }
-        );
+        });
 }
