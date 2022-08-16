@@ -96,7 +96,7 @@ export default function RequestStatusForm() {
                         <Col>
                             <Card className='container'>
                                 <CardTitle tag="h2" className="border-bottom p-3 mb-0 row justify-content-center">
-                                    Editar Estado de Solicitud
+                                    Actualizar estado de solicitud
                                 </CardTitle>
                                 <CardBody>
                                     <Form onSubmit={handleSubmit}>

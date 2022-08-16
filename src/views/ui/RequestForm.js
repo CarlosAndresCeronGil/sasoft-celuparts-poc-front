@@ -14,85 +14,171 @@ import {
 } from "reactstrap";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import Swal from 'sweetalert2'
+
 import postRequest from '../../services/postRequest';
 import postEquipment from '../../services/postEquipment';
 import postRequestStatus from '../../services/postRequestStatus';
 import postRepair from '../../services/postRepair';
 import postRepairPayment from '../../services/postRepairPayment';
 import postHomeService from '../../services/postHomeService';
+import postRetoma from '../../services/postRetoma';
+import postRetomaPayment from '../../services/postRetomaPayment';
 
 export default function RequestForm() {
+    const [requestType, setRequestType] = useState({ requestType: 'Reparacion' })
     const [startDate, setStartDate] = useState(new Date());
     const [loading, setLoading] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         setLoading(true);
-        postEquipment({
-            typeOfEquipment: e.target.elements.typeOfEquipment.value,
-            equipmentBrand: e.target.elements.equipmentBrand.value,
-            modelOrReference: e.target.elements.modelOrReference.value,
-            imei: e.target.elements.imei.value,
-            equipmentInvoice: e.target.elements.equipmentInvoice.value,
-        })
-            .then(data => {
-                postRequest({
-                    idUser: 1002,
-                    idEquipment: data.idEquipment,
-                    requestType: e.target.elements.requestType.value,
-                    pickUpAddress: e.target.elements.pickUpAddress.value,
-                    deliveryAddress: e.target.elements.deliveryAddress.value,
-                    statusQuote: "Pendiente",
-                })
-                    .then(data => {
-                        postRepair({
-                            idRequest: data.idRequest,
-                            repairQuote: "0"
-                        })
-                            .then(data2 => {
-                                console.log("Entro al then de repair", data2);
-                                postRepairPayment({
-                                    idRepair: data2.idRepair,
-                                    paymentMethod: e.target.elements.paymentMethod.value,
-                                })
-                                    .catch(error => {
-                                        console.log(error);
-                                        setLoading(false);
-                                    });
-                            })
-                            .catch(error => {
-                                console.log(error);
-                                setLoading(false);
-                            });
-                        postRequestStatus({
-                            idRequest: data.idRequest,
-                            status: "Iniciada",
-                            paymentStatus: "No pago",
-                            productReturned: false
-                        })
-                            .catch(error => {
-                                setLoading(false);
-                                console.log(error);
-                            });
-                        postHomeService({
-                            idRequest: data.idRequest,
-                            pickUpDate: startDate,
-                        })
-                            .catch(error => {
-                                setLoading(false);
-                                console.log(error);
-                            });
-                        setLoading(false);
-                    })
-                    .catch(error => {
-                        setLoading(false);
-                        console.log(error);
-                    })
+        if (requestType.requestType === "Reparacion") {
+            postEquipment({
+                typeOfEquipment: e.target.elements.typeOfEquipment.value,
+                equipmentBrand: e.target.elements.equipmentBrand.value,
+                modelOrReference: e.target.elements.modelOrReference.value,
+                imei: e.target.elements.imei.value,
+                equipmentInvoice: e.target.elements.equipmentInvoice.value,
             })
-            .catch(error => {
-                setLoading(false);
-                console.log(error);
-            });
+                .then(data => {
+                    postRequest({
+                        idUser: 1008,
+                        idEquipment: data.idEquipment,
+                        requestType: e.target.elements.requestType.value,
+                        pickUpAddress: e.target.elements.pickUpAddress.value,
+                        deliveryAddress: e.target.elements.deliveryAddress.value,
+                        statusQuote: "Pendiente",
+                    })
+                        .then(data => {
+                            postRepair({
+                                idRequest: data.idRequest,
+                                repairQuote: "0"
+                            })
+                                .then(data2 => {
+                                    console.log("Entro al then de repair", data2);
+                                    postRepairPayment({
+                                        idRepair: data2.idRepair,
+                                        paymentMethod: e.target.elements.paymentMethod.value,
+                                    })
+                                        .catch(error => {
+                                            console.log(error);
+                                            setLoading(false);
+                                        });
+                                })
+                                .catch(error => {
+                                    console.log(error);
+                                    setLoading(false);
+                                });
+                            postRequestStatus({
+                                idRequest: data.idRequest,
+                                status: "Iniciada",
+                                paymentStatus: "No pago",
+                                productReturned: false,
+                                productSold: false
+                            })
+                                .catch(error => {
+                                    setLoading(false);
+                                    console.log(error);
+                                });
+                            postHomeService({
+                                idRequest: data.idRequest,
+                                pickUpDate: startDate,
+                            })
+                                .catch(error => {
+                                    setLoading(false);
+                                    console.log(error);
+                                });
+                            setLoading(false);
+                        })
+                        .catch(error => {
+                            setLoading(false);
+                            console.log(error);
+                        })
+                })
+                .catch(error => {
+                    setLoading(false);
+                    console.log(error);
+                });
+            Swal.fire({
+                icon: 'success',
+                title: 'Exito!',
+                text: 'Solicitud de reparacióm enviada!',
+            })
+        } else if (requestType.requestType === "Retoma") {
+            postEquipment({
+                typeOfEquipment: e.target.elements.typeOfEquipment.value,
+                equipmentBrand: e.target.elements.equipmentBrand.value,
+                modelOrReference: e.target.elements.modelOrReference.value,
+                imei: e.target.elements.imei.value,
+                equipmentInvoice: e.target.elements.equipmentInvoice.value,
+            })
+                .then(data => {
+                    postRequest({
+                        idUser: 1008,
+                        idEquipment: data.idEquipment,
+                        requestType: e.target.elements.requestType.value,
+                        pickUpAddress: e.target.elements.pickUpAddress.value,
+                        deliveryAddress: e.target.elements.deliveryAddress.value,
+                        statusQuote: "Pendiente",
+                    })
+                        .then(data => {
+                            postRetoma({
+                                idRequest: data.idRequest,
+                                retomaQuote: "0",
+                                deviceDiagnostic: ""
+                            })
+                                .then(data2 => {
+                                    console.log("Entro al then de retoma", data2);
+                                    postRetomaPayment({
+                                        idRetoma: data2.idRetoma,
+                                        paymentMethod: e.target.elements.paymentMethod.value
+                                    })
+                                        .catch(error => {
+                                            console.log(error);
+                                            setLoading(false);
+                                        });
+                                })
+                                .catch(error => {
+                                    console.log(error);
+                                    setLoading(false);
+                                });
+                            postRequestStatus({
+                                idRequest: data.idRequest,
+                                status: "Iniciada",
+                                paymentStatus: "No pago",
+                                productReturned: false,
+                                productSold: false
+                            })
+                                .catch(error => {
+                                    setLoading(false);
+                                    console.log(error);
+                                });
+                            postHomeService({
+                                idRequest: data.idRequest,
+                                pickUpDate: startDate,
+                            })
+                                .catch(error => {
+                                    setLoading(false);
+                                    console.log(error);
+                                });
+                            setLoading(false);
+                        })
+                        .catch(error => {
+                            setLoading(false);
+                            console.log(error);
+                        })
+                })
+                .catch(error => {
+                    setLoading(false);
+                    console.log(error);
+                });
+            Swal.fire({
+                icon: 'success',
+                title: 'Exito!',
+                text: 'Solicitud de retoma enviada!',
+            })
+        }
     }
 
     return (
@@ -112,7 +198,13 @@ export default function RequestForm() {
                                     </CardSubtitle>
                                     <FormGroup>
                                         <Label for="requestType">Tipo de solicitud*</Label>
-                                        <Input id="requestType" name="requestType" type="select">
+                                        <Input
+                                            id="requestType"
+                                            name="requestType"
+                                            type="select"
+                                            value={requestType.requestType}
+                                            onChange={(e) => setRequestType({ requestType: e.target.value })}
+                                        >
                                             <option value="Reparacion">Reparación</option>
                                             <option>Retoma</option>
                                         </Input>
@@ -149,12 +241,17 @@ export default function RequestForm() {
                                         />
                                     </FormGroup>
                                     <FormGroup>
-                                        <Label for="paymentMethod">Metodo de pago*</Label>
+                                        {
+                                            requestType.requestType === "Reparacion" ? (
+                                                <Label for="paymentMethod">Metodo de pago*</Label>
+                                            ) : (
+                                                <Label for="paymentMethod">Metodo de pago (de ceularts a ti)*</Label>
+                                            )
+                                        }
+
                                         <Input id="paymentMethod" name="paymentMethod" type="select">
                                             <option>Contraentrega</option>
-                                            <option>Tarjeta de credito</option>
-                                            <option>Tarjeta de debito</option>
-                                            <option>Nequi</option>
+                                            <option>Transferencia bancaria</option>
                                         </Input>
                                     </FormGroup>
                                     {/* --------------- Datos equipo ---------------- */}

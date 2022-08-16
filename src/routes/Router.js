@@ -29,6 +29,7 @@ export function Router() {
   const UpdateRepairForm = lazy(() => import("../views/ui/UpdateRepairForm"));
   const RequestStatusForm = lazy(() => import("../views/ui/RequestStatusForm"));
   const UserRequests = lazy(() => import("../views/ui/UserRequests"));
+  const RepairPaymentForm = lazy(() => import("../views/ui/RepairPaymentForm"));
 
   /*****Routes******/
   const ThemeRoutes = [
@@ -68,7 +69,8 @@ export function Router() {
           { path: "/update-repair-form", exact: true, element: <UpdateRepairForm /> },
           { path: "/request-status-form", exact: true, element: <RequestStatusForm /> },
           { path: "/request-status-form/:id", exact: true, element: <RequestStatusForm /> },
-          { path: "/update-repair-form/:id", exact: true, element: <UpdateRepairForm /> }
+          { path: "/update-repair-form/:id", exact: true, element: <UpdateRepairForm /> },
+          { path: "/repair-payment-form/:id", exact: true, element: <RepairPaymentForm /> },
         ],
       },
     ) : JSON.parse(localStorage.getItem('user')).role === "tecnico" ? ThemeRoutes.push(

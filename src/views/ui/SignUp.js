@@ -32,9 +32,7 @@ export default function SignUp() {
             accountStatus: "Habilitada"
         })
             .then(data => {
-                console.log(data);
                 setLoading(false);
-                console.log("DATA",data)
             }).catch(error => {
                 console.log("ERROR", error);
                 setLoading(false);

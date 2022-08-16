@@ -36,6 +36,13 @@ export default function RequestsTable() {
                                         <th>Actualizar estado Reparación</th>
                                     )
                                 }
+                                {
+                                    JSON.parse(localStorage.getItem('user')).role === "admin" ? (
+                                        <th>Actualizar pago reparación</th>
+                                    ) : (
+                                        null
+                                    )
+                                }
                             </tr>
                         </thead>
                         <tbody>
@@ -58,14 +65,14 @@ export default function RequestsTable() {
                                             <td>
                                                 {
                                                     tdata.requestStatus[0].status === 'Iniciada' ||
-                                                    tdata.requestStatus[0].status === 'En proceso de recogida' ||
-                                                    tdata.requestStatus[0].status === 'Recibida tecnico' || 
-                                                    tdata.requestStatus[0].status === 'En devolucion' ||
-                                                    tdata.requestStatus[0].status === 'Devuelto sin reparacion' ||
-                                                    tdata.requestStatus[0].status === 'Abandonada' ||
-                                                    tdata.requestStatus[0].status === 'Terminada' ||
-                                                    tdata.requestStatus[0].status === 'En camino' ? (
-                                                            <button className="btn btn-secondary" disabled>Actualizar</button>
+                                                        tdata.requestStatus[0].status === 'En proceso de recogida' ||
+                                                        tdata.requestStatus[0].status === 'Recibida tecnico' ||
+                                                        tdata.requestStatus[0].status === 'En devolucion' ||
+                                                        tdata.requestStatus[0].status === 'Devuelto sin reparacion' ||
+                                                        tdata.requestStatus[0].status === 'Abandonada' ||
+                                                        tdata.requestStatus[0].status === 'Terminada' ||
+                                                        tdata.requestStatus[0].status === 'En camino' ? (
+                                                        <button className="btn btn-secondary" disabled>Actualizar</button>
                                                     ) : (
                                                         <Link to={`/update-repair-form/${tdata.repairs[0].idRepair}`}>
                                                             <button className="btn btn-secondary">Actualizar</button>
@@ -73,6 +80,34 @@ export default function RequestsTable() {
                                                     )
                                                 }
                                             </td>
+                                        )
+                                    }
+                                    {
+                                        JSON.parse(localStorage.getItem('user')).role === "admin" ? (
+                                            <td>
+                                                {
+                                                    tdata.requestStatus[0].status === 'Iniciada' ||
+                                                        tdata.requestStatus[0].status === 'En proceso de recogida' ||
+                                                        tdata.requestStatus[0].status === 'Recibida tecnico' ||
+                                                        tdata.requestStatus[0].status === 'En devolucion' ||
+                                                        tdata.requestStatus[0].status === 'Devuelto sin reparacion' ||
+                                                        tdata.requestStatus[0].status === 'Abandonada' ||
+                                                        tdata.requestStatus[0].status === 'Terminada' ||
+                                                        tdata.requestStatus[0].status === 'En camino' ? (
+                                                        <button className='btn btn-secondary' type='button' disabled>
+                                                            Actualizar
+                                                        </button>
+                                                    ) : (
+                                                        <Link to={`/repair-payment-form/${tdata.repairs[0].repairPayments[0].idRepairPayment}`}>
+                                                            <button className='btn btn-secondary' type='button'>
+                                                                Actualizar
+                                                            </button>
+                                                        </Link>
+                                                    )
+                                                }
+                                            </td>
+                                        ) : (
+                                            null
                                         )
                                     }
                                 </tr>

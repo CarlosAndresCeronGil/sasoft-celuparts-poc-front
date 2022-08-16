@@ -123,7 +123,7 @@ const Header = () => {
               JSON.parse(localStorage.getItem('user')).role === "user" ? (
                 <DropdownItem>
                   <Link to="/user-requests">
-                    Mis Solicitudes
+                    Mis Reparaciones
                   </Link>
                 </DropdownItem>
               ) : null

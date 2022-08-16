@@ -105,7 +105,7 @@ export default function UpdateRepairForm() {
                         <Col>
                             <Card className='container'>
                                 <CardTitle tag="h2" className="border-bottom p-3 mb-0 row justify-content-center">
-                                    Estado de reparación
+                                    Actualizar estado de reparación
                                 </CardTitle>
                                 <CardBody>
                                     <Form onSubmit={handleSubmit}>

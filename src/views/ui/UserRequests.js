@@ -4,6 +4,7 @@ import getSingleRequest from '../../services/getSingleRequest';
 import getSingleUser from '../../services/getSingleUser';
 import putRequest from '../../services/putRequest';
 import AuthContext from '../../context/AuthProvider';
+import Swal from 'sweetalert2'
 
 export default function UserRequests() {
     const [userInfo, setUserInfo] = useState([]);
@@ -40,7 +41,6 @@ export default function UserRequests() {
                     statusQuote: "Aceptada"
                 })
                     .then(response => {
-                        console.log(response);
                         setShowButtons(false);
                     })
                     .catch(error => {
@@ -49,32 +49,52 @@ export default function UserRequests() {
             })
             .catch(error => {
                 console.log(error);
+            })
+            Swal.fire({
+                icon: 'success',
+                title: 'Exito!',
+                text: 'Cotización aceptada!',
             })
     }
 
     const handleRejectClick = (id) => {
-        getSingleRequest({ id })
-            .then(response => {
-                putRequest({
-                    idRequest: id,
-                    idUser: response.idUser,
-                    idEquipment: response.idEquipment,
-                    requestType: response.requestType,
-                    pickUpAddress: response.pickUpAddress,
-                    deliveryAddress: response.deliveryAddress,
-                    statusQuote: "Rechazada"
-                })
+        Swal.fire({
+            title: '¿Desea iniciar una retoma para este producto?',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Sí, iniciar retoma',
+            denyButtonText: `No, y rechazar cotización`,
+            cancelButtonText: 'Cancelar',
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                Swal.fire('Saved!', '', 'success')
+            } else if (result.isDenied) {
+                Swal.fire('Cotización rechazada', '', 'info')
+                getSingleRequest({ id })
                     .then(response => {
-                        console.log(response);
-                        setShowButtons(false);
+                        putRequest({
+                            idRequest: id,
+                            idUser: response.idUser,
+                            idEquipment: response.idEquipment,
+                            requestType: response.requestType,
+                            pickUpAddress: response.pickUpAddress,
+                            deliveryAddress: response.deliveryAddress,
+                            statusQuote: "Rechazada"
+                        })
+                            .then(response => {
+                                console.log(response);
+                                setShowButtons(false);
+                            })
+                            .catch(error => {
+                                console.log(error);
+                            })
                     })
                     .catch(error => {
                         console.log(error);
                     })
-            })
-            .catch(error => {
-                console.log(error);
-            })
+            }
+        })
     }
 
     return (
@@ -82,7 +102,7 @@ export default function UserRequests() {
             <div>
                 <Card>
                     <CardBody>
-                        <CardTitle tag="h5">Esta es la lista de tus solicitudes { auth.name } </CardTitle>
+                        <CardTitle tag="h5">Esta es la lista de tus solicitudes {auth.name} </CardTitle>
                         <Table className="no-wrap mt-3 align-middle" responsive>
                             <thead>
                                 <tr>
