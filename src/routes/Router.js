@@ -20,16 +20,20 @@ export function Router() {
   const SignIn = lazy(() => import("../views/ui/SignIn"));
   const SignUp = lazy(() => import("../views/ui/SignUp"))
   const UsersTable = lazy(() => import("../views/ui/UsersTable"));
-  const RequestsTable = lazy(() => import("../views/ui/RequestsTable"));
+  const RepairRequestsTable = lazy(() => import("../views/ui/RepairRequestsTable"));
+  const RetomaRequestsTable = lazy(() => import("../views/ui/RetomaRequestsTable"));
   const EquipmentsTable = lazy(() => import("../views/ui/EquipmentsTable"));
   const RequestStatusTable = lazy(() => import("../views/ui/RequestStatusTable"));
   const TechniciansTable = lazy(() => import("../views/ui/TechniciansTable"));
   const RepairTable = lazy(() => import("../views/ui/RepairTable"));
   const RequestForm = lazy(() => import("../views/ui/RequestForm"));
   const UpdateRepairForm = lazy(() => import("../views/ui/UpdateRepairForm"));
+  const UpdateRetomaForm = lazy(() => import("../views/ui/UpdateRetomaForm"));
   const RequestStatusForm = lazy(() => import("../views/ui/RequestStatusForm"));
-  const UserRequests = lazy(() => import("../views/ui/UserRequests"));
+  const UserRepairRequests = lazy(() => import("../views/ui/UserRepairRequests"));
+  const UserRetomaRequests = lazy(() => import("../views/ui/UserRetomaRequests"));
   const RepairPaymentForm = lazy(() => import("../views/ui/RepairPaymentForm"));
+  const RetomaPaymentForm = lazy(() => import("../views/ui/RetomaPaymentForm"));
 
   /*****Routes******/
   const ThemeRoutes = [
@@ -51,7 +55,8 @@ export function Router() {
         element: <FullLayout />,
         children: [
           { path: "/request-form", exact: true, element: <RequestForm /> },
-          { path: "/user-requests", exact: true, element: <UserRequests /> },
+          { path: "/user-repair-requests", exact: true, element: <UserRepairRequests /> },
+          { path: "/user-retoma-requests", exact: true, element: <UserRetomaRequests /> },
         ],
       }
     ) : JSON.parse(localStorage.getItem('user')).role === "admin" ? ThemeRoutes.push(
@@ -61,7 +66,8 @@ export function Router() {
         element: <FullLayout />,
         children: [
           { path: "/users-table", exact: true, element: <UsersTable /> },
-          { path: "/requests-table", exact: true, element: <RequestsTable /> },
+          { path: "/repair-requests-table", exact: true, element: <RepairRequestsTable /> },
+          { path: "/retoma-requests-table", exact: true, element: <RetomaRequestsTable /> },
           { path: "/equipments-table", exact: true, element: <EquipmentsTable /> },
           { path: "/request-status-table", exact: true, element: <RequestStatusTable /> },
           { path: "/technicians-table", exact: true, element: <TechniciansTable /> },
@@ -70,7 +76,9 @@ export function Router() {
           { path: "/request-status-form", exact: true, element: <RequestStatusForm /> },
           { path: "/request-status-form/:id", exact: true, element: <RequestStatusForm /> },
           { path: "/update-repair-form/:id", exact: true, element: <UpdateRepairForm /> },
+          { path: "/update-retoma-form/:id", exact: true, element: <UpdateRetomaForm /> },
           { path: "/repair-payment-form/:id", exact: true, element: <RepairPaymentForm /> },
+          { path: "/retoma-payment-form/:id", exact: true, element: <RetomaPaymentForm /> },
         ],
       },
     ) : JSON.parse(localStorage.getItem('user')).role === "tecnico" ? ThemeRoutes.push(
@@ -79,11 +87,13 @@ export function Router() {
         exact: true,
         element: <FullLayout />,
         children: [
-          { path: "/requests-table", exact: true, element: <RequestsTable /> },
+          { path: "/repair-requests-table", exact: true, element: <RepairRequestsTable /> },
+          { path: "/retoma-requests-table", exact: true, element: <RetomaRequestsTable /> },
           { path: "/repair-table", exact: true, element: <RepairTable /> },
           { path: "/update-repair-form", exact: true, element: <UpdateRepairForm /> },
+          { path: "/update-retoma-form/:id", exact: true, element: <UpdateRetomaForm /> },
           { path: "/request-status-form/:id", exact: true, element: <RequestStatusForm /> },
-          { path: "/update-repair-form/:id", exact: true, element: <UpdateRepairForm /> }
+          { path: "/update-repair-form/:id", exact: true, element: <UpdateRepairForm /> },
         ],
       },
     ) : JSON.parse(localStorage.getItem('user')).role === "mensajero" ? ThemeRoutes.push(
@@ -92,7 +102,8 @@ export function Router() {
         exact: true,
         element: <FullLayout />,
         children: [
-          { path: "/requests-table", exact: true, element: <RequestsTable /> },
+          { path: "/repair-requests-table", exact: true, element: <RepairRequestsTable /> },
+          { path: "/retoma-requests-table", exact: true, element: <RetomaRequestsTable /> },
           { path: "/repair-table", exact: true, element: <RepairTable /> },
           { path: "/update-repair-form", exact: true, element: <UpdateRepairForm /> },
           { path: "/request-status-form/:id", exact: true, element: <RequestStatusForm /> },

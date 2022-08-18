@@ -65,8 +65,12 @@ const Sidebar = () => {
         href: "./users-table",
       },
       {
-        title: "Lista de solicitudes",
-        href: "./requests-table",
+        title: "Lista de reparaciones",
+        href: "./repair-requests-table",
+      },
+      {
+        title: "Lista de retomas",
+        href: "./retoma-requests-table",
       },
       {
         title: "Lista de equipos",
@@ -77,26 +81,34 @@ const Sidebar = () => {
         href: "./technicians-table",
       },
       {
-        title: "Lista de reparaciones",
+        title: "Lista de tecnicos asociados a reparaciones", 
         href: "./repair-table",
       },
     );
   } else if(JSON.parse(localStorage.getItem('user')).role === "tecnico" ) {
     navigation.push(
       {
-        title: "Lista de solicitudes",
-        href: "./requests-table",
+        title: "Lista de reparaciones",
+        href: "./repair-requests-table",
       },
       {
-        title: "Lista de reparaciones",
+        title: "Lista de retomas",
+        href: "./retoma-requests-table",
+      },
+      {
+        title: "Lista de tecnicos asociados a reparaciones", 
         href: "./repair-table",
       },
     );
   } else if (JSON.parse(localStorage.getItem('user')).role === "mensajero" ) {
     navigation.push(
       {
-        title: "Lista de solicitudes",
-        href: "./requests-table",
+        title: "Lista de reparaciones",
+        href: "./repair-requests-table",
+      },
+      {
+        title: "Lista de retomas",
+        href: "./retoma-requests-table",
       },
     );
   } else if(JSON.parse(localStorage.getItem('user')).role === "user" ) {

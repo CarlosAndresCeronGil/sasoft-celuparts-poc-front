@@ -15,7 +15,6 @@ import {
 } from "reactstrap";
 import getSingleRequestStatus from '../../services/getSingleRequestStatus';
 import putRequestStatus from '../../services/putRequestStatus';
-import Swal from 'sweetalert2'
 
 export default function RequestStatusForm() {
     const [dataRequestStatus, setDataRequestStatus] = useState({});

@@ -43,7 +43,7 @@ export default function RequestForm() {
             })
                 .then(data => {
                     postRequest({
-                        idUser: 1008,
+                        idUser: JSON.parse(localStorage.getItem('user')).idUser,
                         idEquipment: data.idEquipment,
                         requestType: e.target.elements.requestType.value,
                         pickUpAddress: e.target.elements.pickUpAddress.value,
@@ -115,7 +115,7 @@ export default function RequestForm() {
             })
                 .then(data => {
                     postRequest({
-                        idUser: 1008,
+                        idUser: JSON.parse(localStorage.getItem('user')).idUser,
                         idEquipment: data.idEquipment,
                         requestType: e.target.elements.requestType.value,
                         pickUpAddress: e.target.elements.pickUpAddress.value,
@@ -173,10 +173,10 @@ export default function RequestForm() {
                     setLoading(false);
                     console.log(error);
                 });
-            Swal.fire({
-                icon: 'success',
-                title: 'Exito!',
-                text: 'Solicitud de retoma enviada!',
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Exito!',
+                    text: 'Solicitud de retoma enviada!',
             })
         }
     }
@@ -245,7 +245,7 @@ export default function RequestForm() {
                                             requestType.requestType === "Reparacion" ? (
                                                 <Label for="paymentMethod">Metodo de pago*</Label>
                                             ) : (
-                                                <Label for="paymentMethod">Metodo de pago (de ceularts a ti)*</Label>
+                                                <Label for="paymentMethod">Metodo de pago (de celuparts a ti)*</Label>
                                             )
                                         }
 

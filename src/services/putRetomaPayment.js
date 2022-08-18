@@ -1,8 +1,8 @@
 import { API_URL } from "./settings";
 import Swal from 'sweetalert2'
 
-export default function putRepairPayment(data) {
-    const apiURL = `${API_URL}/RepairPayment`;
+export default function putRetomaPayment(data) {
+    const apiURL = `${API_URL}/RetomaPayment`;
 
     return fetch(apiURL, {
         method: "PUT",

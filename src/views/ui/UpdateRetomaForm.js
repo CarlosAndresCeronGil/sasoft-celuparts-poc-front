@@ -12,17 +12,13 @@ import {
     Label,
     Input,
 } from "reactstrap";
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
 import { useParams } from 'react-router-dom';
 import getSingleRepair from '../../services/getSingleRepair';
 import putRepair from '../../services/putRepair';
 
-export default function UpdateRepairForm() {
+export default function UpdateRetomaForm() {
     const [idTechnician, setIdTechnician] = useState({ idTechnician: 0 });
     const [deviceDiagnostic, setDeviceDiagnostic] = useState({ deviceDiagnostic: "" });
-    const [repairDate, setRepairDate] = useState({ repairDate: new Date() });
-    const [isRepairDateNull, setIsRepairDateNull] = useState({ isRepairDateNull: false });
     const [repairQuote, setRepairQuote] = useState({ repairQuote: 0 });
     const [idRequest, setIdRequest] = useState({ idRequest: 0 });
     const [loading, setLoading] = useState(false);
@@ -37,7 +33,6 @@ export default function UpdateRepairForm() {
             idRepair: params.id,
             idRequest: idRequest.idRequest,
             idTechnician: idTechnician.idTechnician,
-            repairDate: repairDate.repairDate,
             deviceDiagnostic: deviceDiagnostic.deviceDiagnostic,
             repairQuote: repairQuote.repairQuote,
         })
@@ -59,14 +54,6 @@ export default function UpdateRepairForm() {
                 setDeviceDiagnostic({ deviceDiagnostic: response.deviceDiagnostic })
                 setRepairQuote({ repairQuote: response.repairQuote })
                 setIdRequest({ idRequest: response.idRequest })
-                if (response.repairDate === null) {
-                    setIsRepairDateNull({ isRepairDateNull: true })
-                    setRepairDate({ repairDate: new Date() })
-                }
-                else {
-                    setIsRepairDateNull({ isRepairDateNull: false })
-                    setRepairDate({ repairDate: new Date(response.repairDate) })
-                }
                 setLoading(false);
             })
             .catch(error => {
@@ -105,7 +92,7 @@ export default function UpdateRepairForm() {
                         <Col>
                             <Card className='container'>
                                 <CardTitle tag="h2" className="border-bottom p-3 mb-0 row justify-content-center">
-                                    Actualizar estado de reparación
+                                    Actualizar diagnostico de retoma
                                 </CardTitle>
                                 <CardBody>
                                     <Form onSubmit={handleSubmit}>
@@ -137,40 +124,8 @@ export default function UpdateRepairForm() {
                                                 required
                                             />
                                         </FormGroup>
-                                        {
-                                            isRepairDateNull.isRepairDateNull ? (
-                                                <FormGroup>
-                                                    <Label for="repairDate">Ingrese la fecha de finalización de la reparación</Label>
-                                                    <DatePicker
-                                                        id='repairDate'
-                                                        dateFormat="yyyy-MM-dd h:mm aa"
-                                                        showTimeSelect
-                                                        value={repairDate.repairDate}
-                                                        selected={repairDate.repairDate}
-                                                        onChange={(date) => setRepairDate({ repairDate: date })}
-                                                        required
-                                                        timeFormat="HH:mm"
-                                                    />
-                                                </FormGroup>
-                                            ) : (
-                                                <FormGroup>
-                                                    <Label for="repairDate">Edite la fecha de finalización de la reparación</Label>
-                                                    <DatePicker
-                                                        id='repairDate'
-                                                        dateFormat="yyyy-MM-dd h:mm aa"
-                                                        showTimeSelect
-                                                        value={repairDate.repairDate}
-                                                        selected={repairDate.repairDate}
-                                                        onChange={(date) => setRepairDate({ repairDate: date })}
-                                                        required
-                                                        timeFormat="HH:mm"
-                                                    />
-                                                </FormGroup>
-                                            )
-                                        }
-
                                         <FormGroup>
-                                            <Label for="repairQuote">Cuota de reparación</Label>
+                                            <Label for="repairQuote">Precio de venta</Label>
                                             <Input
                                                 id="repairQuote"
                                                 name="repairQuote"
