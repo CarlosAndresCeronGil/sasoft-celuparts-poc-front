@@ -7,6 +7,7 @@ import Swal from 'sweetalert2'
 
 export default function UserRetomaRequests() {
     const [userInfo, setUserInfo] = useState([]);
+    // const[statusQuote, ]
     const [showButtons, setShowButtons] = useState(true);
     const [loading, setLoading] = useState(false);
 
@@ -14,7 +15,7 @@ export default function UserRetomaRequests() {
         setLoading(true);
         getSingleUser({ id: JSON.parse(localStorage.getItem('user')).idUser })
             .then(response => {
-                console.log(response);
+                console.log("datos del usuario", response);
                 setUserInfo(response);
                 setLoading(false)
                 console.log(response);
@@ -28,6 +29,7 @@ export default function UserRetomaRequests() {
     const handleAcceptClick = (id) => {
         getSingleRequest({ id })
             .then(response => {
+                console.log(response);
                 putRequest({
                     idRequest: id,
                     idUser: response.idUser,

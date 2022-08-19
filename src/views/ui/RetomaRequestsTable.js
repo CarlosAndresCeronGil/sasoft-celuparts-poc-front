@@ -5,16 +5,23 @@ import { Link } from "react-router-dom";
 
 export default function RetomaRequestsTable() {
     const [requests, setRequests] = useState([])
+    const [loading, setLoading] = useState(false)
 
     useEffect(function () {
+        setLoading(true)
         getRequests()
             .then((response) => {
                 setRequests(response)
-            }
-            )
+                setLoading(false)
+            })
+            .catch((error) => {
+                console.log(error)
+                setLoading(false)
+            })
     }, [setRequests])
 
     return (
+        loading ? <div>Cargando...</div> :
         <div>
             <Card>
                 <CardBody>
@@ -24,6 +31,7 @@ export default function RetomaRequestsTable() {
                         <thead>
                             <tr>
                                 <th>Tipo solicitud</th>
+                                <th>Dispositivo</th>
                                 <th>Dirección recogida</th>
                                 <th>Estado de cotización</th>
                                 <th>Estado de solicitud</th>
@@ -49,6 +57,7 @@ export default function RetomaRequestsTable() {
                                 tdata.requestType === "Retoma" ? (
                                     <tr key={index} className="border-top">
                                         <td>{tdata.requestType}</td>
+                                        <td>{tdata.equipment.equipmentBrand} {tdata.equipment.modelOrReference}</td>
                                         <td>{tdata.pickUpAddress}</td>
                                         <td>{tdata.statusQuote}</td>
                                         <td>{tdata.requestStatus[0].status}</td>
@@ -73,7 +82,7 @@ export default function RetomaRequestsTable() {
                                                             tdata.requestStatus[0].status === 'En camino' ? (
                                                             <button className="btn btn-secondary" disabled>Actualizar</button>
                                                         ) : (
-                                                            <Link to={`/update-retoma-form/${tdata.retoma[0].idRetoma}`}>
+                                                            <Link to={`/update-retoma-form/${tdata?.retoma[0].idRetoma}`}>
                                                                 <button className="btn btn-secondary">Actualizar</button>
                                                             </Link>
                                                         )

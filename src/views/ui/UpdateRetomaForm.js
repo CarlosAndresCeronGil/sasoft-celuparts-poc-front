@@ -13,13 +13,14 @@ import {
     Input,
 } from "reactstrap";
 import { useParams } from 'react-router-dom';
-import getSingleRepair from '../../services/getSingleRepair';
-import putRepair from '../../services/putRepair';
+import getSingleRetoma from '../../services/getSingleRetoma';
+import putRetoma from '../../services/putRetoma';
 
 export default function UpdateRetomaForm() {
     const [idTechnician, setIdTechnician] = useState({ idTechnician: 0 });
     const [deviceDiagnostic, setDeviceDiagnostic] = useState({ deviceDiagnostic: "" });
-    const [repairQuote, setRepairQuote] = useState({ repairQuote: 0 });
+    const [retomaQuote, setRetomaQuote] = useState({ retomaQuote: 0 });
+    const [idRetoma, setIdRetoma] = useState({ idRetoma: 0 });
     const [idRequest, setIdRequest] = useState({ idRequest: 0 });
     const [loading, setLoading] = useState(false);
     const [loadingPut, setLoadingPut] = useState(false);
@@ -29,12 +30,12 @@ export default function UpdateRetomaForm() {
     const handleSubmit = (e) => {
         e.preventDefault();
         setLoadingPut(true);
-        putRepair({
-            idRepair: params.id,
+        putRetoma({
+            idRetoma: params.id,
             idRequest: idRequest.idRequest,
             idTechnician: idTechnician.idTechnician,
             deviceDiagnostic: deviceDiagnostic.deviceDiagnostic,
-            repairQuote: repairQuote.repairQuote,
+            retomaQuote: retomaQuote.retomaQuote,
         })
             .then(data => {
                 setLoadingPut(false);
@@ -47,12 +48,13 @@ export default function UpdateRetomaForm() {
 
     useEffect(function () {
         setLoading(true);
-        getSingleRepair({ id: params.id })
+        getSingleRetoma({ id: params.id })
             .then(response => {
                 console.log(response);
                 setIdTechnician({ idTechnician: response.idTechnician })
                 setDeviceDiagnostic({ deviceDiagnostic: response.deviceDiagnostic })
-                setRepairQuote({ repairQuote: response.repairQuote })
+                setRetomaQuote({ retomaQuote: response.retomaQuote })
+                setIdRetoma({ idRetoma: response.idRetoma })
                 setIdRequest({ idRequest: response.idRequest })
                 setLoading(false);
             })
@@ -78,7 +80,7 @@ export default function UpdateRetomaForm() {
     }
 
     const handleRepairQuoteChange = (e) => {
-        setRepairQuote((prev) => ({
+        setRetomaQuote((prev) => ({
             ...prev,
             [e.target.name]: e.target.value
         }));
@@ -125,13 +127,13 @@ export default function UpdateRetomaForm() {
                                             />
                                         </FormGroup>
                                         <FormGroup>
-                                            <Label for="repairQuote">Precio de venta</Label>
+                                            <Label for="retomaQuote">Precio de venta</Label>
                                             <Input
-                                                id="repairQuote"
-                                                name="repairQuote"
+                                                id="retomaQuote"
+                                                name="retomaQuote"
                                                 placeholder="Ingrese la cuota de reparación del producto"
                                                 type="number"
-                                                value={repairQuote.repairQuote}
+                                                value={retomaQuote.retomaQuote}
                                                 onChange={handleRepairQuoteChange}
                                                 required
                                             />

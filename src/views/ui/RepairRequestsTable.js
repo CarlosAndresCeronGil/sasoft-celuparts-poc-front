@@ -5,16 +5,23 @@ import { Link } from "react-router-dom";
 
 export default function RepairRequestsTable() {
     const [requests, setRequests] = useState([])
+    const [loading, setLoading] = useState(false)
 
     useEffect(function () {
+        setLoading(true)
         getRequests()
             .then((response) => {
                 setRequests(response)
-            }
-            )
+                setLoading(false)
+            })
+            .catch((error) => {
+                console.log(error)
+                setLoading(false)
+            })
     }, [setRequests])
 
     return (
+        loading ? <div>Cargando...</div> :
         <div>
             <Card>
                 <CardBody>
@@ -24,6 +31,7 @@ export default function RepairRequestsTable() {
                         <thead>
                             <tr>
                                 <th>Tipo solicitud</th>
+                                <th>Dispositivo</th>
                                 <th>Dirección recogida</th>
                                 <th>Dirección entrega</th>
                                 <th>Estado de cotización</th>
@@ -50,6 +58,7 @@ export default function RepairRequestsTable() {
                                 tdata.requestType === "Reparacion" ? (
                                     <tr key={index} className="border-top">
                                         <td>{tdata.requestType}</td>
+                                        <td>{tdata.equipment.equipmentBrand} {tdata.equipment.modelOrReference}</td>
                                         <td>{tdata.pickUpAddress}</td>
                                         <td>{tdata.deliveryAddress}</td>
                                         <td>{tdata.statusQuote}</td>
