@@ -84,6 +84,10 @@ const Sidebar = () => {
         title: "Lista de tecnicos asociados a reparaciones", 
         href: "./repair-table",
       },
+      {
+        title: "Lista de productos de SIIGO",
+        href: "/siigo-products-table"
+      }, 
     );
   } else if(JSON.parse(localStorage.getItem('user')).role === "tecnico" ) {
     navigation.push(

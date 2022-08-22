@@ -1,3 +1,4 @@
+import { exact } from "prop-types";
 import React from "react";
 import { lazy } from "react";
 
@@ -34,6 +35,8 @@ export function Router() {
   const UserRetomaRequests = lazy(() => import("../views/ui/UserRetomaRequests"));
   const RepairPaymentForm = lazy(() => import("../views/ui/RepairPaymentForm"));
   const RetomaPaymentForm = lazy(() => import("../views/ui/RetomaPaymentForm"));
+  const SiigoProductsTable = lazy(() => import("../views/ui/SiigoProductsTable"));
+  const SiigoProductForm = lazy(() => import("../views/ui/SiigoProductForm"));
 
   /*****Routes******/
   const ThemeRoutes = [
@@ -79,6 +82,8 @@ export function Router() {
           { path: "/update-retoma-form/:id", exact: true, element: <UpdateRetomaForm /> },
           { path: "/repair-payment-form/:id", exact: true, element: <RepairPaymentForm /> },
           { path: "/retoma-payment-form/:id", exact: true, element: <RetomaPaymentForm /> },
+          { path: "/siigo-products-table", exact: true, element: <SiigoProductsTable /> },
+          { path: "/siigo-product-form", exact: true, element: <SiigoProductForm /> }
         ],
       },
     ) : JSON.parse(localStorage.getItem('user')).role === "tecnico" ? ThemeRoutes.push(

@@ -8,11 +8,12 @@ const App = () => {
   const { ThemeRoutes } = Router()
   const routing = useRoutes(ThemeRoutes);
 
-  return (
-    <div className="dark">
-        {routing} 
-    </div>
-  );
+    return (
+      <div className="dark">
+        {routing}
+      </div>
+    );
+  
 };
 
 export default App;
