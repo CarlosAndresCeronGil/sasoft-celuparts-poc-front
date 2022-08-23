@@ -37,6 +37,18 @@ export function Router() {
   const RetomaPaymentForm = lazy(() => import("../views/ui/RetomaPaymentForm"));
   const SiigoProductsTable = lazy(() => import("../views/ui/SiigoProductsTable"));
   const SiigoProductForm = lazy(() => import("../views/ui/SiigoProductForm"));
+  const SiigoCustomersTable = lazy(() => import("../views/ui/SiigoCustomersTable"));
+  const SiigoCustomerForm = lazy(() => import("../views/ui/SiigoCustomerForm"));
+  const SiigoInvoicesTables = lazy(() => import("../views/ui/SiigoInvoicesTables"));
+  const SiigoInvoiceForm = lazy(() => import("../views/ui/SiigoInvoiceForm"));
+  const SiigoCreditNotesTable = lazy(() => import("../views/ui/SiigoCreditNotesTable"));
+  const SiigoCreditNotesForm = lazy(() => import("../views/ui/SiigoCreditNotesForm"));
+  const SiigoVouchersTable = lazy(() => import("../views/ui/SiigoVouchersTable"));
+  const SiigoVoucherForm = lazy(() => import("../views/ui/SiigoVoucherForm"));
+  const SiigoJournalsTable = lazy(() => import("../views/ui/SiigoJournalsTable"));
+  const SiigoJournalsForm = lazy(() => import("../views/ui/SiigoJournalsForm"));
+  const SiigoAccountGroupsTable = lazy(() => import("../views/ui/SiigoAccountGroupsTable"));
+  const SiigoTaxesTable = lazy(() => import("../views/ui/SiigoTaxesTable"));
 
   /*****Routes******/
   const ThemeRoutes = [
@@ -83,7 +95,19 @@ export function Router() {
           { path: "/repair-payment-form/:id", exact: true, element: <RepairPaymentForm /> },
           { path: "/retoma-payment-form/:id", exact: true, element: <RetomaPaymentForm /> },
           { path: "/siigo-products-table", exact: true, element: <SiigoProductsTable /> },
-          { path: "/siigo-product-form", exact: true, element: <SiigoProductForm /> }
+          { path: "/siigo-product-form", exact: true, element: <SiigoProductForm /> },
+          { path: "/siigo-customers-table", exact: true, element: <SiigoCustomersTable /> },
+          { path: "/siigo-customer-form", exact: true, element: <SiigoCustomerForm /> },
+          { path: "/siigo-invoices-table", exact: true, element: <SiigoInvoicesTables /> },
+          { path: "/siigo-invoices-form", exact: true, element: <SiigoInvoiceForm /> },
+          { path: "/siigo-credit-notes-table", exact: true, element: <SiigoCreditNotesTable /> },
+          { path: "/siigo-credit-notes-form", exact: true, element: <SiigoCreditNotesForm /> },
+          { path: "/siigo-vouchers-table", exact: true, element: <SiigoVouchersTable /> },
+          { path: "/siigo-voucher-form", exact: true, element: <SiigoVoucherForm /> },
+          { path: "/siigo-journals-table", exact: true, element: <SiigoJournalsTable /> },
+          { path: "/siigo-journal-form", exact: true, element: <SiigoJournalsForm /> },
+          { path: "/siigo-account-groups-table", exact: true, element: <SiigoAccountGroupsTable /> },
+          { path: "/siigo-taxes-table", exact: true, element: <SiigoTaxesTable /> }
         ],
       },
     ) : JSON.parse(localStorage.getItem('user')).role === "tecnico" ? ThemeRoutes.push(

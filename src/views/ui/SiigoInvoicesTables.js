@@ -1,51 +1,58 @@
 import React, { useEffect, useState } from 'react'
+import getSiigoInvoices from '../../services/getSiigoInvoices'
 import { Card, CardBody, CardTitle, Table } from "reactstrap";
-import getSiigoProducts from '../../services/getSiigoProducts';
 import { Link } from "react-router-dom";
 
-export default function SiigoProductsTable() {
-    const [loading, setLoading] = useState(false);
-    const [siigoProducts, setSiigoProductsTable] = useState([])
+export default function SiigoInvoicesTables() {
+    const [siigoInvoices, setSiigoInvoices] = useState([])
+    const [loading, setLoading] = useState(false)
 
-    useEffect(function () {
+    useEffect(function() {
         setLoading(true)
-        getSiigoProducts()
+        getSiigoInvoices()
             .then(response => {
                 console.log(response)
-                setSiigoProductsTable(response.results)
+                setSiigoInvoices(response.results)
                 setLoading(false)
             })
             .catch(error => {
                 console.log(error)
                 setLoading(false)
             })
-    }, [setLoading])
+    }, [])
+
 
     return (
         loading ? <div> Cargando... </div> : (
             <div>
-                <Link to={`/siigo-product-form`} className="mb-1">
+                <Link to={`/siigo-invoices-form`} className="mb-1">
                     <button className='btn btn-primary' type='button'>
-                        Nuevo producto
+                        Nueva factura
                     </button>
                 </Link>
                 <Card>
                     <CardBody>
-                        <CardTitle tag="h5">Lista de productos registrados en el sistema SIIGO</CardTitle>
+                        <CardTitle tag="h5">Lista de facturas registradas en el sistema SIIGO</CardTitle>
                         <Table className="no-wrap mt-3 align-middle" responsive borderless>
                             <thead>
                                 <tr>
-                                    <th>Codigo</th>
-                                    <th>Nombre</th>
-                                    <th>Precio</th>
+                                    <th>Identification</th>
+                                    <th>Nombre factura</th>
+                                    <th>Fecha de factura</th>
+                                    <th>Id cliente</th>
+                                    <th>Id vendedor</th>
+                                    <th>Valor total</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {siigoProducts.map((tdata, index) => (
+                                {siigoInvoices.map((tdata, index) => (
                                     <tr key={index} className="border-top">
-                                        <td>{tdata.code}</td>
+                                        <td>{tdata.document.id}</td>
                                         <td>{tdata.name}</td>
-                                        <td>{tdata.prices !== undefined ? tdata.prices[0].price_list[0].value : <div>Sin asignar</div>}</td>
+                                        <td>{tdata.date}</td>
+                                        <td>{tdata.customer.identification}</td>
+                                        <td>{tdata.seller}</td>
+                                        <td>{tdata.total}</td>
                                     </tr>
                                 ))}
                             </tbody>

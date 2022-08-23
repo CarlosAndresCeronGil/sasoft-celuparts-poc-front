@@ -2,7 +2,7 @@ import { API_URL } from './settings';
 import Swal from 'sweetalert2'
 
 export default function postSiigoProduct(data) {
-    const apiURL = `${API_URL}/SiigoProduct`;
+    const apiURL = `${API_URL}/SiigoCustomer`;
 
     return fetch(apiURL, {
         method: 'POST',

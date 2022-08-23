@@ -88,6 +88,34 @@ const Sidebar = () => {
         title: "Lista de productos de SIIGO",
         href: "/siigo-products-table"
       }, 
+      {
+        title: "Lista de clientes de SIIGO",
+        href: "/siigo-customers-table"
+      }, 
+      {
+        title: "Lista de facturas de venta de SIIGO",
+        href: "/siigo-invoices-table"
+      },
+      {
+        title: "Lista de notas de credito de SIIGO",
+        href: "/siigo-credit-notes-table"
+      },
+      {
+        title: "Lista de recibos de caja de SIIGO",
+        href: "/siigo-vouchers-table"
+      },
+      {
+        title: "Lista de comprobantes contables de SIIGO",
+        href: "/siigo-journals-table"
+      },
+      {
+        title: "Lista de grupos de inventario de SIIGO",
+        href: "/siigo-account-groups-table"
+      },
+      {
+        title: "Lista de impuestos de SIIGO",
+        href: "/siigo-taxes-table"
+      }
     );
   } else if(JSON.parse(localStorage.getItem('user')).role === "tecnico" ) {
     navigation.push(

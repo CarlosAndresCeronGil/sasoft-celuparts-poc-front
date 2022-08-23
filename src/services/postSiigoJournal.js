@@ -1,8 +1,8 @@
 import { API_URL } from './settings';
 import Swal from 'sweetalert2'
 
-export default function postSiigoProduct(data) {
-    const apiURL = `${API_URL}/SiigoProduct`;
+export default function postSiigoJournal(data) {
+    const apiURL = `${API_URL}/SiigoJournals`;
 
     return fetch(apiURL, {
         method: 'POST',

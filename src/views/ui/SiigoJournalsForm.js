@@ -12,45 +12,55 @@ import {
     Label,
     Input,
 } from "reactstrap";
-import postSiigoProduct from '../../services/postSiigoProduct';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import postSiigoJournal from '../../services/postSiigoJournal';
 
-export default function SiigoProductForm() {
+export default function SiigoJournalsForm() {
     const [loadingPost, setLoadingPost] = useState(false)
-    const [product, setProduct] = useState({
-        code: "",
-        name: "",
-        value: 0,
-        description: ""
+    const [journal, setJournal] = useState({
+        id: 0,
+        date: new Date(),
+        observations: ""
     })
 
     const handleSubmit = (e) => {
         e.preventDefault()
         setLoadingPost(true)
-        postSiigoProduct({
-            code: product.code, 
-            name: product.name, 
-            account_group: 1253, 
-            type: "Product",
-            taxes: [
+        postSiigoJournal({
+            document: {
+                id: 27441
+            },
+            date: "2021-05-15",
+            items: [
                 {
-                    id: 13156
+                    account: {
+                        code: "11050501",
+                        movement: "Debit"
+                    },
+                    customer: {
+                        identification: "209048401",
+                        branch_office: 0
+                    },
+                    description: "Descripción Débito",
+                    cost_center: 235,
+                    value: 119000
+                },
+                {
+                    account: {
+                        code: "11100501",
+                        movement: "Credit"
+                    },
+                    customer: {
+                        identification: "209048401",
+                        branch_office: 0
+                    },
+                    description: "Descripción Crédito",
+                    cost_center: 235,
+                    value: 119000
                 }
             ],
-            prices: [
-                {
-                    currency_code: "COP",
-                    price_list: [
-                        {
-                            position: 1,
-                            value: parseInt(product.value)
-                        }
-                    ]
-                }
-            ],
-            unit: "94",
-            unit_label: "unidad",
-            reference: "REF1",
-            description: product.description
+            observations: "Observaciones"
         })
             .then(response => {
                 console.log(response)
@@ -64,7 +74,7 @@ export default function SiigoProductForm() {
     }
 
     const handleChange = (e) => {
-        setProduct((prev) => ({
+        setJournal((prev) => ({
             ...prev,
             [e.target.name]: e.target.value
         }));
@@ -76,58 +86,46 @@ export default function SiigoProductForm() {
                 <Col>
                     <Card className='container'>
                         <CardTitle tag="h2" className="border-bottom p-3 mb-0 row justify-content-center">
-                            Nueva producto SIIGO
+                            Nueva comprobante contable SIIGO
                         </CardTitle>
                         <CardBody>
                             <Form onSubmit={handleSubmit}>
                                 <CardSubtitle tag="h6" className="border-bottom p-1 mb-2">
                                     <i className="bi bi-box-seam"> </i>
-                                    <strong>Datos del producto</strong>
+                                    <strong>Datos del comprobante</strong>
                                 </CardSubtitle>
                                 <FormGroup>
-                                    <Label for="code">Codigo de producto*</Label>
+                                    <Label for="id">Codigo del comprobante contable*</Label>
                                     <Input
-                                        id="code"
-                                        name="code"
-                                        placeholder="Ejem: Celuparts-Item-X"
-                                        type="text"
-                                        value={product.code}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label for="name">Nombre del producto*</Label>
-                                    <Input
-                                        id="name"
-                                        name="name"
-                                        placeholder="Ingrese el nombre del producto"
-                                        type="text"
-                                        value={product.name}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label for="value">Valor del producto*</Label>
-                                    <Input
-                                        id="value"
-                                        name="value"
-                                        placeholder="Ingrese el valor del producto"
+                                        id="id"
+                                        name="id"
+                                        placeholder="Ingrese el numero del comprobante contable"
                                         type="number"
-                                        value={product.value}
+                                        value={journal.id}
                                         onChange={handleChange}
                                         required
                                     />
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label for="description">Descripción del producto</Label>
+                                    <Label for="date">Edite la fecha de realización del comprobante</Label>
+                                    <DatePicker
+                                        id='date'
+                                        dateFormat="yyyy-MM-dd"
+                                        showTimeSelect
+                                        value={journal.date}
+                                        selected={journal.date}
+                                        onChange={(newDate) => setJournal({ date: newDate })}
+                                        required
+                                    />
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label for="observations">Observaciones del comprobante</Label>
                                     <Input
-                                        id="description"
-                                        name="description"
-                                        placeholder="Ingrese la descripción producto"
+                                        id="observations"
+                                        name="observations"
+                                        placeholder="Ingrese una observacion del comprobante"
                                         type="textarea"
-                                        value={product.description}
+                                        value={journal.observations}
                                         onChange={handleChange}
                                     />
                                 </FormGroup>

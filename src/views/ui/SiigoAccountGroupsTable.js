@@ -1,51 +1,46 @@
 import React, { useEffect, useState } from 'react'
+import getSiigoAccountGroups from '../../services/getSiigoAccountGroups'
 import { Card, CardBody, CardTitle, Table } from "reactstrap";
-import getSiigoProducts from '../../services/getSiigoProducts';
-import { Link } from "react-router-dom";
 
-export default function SiigoProductsTable() {
-    const [loading, setLoading] = useState(false);
-    const [siigoProducts, setSiigoProductsTable] = useState([])
+export default function SiigoAccountGroupsTable() {
+    const [siigoAccountGroups, setSiigoAccountGroups] = useState([])
+    const [loading, setLoading] = useState(false)
 
-    useEffect(function () {
+    useEffect(function() {
         setLoading(true)
-        getSiigoProducts()
+        getSiigoAccountGroups()
             .then(response => {
                 console.log(response)
-                setSiigoProductsTable(response.results)
+                setSiigoAccountGroups(response)
                 setLoading(false)
             })
             .catch(error => {
                 console.log(error)
                 setLoading(false)
             })
-    }, [setLoading])
+    }, [])
+
 
     return (
         loading ? <div> Cargando... </div> : (
             <div>
-                <Link to={`/siigo-product-form`} className="mb-1">
-                    <button className='btn btn-primary' type='button'>
-                        Nuevo producto
-                    </button>
-                </Link>
                 <Card>
                     <CardBody>
-                        <CardTitle tag="h5">Lista de productos registrados en el sistema SIIGO</CardTitle>
+                        <CardTitle tag="h5">Lista de grupos de inventario registrados en el sistema SIIGO</CardTitle>
                         <Table className="no-wrap mt-3 align-middle" responsive borderless>
                             <thead>
                                 <tr>
-                                    <th>Codigo</th>
+                                    <th>Identification</th>
                                     <th>Nombre</th>
-                                    <th>Precio</th>
+                                    <th>Estado</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {siigoProducts.map((tdata, index) => (
+                                {siigoAccountGroups.map((tdata, index) => (
                                     <tr key={index} className="border-top">
-                                        <td>{tdata.code}</td>
+                                        <td>{tdata.id}</td>
                                         <td>{tdata.name}</td>
-                                        <td>{tdata.prices !== undefined ? tdata.prices[0].price_list[0].value : <div>Sin asignar</div>}</td>
+                                        <td>{tdata.active ? <div>activo</div> : <div>Inactivo</div>}</td>
                                     </tr>
                                 ))}
                             </tbody>

@@ -12,46 +12,53 @@ import {
     Label,
     Input,
 } from "reactstrap";
-import postSiigoProduct from '../../services/postSiigoProduct';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import postSiigoVoucher from '../../services/postSiigoVoucher';
 
-export default function SiigoProductForm() {
+export default function SiigoVoucherForm() {
     const [loadingPost, setLoadingPost] = useState(false)
-    const [product, setProduct] = useState({
-        code: "",
-        name: "",
-        value: 0,
+    const [voucher, setVoucher] = useState({
+        id: "",
+        date: new Date(),
+        customerIdentification: "",
         description: ""
     })
 
     const handleSubmit = (e) => {
         e.preventDefault()
         setLoadingPost(true)
-        postSiigoProduct({
-            code: product.code, 
-            name: product.name, 
-            account_group: 1253, 
-            type: "Product",
-            taxes: [
-                {
-                    id: 13156
-                }
+        postSiigoVoucher({
+            document: {
+              "id": 24445
+            },
+            date: "2021-04-22",
+            type: "DebtPayment",
+            customer: {
+              identification: "209048401",
+              branch_office: 0
+            },
+            currency: {
+              code: "USD",
+              exchange_rate: 3825.03
+            },
+            items: [
+              {
+                due: {
+                  prefix: "FEL",
+                  consecutive: 68,
+                  quote: 1,
+                  date: "2021-04-22"
+                },
+                value: 119000
+              }
             ],
-            prices: [
-                {
-                    currency_code: "COP",
-                    price_list: [
-                        {
-                            position: 1,
-                            value: parseInt(product.value)
-                        }
-                    ]
-                }
-            ],
-            unit: "94",
-            unit_label: "unidad",
-            reference: "REF1",
-            description: product.description
-        })
+            payment: {
+              id: 5636,
+              value: 119000
+            },
+            observations: "Observaciones"
+          })
             .then(response => {
                 console.log(response)
                 setLoadingPost(false)
@@ -64,7 +71,7 @@ export default function SiigoProductForm() {
     }
 
     const handleChange = (e) => {
-        setProduct((prev) => ({
+        setVoucher((prev) => ({
             ...prev,
             [e.target.name]: e.target.value
         }));
@@ -76,58 +83,58 @@ export default function SiigoProductForm() {
                 <Col>
                     <Card className='container'>
                         <CardTitle tag="h2" className="border-bottom p-3 mb-0 row justify-content-center">
-                            Nueva producto SIIGO
+                            Nuevo recibo de caja SIIGO
                         </CardTitle>
                         <CardBody>
                             <Form onSubmit={handleSubmit}>
                                 <CardSubtitle tag="h6" className="border-bottom p-1 mb-2">
                                     <i className="bi bi-box-seam"> </i>
-                                    <strong>Datos del producto</strong>
+                                    <strong>Datos del recibo</strong>
                                 </CardSubtitle>
                                 <FormGroup>
-                                    <Label for="code">Codigo de producto*</Label>
+                                    <Label for="id">Codigo del recibo*</Label>
                                     <Input
-                                        id="code"
-                                        name="code"
-                                        placeholder="Ejem: Celuparts-Item-X"
+                                        id="id"
+                                        name="id"
+                                        placeholder="Ingrese el codigo del recibo"
                                         type="text"
-                                        value={product.code}
+                                        value={voucher.id}
                                         onChange={handleChange}
                                         required
                                     />
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label for="name">Nombre del producto*</Label>
+                                    <Label for="date">Ingrese la fecha de realización del recibo de caja</Label>
+                                    <DatePicker
+                                        id='date'
+                                        dateFormat="yyyy-MM-dd"
+                                        showTimeSelect
+                                        value={voucher.date}
+                                        selected={voucher.date}
+                                        onChange={(newDate) => setVoucher({ date: newDate })}
+                                        required
+                                    />
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label for="customerIdentification">identificación del cliente asociado*</Label>
                                     <Input
-                                        id="name"
-                                        name="name"
-                                        placeholder="Ingrese el nombre del producto"
+                                        id="customerIdentification"
+                                        name="customerIdentification"
+                                        placeholder="Ingrese la identificacion del cliente asociado"
                                         type="text"
-                                        value={product.name}
+                                        value={voucher.customerIdentification}
                                         onChange={handleChange}
                                         required
                                     />
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label for="value">Valor del producto*</Label>
-                                    <Input
-                                        id="value"
-                                        name="value"
-                                        placeholder="Ingrese el valor del producto"
-                                        type="number"
-                                        value={product.value}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label for="description">Descripción del producto</Label>
+                                    <Label for="description">Descripción del recibo de caja</Label>
                                     <Input
                                         id="description"
                                         name="description"
-                                        placeholder="Ingrese la descripción producto"
+                                        placeholder="Ingrese la descripción del recibo de caja"
                                         type="textarea"
-                                        value={product.description}
+                                        value={voucher.description}
                                         onChange={handleChange}
                                     />
                                 </FormGroup>
