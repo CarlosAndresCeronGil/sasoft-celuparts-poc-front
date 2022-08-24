@@ -28,6 +28,7 @@ import postRetomaPayment from '../../services/postRetomaPayment';
 export default function RequestForm() {
     const [requestType, setRequestType] = useState({ requestType: 'Reparacion' })
     const [startDate, setStartDate] = useState(new Date());
+    const [finishDate, setFinishDate] = useState(new Date())
     const [loading, setLoading] = useState(false);
 
     const handleSubmit = (e) => {
@@ -84,6 +85,7 @@ export default function RequestForm() {
                             postHomeService({
                                 idRequest: data.idRequest,
                                 pickUpDate: startDate,
+                                deliveryDate: finishDate
                             })
                                 .catch(error => {
                                     setLoading(false);
@@ -173,10 +175,10 @@ export default function RequestForm() {
                     setLoading(false);
                     console.log(error);
                 });
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Exito!',
-                    text: 'Solicitud de retoma enviada!',
+            Swal.fire({
+                icon: 'success',
+                title: 'Exito!',
+                text: 'Solicitud de retoma enviada!',
             })
         }
     }
@@ -240,6 +242,33 @@ export default function RequestForm() {
                                             timeFormat="HH:mm"
                                         />
                                     </FormGroup>
+                                    {
+                                        requestType.requestType === "Reparacion" ? (
+                                            <FormGroup>
+                                                <Label for="DeliveryDate">Fecha y hora de recogida*</Label>
+                                                <DatePicker
+                                                    id='DeliveryDate'
+                                                    dateFormat="yyyy-MM-dd h:mm aa"
+                                                    showTimeSelect
+                                                    selected={finishDate}
+                                                    onChange={(date) => setFinishDate(date)}
+                                                    timeFormat="HH:mm"
+                                                />
+                                            </FormGroup>
+                                        )
+                                            : (<FormGroup>
+                                                <Label for="DeliveryDate">Fecha y hora tentativa a entrega en caso de no aceptar valor de venta*</Label>
+                                                <DatePicker
+                                                    id='DeliveryDate'
+                                                    dateFormat="yyyy-MM-dd h:mm aa"
+                                                    showTimeSelect
+                                                    selected={finishDate}
+                                                    onChange={(date) => setFinishDate(date)}
+                                                    timeFormat="HH:mm"
+                                                />
+                                            </FormGroup>
+                                            )
+                                    }
                                     <FormGroup>
                                         {
                                             requestType.requestType === "Reparacion" ? (

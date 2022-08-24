@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import getSiigoTaxes from '../../services/getSiigoTaxes'
+import getSiigoCostCenters from '../../services/getSiigoCostCenters'
 import { Card, CardBody, CardTitle, Table } from "reactstrap";
 
-export default function SiigoTaxesTable() {
-    const [siigoTaxes, setSiigoTaxes] = useState([])
+export default function SiigoUsersTable() {
+    const [siigoCostCenters, setSiigoCostCenters] = useState([])
     const [loading, setLoading] = useState(false)
 
     useEffect(function() {
         setLoading(true)
-        getSiigoTaxes()
+        getSiigoCostCenters()
             .then(response => {
                 console.log(response)
-                setSiigoTaxes(response)
+                setSiigoCostCenters(response)
                 setLoading(false)
             })
             .catch(error => {
@@ -26,25 +26,23 @@ export default function SiigoTaxesTable() {
             <div>
                 <Card>
                     <CardBody>
-                        <CardTitle tag="h5">Lista de impuestos registrados en el sistema SIIGO</CardTitle>
+                        <CardTitle tag="h5">Lista de centros de costo registrados en el sistema SIIGO</CardTitle>
                         <Table className="no-wrap mt-3 align-middle" responsive borderless>
                             <thead>
                                 <tr>
                                     <th>Identification</th>
+                                    <th>Código</th>
                                     <th>Nombre</th>
-                                    <th>Tipo</th>
-                                    <th>Porcentaje</th>
                                     <th>Estado</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {siigoTaxes.map((tdata, index) => (
+                                {siigoCostCenters.map((tdata, index) => (
                                     <tr key={index} className="border-top">
                                         <td>{tdata.id}</td>
+                                        <td>{tdata.code}</td>
                                         <td>{tdata.name}</td>
-                                        <td>{tdata.type}</td>
-                                        <td>{tdata.percentage}</td>
-                                        <td>{tdata.active ? <div>activo</div> : <div>Inactivo</div>}</td>
+                                        <td>{tdata.active?<div>Activo</div>:<div>Inactivo</div>}</td>
                                     </tr>
                                 ))}
                             </tbody>

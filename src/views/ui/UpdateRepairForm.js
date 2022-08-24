@@ -25,6 +25,7 @@ export default function UpdateRepairForm() {
     const [isRepairDateNull, setIsRepairDateNull] = useState({ isRepairDateNull: false });
     const [repairQuote, setRepairQuote] = useState({ repairQuote: 0 });
     const [idRequest, setIdRequest] = useState({ idRequest: 0 });
+    const [nullDateArrived, setNullDateArrived] = useState(false)
     const [loading, setLoading] = useState(false);
     const [loadingPut, setLoadingPut] = useState(false);
 
@@ -33,21 +34,44 @@ export default function UpdateRepairForm() {
     const handleSubmit = (e) => {
         e.preventDefault();
         setLoadingPut(true);
-        putRepair({
-            idRepair: params.id,
-            idRequest: idRequest.idRequest,
-            idTechnician: idTechnician.idTechnician,
-            repairDate: repairDate.repairDate,
-            deviceDiagnostic: deviceDiagnostic.deviceDiagnostic,
-            repairQuote: repairQuote.repairQuote,
-        })
-            .then(data => {
-                setLoadingPut(false);
+        console.log(repairDate.repairDate)
+        nullDateArrived ? (
+            putRepair({
+                idRepair: params.id,
+                idRequest: idRequest.idRequest,
+                idTechnician: idTechnician.idTechnician,
+                repairDate: null,
+                deviceDiagnostic: deviceDiagnostic.deviceDiagnostic,
+                repairQuote: repairQuote.repairQuote,
             })
-            .catch(error => {
-                console.log(error);
-                setLoadingPut(false);
-            });
+                .then(data => {
+                    setLoadingPut(false);
+                    console.log(data)
+                    console.log("se envio fecha null")
+                })
+                .catch(error => {
+                    console.log(error);
+                    setLoadingPut(false);
+                })
+        )
+            :
+            putRepair({
+                idRepair: params.id,
+                idRequest: idRequest.idRequest,
+                idTechnician: idTechnician.idTechnician,
+                repairDate: repairDate.repairDate,
+                deviceDiagnostic: deviceDiagnostic.deviceDiagnostic,
+                repairQuote: repairQuote.repairQuote,
+            })
+                .then(data => {
+                    setLoadingPut(false);
+                    console.log(data)
+                    console.log("se envio con fehca")
+                })
+                .catch(error => {
+                    console.log(error);
+                    setLoadingPut(false);
+                });
     }
 
     useEffect(function () {
@@ -62,6 +86,7 @@ export default function UpdateRepairForm() {
                 if (response.repairDate === null) {
                     setIsRepairDateNull({ isRepairDateNull: true })
                     setRepairDate({ repairDate: new Date() })
+                    setNullDateArrived(true)
                 }
                 else {
                     setIsRepairDateNull({ isRepairDateNull: false })
@@ -147,7 +172,10 @@ export default function UpdateRepairForm() {
                                                         showTimeSelect
                                                         value={repairDate.repairDate}
                                                         selected={repairDate.repairDate}
-                                                        onChange={(date) => setRepairDate({ repairDate: date })}
+                                                        onChange={(date) => {
+                                                            setRepairDate({ repairDate: date })
+                                                            setNullDateArrived(false)
+                                                        }}
                                                         required
                                                         timeFormat="HH:mm"
                                                     />

@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import getSiigoTaxes from '../../services/getSiigoTaxes'
+import getSiigoUsers from '../../services/getSiigoUsers'
 import { Card, CardBody, CardTitle, Table } from "reactstrap";
 
-export default function SiigoTaxesTable() {
-    const [siigoTaxes, setSiigoTaxes] = useState([])
+export default function SiigoUsersTable() {
+    const [siigoUsers, setSiigoUsers] = useState([])
     const [loading, setLoading] = useState(false)
 
     useEffect(function() {
         setLoading(true)
-        getSiigoTaxes()
+        getSiigoUsers()
             .then(response => {
-                console.log(response)
-                setSiigoTaxes(response)
+                console.log(response.results)
+                setSiigoUsers(response.results)
                 setLoading(false)
             })
             .catch(error => {
@@ -26,25 +26,27 @@ export default function SiigoTaxesTable() {
             <div>
                 <Card>
                     <CardBody>
-                        <CardTitle tag="h5">Lista de impuestos registrados en el sistema SIIGO</CardTitle>
+                        <CardTitle tag="h5">Lista de usuarios registrados en el sistema SIIGO</CardTitle>
                         <Table className="no-wrap mt-3 align-middle" responsive borderless>
                             <thead>
                                 <tr>
                                     <th>Identification</th>
-                                    <th>Nombre</th>
-                                    <th>Tipo</th>
-                                    <th>Porcentaje</th>
+                                    <th>Nombre de usuario</th>
+                                    <th>Nombres</th>
+                                    <th>Apellidos</th>
+                                    <th>Email</th>
                                     <th>Estado</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {siigoTaxes.map((tdata, index) => (
+                                {siigoUsers.map((tdata, index) => (
                                     <tr key={index} className="border-top">
-                                        <td>{tdata.id}</td>
-                                        <td>{tdata.name}</td>
-                                        <td>{tdata.type}</td>
-                                        <td>{tdata.percentage}</td>
-                                        <td>{tdata.active ? <div>activo</div> : <div>Inactivo</div>}</td>
+                                        <td>{tdata.identification}</td>
+                                        <td>{tdata.username}</td>
+                                        <td>{tdata.first_name}</td>
+                                        <td>{tdata.last_name}</td>
+                                        <td>{tdata.email}</td>
+                                        <td>{tdata.active?<div>Activo</div>:<div>Inactivo</div>}</td>
                                     </tr>
                                 ))}
                             </tbody>

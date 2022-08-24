@@ -15,11 +15,11 @@ const Sidebar = () => {
       //   href: "/starter",
       //   icon: "bi bi-speedometer2",
       // },
-      // {
-      //   title: "Alert",
-      //   href: "./alerts",
-      //   icon: "bi bi-bell",
-      // },
+      {
+        title: "Alert",
+        href: "./alerts",
+        icon: "bi bi-bell",
+      },
       // {
       //   title: "Badges",
       //   href: "./badges",
@@ -115,6 +115,26 @@ const Sidebar = () => {
       {
         title: "Lista de impuestos de SIIGO",
         href: "/siigo-taxes-table"
+      },
+      {
+        title: "Lista de precios de SIIGO",
+        href: "/siigo-price-lists-table"
+      },
+      {
+        title: "Lista de bodegas de SIIGO",
+        href: "/siigo-ware-houses-table"
+      },
+      {
+        title: "Lista de usuarios de SIIGO",
+        href: "/siigo-users-table"
+      },
+      {
+        title: "Lista de centros de costo de SIIGO",
+        href: "/siigo-cost-centers-table"
+      },
+      {
+        title: "Lista de activos fijos de SIIGO",
+        href: "/siigo-fixed-assets-table"
       }
     );
   } else if(JSON.parse(localStorage.getItem('user')).role === "tecnico" ) {
