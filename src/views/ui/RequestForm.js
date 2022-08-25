@@ -24,6 +24,7 @@ import postRepairPayment from '../../services/postRepairPayment';
 import postHomeService from '../../services/postHomeService';
 import postRetoma from '../../services/postRetoma';
 import postRetomaPayment from '../../services/postRetomaPayment';
+import postRequestNotification from '../../services/postRequestNotification'
 
 export default function RequestForm() {
     const [requestType, setRequestType] = useState({ requestType: 'Reparacion' })
@@ -91,6 +92,16 @@ export default function RequestForm() {
                                     setLoading(false);
                                     console.log(error);
                                 });
+                            postRequestNotification({
+                                idRequest: data.idRequest,
+                                message: "Nueva solicitud de servicio a domicilio a la direccion: "+ data.pickUpAddress + " a nombre del señor/a " + JSON.parse(localStorage.getItem('user')).name,
+                                hideNotification: false,
+                                notificationType: "to_courier"
+                            })
+                                .catch(error => {
+                                    setLoading(false)
+                                    console.log(error)
+                                })
                             setLoading(false);
                         })
                         .catch(error => {

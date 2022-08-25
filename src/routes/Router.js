@@ -55,6 +55,9 @@ export function Router() {
   const SiigoUsersTable = lazy(() => import("../views/ui/SiigoUsersTable"));
   const SiigoCostCentersTable = lazy(() => import("../views/ui/SiigoCostCentersTable"));
   const SiigoFixedAssetsTable = lazy(() => import("../views/ui/SiigoFixedAssetsTable"));
+  const CourierAlerts = lazy(() => import("../views/ui/CourierAlerts"));
+  const CustomerAlerts = lazy(() => import("../views/ui/CustomerAlerts"));
+  const TechnicianAlerts = lazy(() => import("../views/ui/TechnicianAlerts"));
 
   /*****Routes******/
   const ThemeRoutes = [
@@ -78,6 +81,7 @@ export function Router() {
           { path: "/request-form", exact: true, element: <RequestForm /> },
           { path: "/user-repair-requests", exact: true, element: <UserRepairRequests /> },
           { path: "/user-retoma-requests", exact: true, element: <UserRetomaRequests /> },
+          { path: "/user-alerts", exact: true, element: <CustomerAlerts /> }
         ],
       }
     ) : JSON.parse(localStorage.getItem('user')).role === "admin" ? ThemeRoutes.push(
@@ -119,7 +123,7 @@ export function Router() {
           { path: "/siigo-ware-houses-table", exact: true, element: <SiigoWareHousesTable /> },
           { path: "/siigo-users-table", exact: true, element: <SiigoUsersTable /> },
           { path: "/siigo-cost-centers-table", exact: true, element: <SiigoCostCentersTable /> },
-          { path: "/siigo-fixed-assets-table", exact: true, element: <SiigoFixedAssetsTable /> }
+          { path: "/siigo-fixed-assets-table", exact: true, element: <SiigoFixedAssetsTable /> },
         ],
       },
     ) : JSON.parse(localStorage.getItem('user')).role === "tecnico" ? ThemeRoutes.push(
@@ -135,6 +139,7 @@ export function Router() {
           { path: "/update-retoma-form/:id", exact: true, element: <UpdateRetomaForm /> },
           { path: "/request-status-form/:id", exact: true, element: <RequestStatusForm /> },
           { path: "/update-repair-form/:id", exact: true, element: <UpdateRepairForm /> },
+          { path: "/technician-alerts", exact: true, element: <TechnicianAlerts /> }
         ],
       },
     ) : JSON.parse(localStorage.getItem('user')).role === "mensajero" ? ThemeRoutes.push(
@@ -148,6 +153,7 @@ export function Router() {
           { path: "/repair-table", exact: true, element: <RepairTable /> },
           { path: "/update-repair-form", exact: true, element: <UpdateRepairForm /> },
           { path: "/request-status-form/:id", exact: true, element: <RequestStatusForm /> },
+          { path: "/courier-alerts", exact: true, element: <CourierAlerts /> }
         ],
       },
     ) : ThemeRoutes.push(

@@ -13,7 +13,9 @@ import {
     Label,
     Input,
 } from "reactstrap";
+import getRequestNotification from '../../services/getRequestNotification';
 import getSingleRequestStatus from '../../services/getSingleRequestStatus';
+import putRequestNotification from '../../services/putRequestNotification';
 import putRequestStatus from '../../services/putRequestStatus';
 
 export default function RequestStatusForm() {
@@ -21,6 +23,10 @@ export default function RequestStatusForm() {
     const [status, setStatus] = useState({ status: "" });
     const [paymentStatus, setPaymentStatus] = useState({ paymentStatus: "" });
     const [productReturned, setProductReturned] = useState({ productReturned: false });
+    const [idRequest, setIdRequest] = useState({ idRequest: 0 })
+
+    const [notifications, setNotifications] = useState([])
+
     const [loading, setLoading] = useState(false);
     const [loadingPut, setLoadingPut] = useState(false);
 
@@ -34,18 +40,128 @@ export default function RequestStatusForm() {
             idRequest: dataRequestStatus.idRequest,
             status: status.status,
             paymentStatus: paymentStatus.paymentStatus,
-            // productReturned: productReturned.productReturned === 'true' ? 'htr' : '¿asgferg',
             productReturned: productReturned.productReturned === 'true' ? true : false,
         })
             .then(data => {
                 console.log("DATA", data);
+                console.log("notifications", notifications)
+                console.log("status ==", status.status)
+                console.log("idRequest", idRequest.idRequest)
+                status.status === "En proceso de recogida" ? (
+                    notifications?.map((tdata) => (
+                        tdata.idRequest === idRequest.idRequest ? (
+                            putRequestNotification({
+                                idRequestNotification: tdata.idRequestNotification,
+                                idRequest: tdata.idRequest,
+                                message: "Tu dispositivo esta en proceso de recogida!",
+                                hideNotification: false,
+                                notificationType: "to_customer"
+                            })
+                                .then(response => {
+                                    console.log("exito!", response)
+                                })
+                                .catch(error => {
+                                    console.log(error)
+                                })
+                        ) : null
+                    ))
+                ) : status.status === "Recibida tecnico" ? (
+                    notifications?.map((tdata) => (
+                        tdata.idRequest === idRequest.idRequest ? (
+                            putRequestNotification({
+                                idRequestNotification: tdata.idRequestNotification,
+                                idRequest: tdata.idRequest,
+                                message: "Tu dispositivo ya ha sido recibido por uno de nuestros tecnicos",
+                                hideNotification: false,
+                                notificationType: "to_customer"
+                            })
+                                .then(response => {
+                                    console.log("exito!", response)
+                                })
+                                .catch(error => {
+                                    console.log(error)
+                                })
+                        ) : null
+                    ))
+                ) : status.status === "Revisado" ? (
+                    notifications?.map((tdata) => (
+                        tdata.idRequest === idRequest.idRequest ? (
+                            putRequestNotification({
+                                idRequestNotification: tdata.idRequestNotification,
+                                idRequest: tdata.idRequest,
+                                message: "Tu dispositivo ya ha sido revisado por uno de nuestros tecnicos",
+                                hideNotification: false,
+                                notificationType: "to_customer"
+                            })
+                                .then(response => {
+                                    console.log("exito!", response)
+                                })
+                                .catch(error => {
+                                    console.log(error)
+                                })
+                        ) : null
+                    ))
+                ) : status.status === "En reparacion" ? (
+                    notifications?.map((tdata) => (
+                        tdata.idRequest === idRequest.idRequest ? (
+                            putRequestNotification({
+                                idRequestNotification: tdata.idRequestNotification,
+                                idRequest: tdata.idRequest,
+                                message: "El técnico ha empezado con la reparación de tu producto",
+                                hideNotification: false,
+                                notificationType: "to_customer"
+                            })
+                                .then(response => {
+                                    console.log("exito!", response)
+                                })
+                                .catch(error => {
+                                    console.log(error)
+                                })
+                        ) : null
+                    ))
+                ) : status.status === "Reparado pendiente de pago" ? (
+                    notifications?.map((tdata) => (
+                        tdata.idRequest === idRequest.idRequest ? (
+                            putRequestNotification({
+                                idRequestNotification: tdata.idRequestNotification,
+                                idRequest: tdata.idRequest,
+                                message: "Tú dispositivo ha sido reparado, contactate con el administrador al siguiente número: 3xx - xxx - xxxx o al siguiente correo pagosceluparts@celupars.com para confirmar pago",
+                                hideNotification: false,
+                                notificationType: "to_customer"
+                            })
+                                .then(response => {
+                                    console.log("exito!", response)
+                                })
+                                .catch(error => {
+                                    console.log(error)
+                                })
+                        ) : null
+                    ))
+                ) : status.status === "En camino" ? (
+                    notifications?.map((tdata) => (
+                        tdata.idRequest === idRequest.idRequest ? (
+                            putRequestNotification({
+                                idRequestNotification: tdata.idRequestNotification,
+                                idRequest: tdata.idRequest,
+                                message: "Recibo de pago exitoso, tu dispositivo llegara el dia que solicitaste que fuera devuelto",
+                                hideNotification: false,
+                                notificationType: "to_customer"
+                            })
+                                .then(response => {
+                                    console.log("exito!", response)
+                                })
+                                .catch(error => {
+                                    console.log(error)
+                                })
+                        ) : null
+                    ))
+                ) : console.log("do nothing")
                 setLoadingPut(false);
             })
             .catch(error => {
                 console.log(error);
                 setLoadingPut(false);
-            }
-            );
+            });
 
     }
 
@@ -76,10 +192,18 @@ export default function RequestStatusForm() {
             .then((response) => {
                 console.log(response);
                 setDataRequestStatus(response)
+                setIdRequest({ idRequest: response.idRequest })
                 setStatus({ status: response.status })
                 setPaymentStatus({ paymentStatus: response.paymentStatus })
                 setProductReturned({ productReturned: response.productReturned })
-                setLoading(false);
+                getRequestNotification()
+                    .then(response => {
+                        setNotifications(response)
+                        setLoading(false);
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
             })
             .catch(error => {
                 console.log(error);

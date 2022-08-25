@@ -6,9 +6,13 @@ import putRequest from '../../services/putRequest';
 import postRetoma from '../../services/postRetoma';
 import postRetomaPayment from '../../services/postRetomaPayment';
 import Swal from 'sweetalert2'
+import putRequestNotification from '../../services/putRequestNotification';
+import getSingleEquipment from '../../services/getSingleEquipment'
 
 export default function UserRepairRequests() {
     const [userInfo, setUserInfo] = useState([]);
+    const [notifications, setNotifications] = useState([])
+
     const [showButtons, setShowButtons] = useState(true);
     const [loading, setLoading] = useState(false);
 
@@ -18,6 +22,13 @@ export default function UserRepairRequests() {
             .then(response => {
                 console.log(response);
                 setUserInfo(response);
+                //Saca las notificaciones que tiene ese usuario y las almacena en un arreglo
+                response[0].requests.map(tdata => (
+                    tdata.requestNotifications.length !== 0 ?
+                        setNotifications(prev => [...prev, tdata.requestNotifications[0]])
+                        : console.log("nothing")
+                ))
+
                 setLoading(false)
                 console.log(response);
             })
@@ -44,6 +55,26 @@ export default function UserRepairRequests() {
                     })
                     .catch(error => {
                         console.log(error);
+                    })
+                getSingleEquipment({id: response.idEquipment})
+                    .then(response => {
+                        notifications?.map(tdata => (
+                            tdata.idRequest === id ? (
+                                putRequestNotification({
+                                    idRequestNotification: tdata.idRequestNotification,
+                                    idRequest: id,
+                                    message: "El cliente del producto " + response.equipmentBrand + " " + response.modelOrReference + " aceptó la cuota de reparación.",
+                                    hideNotification: false,
+                                    notificationType: "to_technician"
+                                })
+                                .then(response2 => {
+                                    console.log("exito put request notification", response2)
+                                })
+                                .catch(error => {
+                                    console.log(error)
+                                })
+                            ) : null
+                        ))
                     })
             })
             .catch(error => {

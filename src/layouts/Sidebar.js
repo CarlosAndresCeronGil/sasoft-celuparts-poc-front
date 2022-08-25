@@ -151,6 +151,10 @@ const Sidebar = () => {
         title: "Lista de tecnicos asociados a reparaciones", 
         href: "./repair-table",
       },
+      {
+        title: "Notificaciones",
+        href: "./technician-alerts"
+      }
     );
   } else if (JSON.parse(localStorage.getItem('user')).role === "mensajero" ) {
     navigation.push(
@@ -162,9 +166,18 @@ const Sidebar = () => {
         title: "Lista de retomas",
         href: "./retoma-requests-table",
       },
+      {
+        title: "Notificaciones servicio a domicilio",
+        href: "./courier-alerts",
+      }
     );
   } else if(JSON.parse(localStorage.getItem('user')).role === "user" ) {
-    console.log("user");
+    navigation.push(
+      {
+        title: "Notificaciones",
+        href: "./user-alerts"
+      }
+    )
   }
 
   const showMobilemenu = () => {

@@ -17,6 +17,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { useParams } from 'react-router-dom';
 import getSingleRepair from '../../services/getSingleRepair';
 import putRepair from '../../services/putRepair';
+import getRequestNotification from '../../services/getRequestNotification';
+import putRequestNotification from '../../services/putRequestNotification';
 
 export default function UpdateRepairForm() {
     const [idTechnician, setIdTechnician] = useState({ idTechnician: 0 });
@@ -25,7 +27,11 @@ export default function UpdateRepairForm() {
     const [isRepairDateNull, setIsRepairDateNull] = useState({ isRepairDateNull: false });
     const [repairQuote, setRepairQuote] = useState({ repairQuote: 0 });
     const [idRequest, setIdRequest] = useState({ idRequest: 0 });
+
     const [nullDateArrived, setNullDateArrived] = useState(false)
+
+    const [notifications, setNotifications] = useState([])
+
     const [loading, setLoading] = useState(false);
     const [loadingPut, setLoadingPut] = useState(false);
 
@@ -36,6 +42,7 @@ export default function UpdateRepairForm() {
         setLoadingPut(true);
         console.log(repairDate.repairDate)
         nullDateArrived ? (
+            //PRODUCTO REVISADO SIN SER ACEPTADA LA COTIZACION
             putRepair({
                 idRepair: params.id,
                 idRequest: idRequest.idRequest,
@@ -45,9 +52,26 @@ export default function UpdateRepairForm() {
                 repairQuote: repairQuote.repairQuote,
             })
                 .then(data => {
-                    setLoadingPut(false);
                     console.log(data)
+                    notifications?.map(tdata => (
+                        tdata.idRequest === idRequest.idRequest ? (
+                            putRequestNotification({
+                                idRequestNotification: tdata.idRequestNotification,
+                                idRequest: tdata.idRequest,
+                                message: 'Tu dispositivo ya tiene precio de reparación! haz click en "Mis reparaciones" para revisar',
+                                hideNotification: false,
+                                notificationType: "to_customer"
+                            })
+                            .then(response=> {
+                                console.log("Exito!", response)
+                            })
+                            .catch(error => {
+                                console.log(error)
+                            })
+                        ) : null
+                    ))
                     console.log("se envio fecha null")
+                    setLoadingPut(false);
                 })
                 .catch(error => {
                     console.log(error);
@@ -66,7 +90,7 @@ export default function UpdateRepairForm() {
                 .then(data => {
                     setLoadingPut(false);
                     console.log(data)
-                    console.log("se envio con fehca")
+                    console.log("se envio con fecha")
                 })
                 .catch(error => {
                     console.log(error);
@@ -92,7 +116,15 @@ export default function UpdateRepairForm() {
                     setIsRepairDateNull({ isRepairDateNull: false })
                     setRepairDate({ repairDate: new Date(response.repairDate) })
                 }
-                setLoading(false);
+                getRequestNotification()
+                    .then(response => {
+                        setNotifications(response)
+                        setLoading(false);
+                    })
+                    .catch(error => {
+                        console.log(error)
+                        setLoading(false)
+                    })
             })
             .catch(error => {
                 console.log(error);
