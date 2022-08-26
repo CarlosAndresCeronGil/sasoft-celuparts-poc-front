@@ -1,6 +1,6 @@
 import { API_URL } from "./settings";
 
-export default function getSingleRepair({id}) {
+export default function getSingleRetoma({id}) {
     const apiURL = `${API_URL}/Retoma/${id}`;
 
     return fetch(apiURL)

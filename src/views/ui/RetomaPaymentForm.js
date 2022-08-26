@@ -18,12 +18,19 @@ import 'react-datepicker/dist/react-datepicker.css';
 import putRepairPayment from '../../services/putRepairPayment';
 import putRetomaPayment from '../../services/putRetomaPayment';
 import getSingleRetomaPayment from '../../services/getSingleRetomaPayment';
+import getSingleRetoma from '../../services/getSingleRetoma';
+import getSingleRequest from '../../services/getSingleRequest';
+import getRequestNotification from '../../services/getRequestNotification';
+import putRequestNotification from '../../services/putRequestNotification';
 
 export default function RetomaPaymentForm() {
     const [paymentMethod, setPaymentMethod] = useState({ paymentMethod: '' })
     const [paymentDate, setPaymentDate] = useState({ paymentDate: new Date() })
     const [isPaymentDateNull, setIsPaymentDateNull] = useState({ isPaymentDateNull: false })
     const [idRetoma, setIdRetoma] = useState({ idRpeair: 0 })
+    const [idRequest, setIdRequest] = useState({ idRequest: 0 })
+
+    const [notifications, setNotifications] = useState([])
 
     const [loading, setLoading] = useState(false)
     const [loadingPut, setLoadingPut] = useState(false)
@@ -43,7 +50,20 @@ export default function RetomaPaymentForm() {
                     setIsPaymentDateNull({ isPaymentDateNull: false })
                     setPaymentDate({ paymentDate: new Date(response.paymentDate) })
                 }
-                setLoading(false)
+                getSingleRetoma({ id: response.idRetoma })
+                    .then(response2 => {
+                        console.log(response2.idRequest)
+                        setIdRequest({ idRequest: response2.idRequest})
+                        getRequestNotification()
+                            .then(response3 => {
+                                setNotifications(response3)
+                                setLoading(false)
+                            })
+                            .catch(error => {
+                                console.log(error)
+                                setLoading(false)
+                            })
+                    })
             })
             .catch((error) => {
                 console.log(error)
@@ -62,6 +82,26 @@ export default function RetomaPaymentForm() {
         }
         putRetomaPayment(data)
             .then((response) => {
+                console.log(response)
+                console.log(notifications)
+                console.log(idRequest.idRequest)
+                notifications?.map(tdata => (
+                    tdata.idRequest === idRequest.idRequest ? (
+                        putRequestNotification({
+                            idRequestNotification: tdata.idRequestNotification,
+                            idRequest: tdata.idRequest,
+                            message: '',
+                            hideNotification: false,
+                            notificationType: "to_none"
+                        })
+                            .then(response => {
+                                console.log("Exito!", response)
+                            })
+                            .catch(error => {
+                                console.log(error)
+                            })
+                    ) : null
+                ))
                 setLoadingPut(false)
             })
             .catch((error) => {
@@ -119,7 +159,8 @@ export default function RetomaPaymentForm() {
                                                     id='paymentDate'
                                                     dateFormat="yyyy-MM-dd h:mm aa"
                                                     showTimeSelect
-                                                    selected={new Date()}
+                                                    value={paymentDate.paymentDate}
+                                                    selected={paymentDate.paymentDate}
                                                     onChange={(date) => setPaymentDate({ paymentDate: date })}
                                                     timeFormat="HH:mm"
                                                 />

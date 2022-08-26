@@ -53,8 +53,8 @@ export default function SiigoVouchersTable() {
                                         <td>{tdata.date}</td>
                                         <td>{tdata.type}</td>
                                         <td>{tdata.customer.identification}</td>
-                                        <td>{tdata.payment.name}</td>
-                                        <td>{tdata.payment.value}</td>
+                                        <td>{tdata.payment !== undefined ? tdata.payment.name : <div>Sin asignar</div>}</td>
+                                        <td>{tdata.payment !== undefined ? tdata.payment.value : <div>Sin asignar</div>}</td>
                                     </tr>
                                 ))}
                             </tbody>

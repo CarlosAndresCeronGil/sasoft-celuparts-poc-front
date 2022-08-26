@@ -15,6 +15,8 @@ import {
 import { useParams } from 'react-router-dom';
 import getSingleRetoma from '../../services/getSingleRetoma';
 import putRetoma from '../../services/putRetoma';
+import getRequestNotification from '../../services/getRequestNotification';
+import putRequestNotification from '../../services/putRequestNotification';
 
 export default function UpdateRetomaForm() {
     const [idTechnician, setIdTechnician] = useState({ idTechnician: 0 });
@@ -22,10 +24,41 @@ export default function UpdateRetomaForm() {
     const [retomaQuote, setRetomaQuote] = useState({ retomaQuote: 0 });
     const [idRetoma, setIdRetoma] = useState({ idRetoma: 0 });
     const [idRequest, setIdRequest] = useState({ idRequest: 0 });
+
+    const [notifications, setNotifications] = useState([])
+
     const [loading, setLoading] = useState(false);
     const [loadingPut, setLoadingPut] = useState(false);
 
     const params = useParams()
+
+    useEffect(function () {
+        setLoading(true);
+        getSingleRetoma({ id: params.id })
+            .then(response => {
+                console.log(response);
+                setIdTechnician({ idTechnician: response.idTechnician })
+                setDeviceDiagnostic({ deviceDiagnostic: response.deviceDiagnostic })
+                setRetomaQuote({ retomaQuote: response.retomaQuote })
+                setIdRetoma({ idRetoma: response.idRetoma })
+                setIdRequest({ idRequest: response.idRequest })
+
+                getRequestNotification()
+                    .then(response => {
+                        setNotifications(response)
+                        setLoading(false);
+                    })
+                    .catch(error => {
+                        console.log(error)
+                        setLoading(false);
+                    })
+            })
+            .catch(error => {
+                console.log(error);
+                setLoading(false);
+            });
+
+    }, [params.id])
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -38,6 +71,23 @@ export default function UpdateRetomaForm() {
             retomaQuote: retomaQuote.retomaQuote,
         })
             .then(data => {
+                notifications?.map(tdata => (
+                    tdata.idRequest === idRequest.idRequest ? (
+                        putRequestNotification({
+                            idRequestNotification: tdata.idRequestNotification,
+                            idRequest: tdata.idRequest,
+                            message: 'Tu dispositivo ya tiene precio de retoma! haz click en "Mis retomas" para revisar',
+                            hideNotification: false,
+                            notificationType: "to_customer"
+                        })
+                            .then(response => {
+                                console.log("Exito!", response)
+                            })
+                            .catch(error => {
+                                console.log(error)
+                            })
+                    ) : null
+                ))
                 setLoadingPut(false);
             })
             .catch(error => {
@@ -45,25 +95,6 @@ export default function UpdateRetomaForm() {
                 setLoadingPut(false);
             });
     }
-
-    useEffect(function () {
-        setLoading(true);
-        getSingleRetoma({ id: params.id })
-            .then(response => {
-                console.log(response);
-                setIdTechnician({ idTechnician: response.idTechnician })
-                setDeviceDiagnostic({ deviceDiagnostic: response.deviceDiagnostic })
-                setRetomaQuote({ retomaQuote: response.retomaQuote })
-                setIdRetoma({ idRetoma: response.idRetoma })
-                setIdRequest({ idRequest: response.idRequest })
-                setLoading(false);
-            })
-            .catch(error => {
-                console.log(error);
-                setLoading(false);
-            }
-            );
-    }, [params.id])
 
     const handleIdTechnicianChange = (e) => {
         setIdTechnician((prev) => ({
@@ -119,7 +150,7 @@ export default function UpdateRetomaForm() {
                                             <Input
                                                 id="deviceDiagnostic"
                                                 name="deviceDiagnostic"
-                                                placeholder="Ingrese el diagnostico del dispositivo reparado"
+                                                placeholder="Ingrese el diagnostico del dispositivo a vender"
                                                 type="textarea"
                                                 value={deviceDiagnostic.deviceDiagnostic}
                                                 onChange={handleDeviceDiagnosticChange}

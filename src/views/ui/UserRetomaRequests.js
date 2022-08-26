@@ -4,10 +4,14 @@ import { Card, CardBody, CardTitle, Table } from "reactstrap";
 import getSingleRequest from '../../services/getSingleRequest';
 import putRequest from '../../services/putRequest';
 import Swal from 'sweetalert2'
+import getSingleEquipment from '../../services/getSingleEquipment';
+import putRequestNotification from '../../services/putRequestNotification'
 
 export default function UserRetomaRequests() {
     const [userInfo, setUserInfo] = useState([]);
-    // const[statusQuote, ]
+    
+    const [notifications, setNotifications] = useState([])
+
     const [showButtons, setShowButtons] = useState(true);
     const [loading, setLoading] = useState(false);
 
@@ -17,8 +21,12 @@ export default function UserRetomaRequests() {
             .then(response => {
                 console.log("datos del usuario", response);
                 setUserInfo(response);
+                response[0].requests.map(tdata => (
+                    tdata.requestNotifications.length !== 0 ?
+                        setNotifications(prev => [...prev, tdata.requestNotifications[0]])
+                        : console.log("nothing")
+                ))
                 setLoading(false)
-                console.log(response);
             })
             .catch(error => {
                 console.log(error);
@@ -32,11 +40,11 @@ export default function UserRetomaRequests() {
                 console.log(response);
                 putRequest({
                     idRequest: id,
-                    idUser: response.idUser,
-                    idEquipment: response.idEquipment,
-                    requestType: response.requestType,
-                    pickUpAddress: response.pickUpAddress,
-                    deliveryAddress: response.deliveryAddress,
+                    idUser: response[0].idUser,
+                    idEquipment: response[0].idEquipment,
+                    requestType: response[0].requestType,
+                    pickUpAddress: response[0].pickUpAddress,
+                    deliveryAddress: response[0].deliveryAddress,
                     statusQuote: "Aceptada"
                 })
                     .then(response => {
@@ -44,6 +52,28 @@ export default function UserRetomaRequests() {
                     })
                     .catch(error => {
                         console.log(error);
+                    })
+                getSingleEquipment({ id: response[0].idEquipment })
+                    .then(response => {
+                        /*El cliente acepta el precio de venta, por lo tanto se envia una notificacion 
+                        al tecnico para que empiece con la reparacion */
+                        notifications?.map(tdata => (
+                            tdata.idRequest === id ? (
+                                putRequestNotification({
+                                    idRequestNotification: tdata.idRequestNotification,
+                                    idRequest: id,
+                                    message: "El cliente del producto " + response.equipmentBrand + " " + response.modelOrReference + " aceptó el valor de venta.",
+                                    hideNotification: false,
+                                    notificationType: "to_admin"
+                                })
+                                    .then(response2 => {
+                                        console.log("exito put request notification", response2)
+                                    })
+                                    .catch(error => {
+                                        console.log(error)
+                                    })
+                            ) : null
+                        ))
                     })
             })
             .catch(error => {
@@ -123,7 +153,6 @@ export default function UserRetomaRequests() {
                                                         <i>{tdata.statusQuote}</i>
                                                     )
                                                 }
-
                                             </td>
                                         </tr>
                                     ) : (

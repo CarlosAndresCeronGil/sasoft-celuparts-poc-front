@@ -14,6 +14,8 @@ import {
     Input,
 } from "reactstrap";
 import getRequestNotification from '../../services/getRequestNotification';
+import getSingleEquipment from '../../services/getSingleEquipment';
+import getSingleRequest from '../../services/getSingleRequest';
 import getSingleRequestStatus from '../../services/getSingleRequestStatus';
 import putRequestNotification from '../../services/putRequestNotification';
 import putRequestStatus from '../../services/putRequestStatus';
@@ -26,6 +28,12 @@ export default function RequestStatusForm() {
     const [idRequest, setIdRequest] = useState({ idRequest: 0 })
 
     const [notifications, setNotifications] = useState([])
+    const [equipmentData, setEquipmentData] = useState({
+        equipmentBrand: "",
+        modelOrReference: ""
+    })
+    const [deliveryAddress, setDeliveryAddress] = useState({ deliveryAddress: "" })
+    const [deliveryDate, setDeliveryDate] = useState({ deliveryDate: new Date() })
 
     const [loading, setLoading] = useState(false);
     const [loadingPut, setLoadingPut] = useState(false);
@@ -44,9 +52,8 @@ export default function RequestStatusForm() {
         })
             .then(data => {
                 console.log("DATA", data);
-                console.log("notifications", notifications)
-                console.log("status ==", status.status)
-                console.log("idRequest", idRequest.idRequest)
+                /*Aqui se mira el estado de la solicitud, para asi, enviar un mensaje en la 
+                notificacion a quien corresponda*/
                 status.status === "En proceso de recogida" ? (
                     notifications?.map((tdata) => (
                         tdata.idRequest === idRequest.idRequest ? (
@@ -89,7 +96,7 @@ export default function RequestStatusForm() {
                             putRequestNotification({
                                 idRequestNotification: tdata.idRequestNotification,
                                 idRequest: tdata.idRequest,
-                                message: "Tu dispositivo ya ha sido revisado por uno de nuestros tecnicos",
+                                message: "Tu dispositivo ya ha sido revisado por uno de nuestros técnicos",
                                 hideNotification: false,
                                 notificationType: "to_customer"
                             })
@@ -125,7 +132,7 @@ export default function RequestStatusForm() {
                             putRequestNotification({
                                 idRequestNotification: tdata.idRequestNotification,
                                 idRequest: tdata.idRequest,
-                                message: "Tú dispositivo ha sido reparado, contactate con el administrador al siguiente número: 3xx - xxx - xxxx o al siguiente correo pagosceluparts@celupars.com para confirmar pago",
+                                message: "Tú dispositivo ha sido reparado, contactate con el administrador al siguiente número: 3xx - xxx - xxxx o al siguiente correo pagosceluparts@celuparts.com para confirmar pago",
                                 hideNotification: false,
                                 notificationType: "to_customer"
                             })
@@ -143,7 +150,61 @@ export default function RequestStatusForm() {
                             putRequestNotification({
                                 idRequestNotification: tdata.idRequestNotification,
                                 idRequest: tdata.idRequest,
-                                message: "Recibo de pago exitoso, tu dispositivo llegara el dia que solicitaste que fuera devuelto",
+                                message: "Producto " + equipmentData.equipmentBrand + " " + equipmentData.modelOrReference + " para devolución el día " + deliveryDate.deliveryDate + " al barrio " + deliveryAddress.deliveryAddress,
+                                hideNotification: false,
+                                notificationType: "to_courier"
+                            })
+                                .then(response => {
+                                    console.log("exito!", response)
+                                })
+                                .catch(error => {
+                                    console.log(error)
+                                })
+                        ) : null
+                    ))
+                ) : status.status === "Terminada" ? (
+                    notifications?.map((tdata) => (
+                        tdata.idRequest === idRequest.idRequest ? (
+                            putRequestNotification({
+                                idRequestNotification: tdata.idRequestNotification,
+                                idRequest: tdata.idRequest,
+                                message: "",
+                                hideNotification: false,
+                                notificationType: "to_none"
+                            })
+                                .then(response => {
+                                    console.log("exito!", response)
+                                })
+                                .catch(error => {
+                                    console.log(error)
+                                })
+                        ) : null
+                    ))
+                ) : status.status === "Devuelto sin reparacion" ? (
+                    notifications?.map((tdata) => (
+                        tdata.idRequest === idRequest.idRequest ? (
+                            putRequestNotification({
+                                idRequestNotification: tdata.idRequestNotification,
+                                idRequest: tdata.idRequest,
+                                message: "",
+                                hideNotification: false,
+                                notificationType: "to_none"
+                            })
+                                .then(response => {
+                                    console.log("exito!", response)
+                                })
+                                .catch(error => {
+                                    console.log(error)
+                                })
+                        ) : null
+                    ))
+                ) : status.status === "Retoma" ? (
+                    notifications?.map((tdata) => (
+                        tdata.idRequest === idRequest.idRequest ? (
+                            putRequestNotification({
+                                idRequestNotification: tdata.idRequestNotification,
+                                idRequest: tdata.idRequest,
+                                message: "Tu pago sobre tu retoma se realizara pronto! Revisa tu medio de pago registrado a celuparts para confirmarlo.",
                                 hideNotification: false,
                                 notificationType: "to_customer"
                             })
@@ -197,19 +258,41 @@ export default function RequestStatusForm() {
                 setPaymentStatus({ paymentStatus: response.paymentStatus })
                 setProductReturned({ productReturned: response.productReturned })
                 getRequestNotification()
-                    .then(response => {
-                        setNotifications(response)
-                        setLoading(false);
+                    .then(response2 => {
+                        setNotifications(response2)
+                        /*Esta parte se necesita para el mensaje final al mensajero donde necesita saber fecha, 
+                        nombre del producto y direccion de entrega*/
+                        getSingleRequest({ id: response.idRequest })
+                            .then(response3 => {
+                                console.log("ID EQUIPMENT", response3[0].idEquipment)
+                                console.log("DEVILERY DATE", response3[0].homeServices[0].deliveryDate)
+                                setDeliveryDate({ deliveryDate: new Date(response3[0].homeServices[0].deliveryDate) })
+                                setDeliveryAddress({ deliveryAddress: response3[0].deliveryAddress })
+                                getSingleEquipment({ id: response3[0].idEquipment })
+                                    .then(response => {
+                                        console.log("getSingleEquipment response:", response)
+                                        setEquipmentData({
+                                            equipmentBrand: response.equipmentBrand,
+                                            modelOrReference: response.modelOrReference
+                                        })
+                                        setLoading(false);
+                                    })
+                            })
+                            .catch(error => {
+                                console.log(error)
+                                setLoading(false);
+                            })
                     })
                     .catch(error => {
                         console.log(error)
+                        setLoading(false);
                     })
             })
             .catch(error => {
                 console.log(error);
                 setLoading(false);
             })
-    }, [params.id])
+    }, [params.id, idRequest.idRequest])
 
     return (
         loading ? <div>Cargando...</div> : (

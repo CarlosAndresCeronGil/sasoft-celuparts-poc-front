@@ -58,6 +58,7 @@ export function Router() {
   const CourierAlerts = lazy(() => import("../views/ui/CourierAlerts"));
   const CustomerAlerts = lazy(() => import("../views/ui/CustomerAlerts"));
   const TechnicianAlerts = lazy(() => import("../views/ui/TechnicianAlerts"));
+  const AdminAlerts = lazy(() => import("../views/ui/AdminAlerts"));
 
   /*****Routes******/
   const ThemeRoutes = [
@@ -90,7 +91,6 @@ export function Router() {
         exact: true,
         element: <FullLayout />,
         children: [
-          { path: "/alerts", exact: true, element: <Alerts /> },
           { path: "/users-table", exact: true, element: <UsersTable /> },
           { path: "/repair-requests-table", exact: true, element: <RepairRequestsTable /> },
           { path: "/retoma-requests-table", exact: true, element: <RetomaRequestsTable /> },
@@ -124,6 +124,7 @@ export function Router() {
           { path: "/siigo-users-table", exact: true, element: <SiigoUsersTable /> },
           { path: "/siigo-cost-centers-table", exact: true, element: <SiigoCostCentersTable /> },
           { path: "/siigo-fixed-assets-table", exact: true, element: <SiigoFixedAssetsTable /> },
+          { path: "/admin-alerts", exact: true, element: <AdminAlerts /> }
         ],
       },
     ) : JSON.parse(localStorage.getItem('user')).role === "tecnico" ? ThemeRoutes.push(

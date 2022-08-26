@@ -15,11 +15,11 @@ const Sidebar = () => {
       //   href: "/starter",
       //   icon: "bi bi-speedometer2",
       // },
-      {
-        title: "Alert",
-        href: "./alerts",
-        icon: "bi bi-bell",
-      },
+      // {
+      //   title: "Alert",
+      //   href: "./alerts",
+      //   icon: "bi bi-bell",
+      // },
       // {
       //   title: "Badges",
       //   href: "./badges",
@@ -60,6 +60,10 @@ const Sidebar = () => {
       //   href: "./about",
       //   icon: "bi bi-people",
       // },
+      {
+        title: "Notificaciones",
+        href: "/admin-alerts"
+      },
       {
         title: "Lista de usuarios",
         href: "./users-table",
@@ -135,7 +139,7 @@ const Sidebar = () => {
       {
         title: "Lista de activos fijos de SIIGO",
         href: "/siigo-fixed-assets-table"
-      }
+      },
     );
   } else if(JSON.parse(localStorage.getItem('user')).role === "tecnico" ) {
     navigation.push(

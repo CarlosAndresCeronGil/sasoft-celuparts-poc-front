@@ -94,7 +94,7 @@ export default function RequestForm() {
                                 });
                             postRequestNotification({
                                 idRequest: data.idRequest,
-                                message: "Nueva solicitud de servicio a domicilio a la direccion: "+ data.pickUpAddress + " a nombre del señor/a " + JSON.parse(localStorage.getItem('user')).name,
+                                message: "Nueva solicitud de servicio a domicilio a la dirección: "+ data.pickUpAddress + " a nombre del señor/a " + JSON.parse(localStorage.getItem('user')).name,
                                 hideNotification: false,
                                 notificationType: "to_courier"
                             })
@@ -175,6 +175,12 @@ export default function RequestForm() {
                                     setLoading(false);
                                     console.log(error);
                                 });
+                            postRequestNotification({
+                                idRequest: data.idRequest,
+                                message: "Nueva solicitud de servicio a domicilio a la dirección: "+ data.pickUpAddress + " a nombre del señor/a " + JSON.parse(localStorage.getItem('user')).name,
+                                hideNotification: false,
+                                notificationType: "to_courier"
+                            })
                             setLoading(false);
                         })
                         .catch(error => {
@@ -256,7 +262,7 @@ export default function RequestForm() {
                                     {
                                         requestType.requestType === "Reparacion" ? (
                                             <FormGroup>
-                                                <Label for="DeliveryDate">Fecha y hora de recogida*</Label>
+                                                <Label for="DeliveryDate">Fecha y hora de entrega*</Label>
                                                 <DatePicker
                                                     id='DeliveryDate'
                                                     dateFormat="yyyy-MM-dd h:mm aa"
@@ -283,9 +289,9 @@ export default function RequestForm() {
                                     <FormGroup>
                                         {
                                             requestType.requestType === "Reparacion" ? (
-                                                <Label for="paymentMethod">Metodo de pago*</Label>
+                                                <Label for="paymentMethod">Método de pago*</Label>
                                             ) : (
-                                                <Label for="paymentMethod">Metodo de pago (de celuparts a ti)*</Label>
+                                                <Label for="paymentMethod">Método de pago (de celuparts a ti)*</Label>
                                             )
                                         }
 
