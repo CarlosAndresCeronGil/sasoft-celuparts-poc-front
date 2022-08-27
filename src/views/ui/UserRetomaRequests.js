@@ -91,14 +91,36 @@ export default function UserRetomaRequests() {
             .then(response => {
                 putRequest({
                     idRequest: id,
-                    idUser: response.idUser,
-                    idEquipment: response.idEquipment,
-                    requestType: response.requestType,
-                    pickUpAddress: response.pickUpAddress,
-                    deliveryAddress: response.deliveryAddress,
+                    idUser: response[0].idUser,
+                    idEquipment: response[0].idEquipment,
+                    requestType: response[0].requestType,
+                    pickUpAddress: response[0].pickUpAddress,
+                    deliveryAddress: response[0].deliveryAddress,
                     statusQuote: "Rechazada"
                 })
-                    .then(response => {
+                    .then(response2 => {
+                        getSingleEquipment({ id: response[0].idEquipment })
+                            .then(responseE => {
+                                /*Notificación al mensajero para decirle que debe devolver el producto
+                                a una determinada direccion*/
+                                notifications?.map(tdata => (
+                                    tdata.idRequest === id ? (
+                                        putRequestNotification({
+                                            idRequestNotification: tdata.idRequestNotification,
+                                            idRequest: id,
+                                            message: "El cliente del producto " + responseE.equipmentBrand + " " + responseE.modelOrReference + " rechazó el valor de la venta, devolver a la dirección: " + response[0].deliveryAddress,
+                                            hideNotification: false,
+                                            notificationType: "to_courier"
+                                        })
+                                            .then(response3 => {
+                                                console.log("exito put request notification", response3)
+                                            })
+                                            .catch(error => {
+                                                console.log(error)
+                                            })
+                                    ) : null
+                                ))
+                            })
                         setShowButtons(false);
                     })
                     .catch(error => {

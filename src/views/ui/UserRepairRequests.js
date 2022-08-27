@@ -103,18 +103,18 @@ export default function UserRepairRequests() {
                     .then(response => {
                         putRequest({
                             idRequest: id,
-                            idUser: response.idUser,
-                            idEquipment: response.idEquipment,
+                            idUser: response[0].idUser,
+                            idEquipment: response[0].idEquipment,
                             requestType: "Retoma",
-                            pickUpAddress: response.pickUpAddress,
-                            deliveryAddress: response.deliveryAddress,
+                            pickUpAddress: response[0].pickUpAddress,
+                            deliveryAddress: response[0].deliveryAddress,
                             statusQuote: "Pendiente"
                         })
                             .then(data => {
                                 /* --- EMPIEZA NUEVA RETOMA --- */
                                 postRetoma({
                                     idRequest: id,
-                                    idEquipment: response.idEquipment,
+                                    idEquipment: response[0].idEquipment,
                                     retomaQuote: "0",
                                     deviceDiagnostic: "",
                                 })
@@ -135,6 +135,45 @@ export default function UserRepairRequests() {
                             })
                             .catch(error => {
                                 console.log(error);
+                            })
+                        putRequestStatus({
+                            idRequestStatus: response[0].requestStatus[0].idRequestStatus,
+                            idRequest: response[0].requestStatus[0].idRequest,
+                            status: "Recibida tecnico",
+                            paymentStatus: response[0].requestStatus[0].paymentStatus,
+                            productReturned: response[0].requestStatus[0].productReturned,
+                            productSold: response[0].requestStatus[0].productSold
+                        })
+                            .then(response => {
+                                console.log(response)
+                            })
+                            .catch(error => {
+                                console.log(error)
+                            })
+                        getSingleEquipment({ id: response[0].idEquipment })
+                            .then(responseE => {
+                                /*Notificación al mensajero para decirle que debe devolver el producto
+                                a una determinada direccion*/
+                                notifications?.map(tdata => (
+                                    tdata.idRequest === id ? (
+                                        putRequestNotification({
+                                            idRequestNotification: tdata.idRequestNotification,
+                                            idRequest: id,
+                                            message: "El cliente del producto " + responseE.equipmentBrand + " " + responseE.modelOrReference + " decidio cambiar reparación por retoma, realizar cotización del producto a vender",
+                                            hideNotification: false,
+                                            notificationType: "to_technician"
+                                        })
+                                            .then(response3 => {
+                                                console.log("exito put request notification", response3)
+                                            })
+                                            .catch(error => {
+                                                console.log(error)
+                                            })
+                                    ) : null
+                                ))
+                            })
+                            .catch(error => {
+                                console.log(error)
                             })
                     })
                     .catch(error => {
@@ -195,12 +234,12 @@ export default function UserRepairRequests() {
                             productReturned: response[0].requestStatus[0].productReturned,
                             productSold: response[0].requestStatus[0].productSold
                         })
-                        .then(response => {
-                            console.log(response)
-                        })
-                        .catch(error => {
-                            console.log(error)
-                        })
+                            .then(response => {
+                                console.log(response)
+                            })
+                            .catch(error => {
+                                console.log(error)
+                            })
                     })
                     .catch(error => {
                         console.log(error);
@@ -242,8 +281,8 @@ export default function UserRepairRequests() {
                                                 {
                                                     tdata.statusQuote === 'Pendiente' && tdata.repairs[0].repairQuote !== "0" && showButtons ? (
                                                         <div className="text-danger">
-                                                            <button onClick={() => handleAcceptClick(tdata.idRequest)} className="btn btn-primary">Aceptar{tdata.idRequest}</button>
-                                                            <button onClick={() => handleRejectClick(tdata.idRequest)} className="btn btn-danger">Rechazar{tdata.idRequest}</button>
+                                                            <button onClick={() => handleAcceptClick(tdata.idRequest)} className="btn btn-primary">Aceptar</button>
+                                                            <button onClick={() => handleRejectClick(tdata.idRequest)} className="btn btn-danger">Rechazar</button>
                                                         </div>
                                                     ) : (
                                                         <i>{tdata.statusQuote}</i>
