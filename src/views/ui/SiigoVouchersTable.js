@@ -25,11 +25,11 @@ export default function SiigoVouchersTable() {
     return (
         loading ? <div> Cargando... </div> : (
             <div>
-                <Link to={`/siigo-voucher-form`} className="mb-1">
+                {/* <Link to={`/home/siigo-voucher-form`} className="mb-1">
                     <button className='btn btn-primary' type='button'>
                         Nuevo recibo de caja
                     </button>
-                </Link>
+                </Link> */}
                 <Card>
                     <CardBody>
                         <CardTitle tag="h5">Lista de recibos de caja en el sistema SIIGO</CardTitle>

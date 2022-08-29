@@ -38,7 +38,7 @@ export default function SignIn() {
                         console.log("user", user);
                         localStorage.setItem('user', JSON.stringify(user));
                         setAuth(true);
-                        navigate('/');
+                        navigate('/home');
                     }
                 })
                 .catch(error => {
@@ -53,60 +53,17 @@ export default function SignIn() {
         } catch (error) {
             console.log(error);
         }
-
-        // console.log(email, password);
-        // if(e.target.elements.email.value === 'user1@email.com' && e.target.password.value === '12345'){
-        //     navigate('/');
-        //     const user = {
-        //         email: 'user1@email.com',
-        //         name: 'User 1',
-        //         role: 'user',
-        //         id: 1002
-        //     }
-        //     setAuth(user);
-        //     localStorage.setItem('user', JSON.stringify(user));
-        //     console.log("localstorage.getItem", localStorage.getItem('user'));
-        // } else if(email === 'userAdmin1@email.com' && password === '12345'){
-        //     navigate('/');
-        //     const user = {
-        //         email: 'userAdmin1@email.com',
-        //         name: 'User Admin 1',
-        //         role: 'admin',
-        //         id: 1001
-        //     }
-        //     setAuth(user);
-        //     localStorage.setItem('user', JSON.stringify(user));
-        // } else if (email === 'userTecnico1@email.com' && password === '12345'){ 
-        //     navigate('/');
-        //     const user = {
-        //         email: 'userTecnico1@email.com',
-        //         name: 'User Tecnico 1',
-        //         role: 'tecnico',
-        //         id: 1
-        //     }
-        //     setAuth(user);
-        //     localStorage.setItem('user', JSON.stringify(user));
-        // } else if (email === 'userMensajero1@email.com' && password === '12345'){
-        //     navigate('/');
-        //     const user = {
-        //         email: 'userMensajero1@email.com',
-        //         name: 'User Mensajero 1',
-        //         role: 'mensajero',
-        //         id: 3
-        //     }
-        //     setAuth(user);
-        //     localStorage.setItem('user', JSON.stringify(user));
-        // } else {
-        //     alert('Usuario o contraseña incorrectos');
-        // }
     }
 
     return (
-        <div>
+        <div className='principal-container'>
+            <div className='image'>
+                <img src="/celuparts-login-logo.png" alt="celuparts-logo" className="small-image"></img>
+            </div>
             <div>
                 <Row>
                     <Col>
-                        <Card className='container'>
+                        <Card>
                             <CardTitle tag="h2" className="border-bottom p-3 mb-0 row justify-content-center">
                                 Login
                             </CardTitle>
@@ -134,7 +91,7 @@ export default function SignIn() {
                                             onChange={(e) => setPassword(e.target.value)}
                                         />
                                     </FormGroup>
-                                    <Button className="btn" color="primary">
+                                    <Button className="btn all-space" color="celuparts-dark-blue">
                                         Login
                                     </Button>
                                 </Form>
@@ -145,6 +102,9 @@ export default function SignIn() {
                 </Row>
             </div>
         </div>
+        // <div className='blue'>
+        //     aasd
+        // </div>
     )
 }
 

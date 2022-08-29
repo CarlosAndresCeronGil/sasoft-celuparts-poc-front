@@ -62,7 +62,7 @@ export default function RetomaRequestsTable() {
                                         <td>{tdata.statusQuote}</td>
                                         <td>{tdata.requestStatus[0].status}</td>
                                         <td>
-                                            <Link to={`/request-status-form/${tdata.requestStatus[0].idRequestStatus}`}>
+                                            <Link to={`/home/request-status-form/${tdata.requestStatus[0].idRequestStatus}`}>
                                                 <button className="btn btn-primary">Actualizar</button>
                                             </Link>
                                         </td>
@@ -82,7 +82,7 @@ export default function RetomaRequestsTable() {
                                                             tdata.requestStatus[0].status === 'En camino' ? (
                                                             <button className="btn btn-secondary" disabled>Actualizar</button>
                                                         ) : (
-                                                            <Link to={`/update-retoma-form/${tdata?.retoma[0].idRetoma}`}>
+                                                            <Link to={`/home/update-retoma-form/${tdata?.retoma[0].idRetoma}`}>
                                                                 <button className="btn btn-secondary">Actualizar</button>
                                                             </Link>
                                                         )
@@ -106,7 +106,7 @@ export default function RetomaRequestsTable() {
                                                                 Actualizar
                                                             </button>
                                                         ) : (
-                                                            <Link to={`/retoma-payment-form/${tdata.retoma[0].retomaPayments[0].idRetomaPayment}`}>
+                                                            <Link to={`/home/retoma-payment-form/${tdata.retoma[0].retomaPayments[0].idRetomaPayment}`}>
                                                                 <button className='btn btn-secondary' type='button'>
                                                                     Actualizar
                                                                 </button>

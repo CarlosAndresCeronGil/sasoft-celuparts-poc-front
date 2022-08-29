@@ -25,11 +25,11 @@ export default function SiigoInvoicesTables() {
     return (
         loading ? <div> Cargando... </div> : (
             <div>
-                <Link to={`/siigo-invoices-form`} className="mb-1">
+                {/* <Link to={`/home/siigo-invoices-form`} className="mb-1">
                     <button className='btn btn-primary' type='button'>
                         Nueva factura
                     </button>
-                </Link>
+                </Link> */}
                 <Card>
                     <CardBody>
                         <CardTitle tag="h5">Lista de facturas registradas en el sistema SIIGO</CardTitle>

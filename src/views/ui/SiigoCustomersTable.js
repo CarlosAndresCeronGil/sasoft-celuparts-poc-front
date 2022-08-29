@@ -24,11 +24,11 @@ export default function SiigoCustomersTable() {
     return (
         loading ? <div> Cargando... </div> : (
             <div>
-                <Link to={`/siigo-customer-form`} className="mb-1">
+                {/* <Link to={`/home/siigo-customer-form`} className="mb-1">
                     <button className='btn btn-primary' type='button'>
                         Nuevo cliente
                     </button>
-                </Link>
+                </Link> */}
                 <Card>
                     <CardBody>
                         <CardTitle tag="h5">Lista de clientes registrados en el sistema SIIGO</CardTitle>

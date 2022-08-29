@@ -25,11 +25,11 @@ export default function SiigoJournalsTable() {
     return (
         loading ? <div> Cargando... </div> : (
             <div>
-                <Link to={`/siigo-journal-form`} className="mb-1">
+                {/* <Link to={`/home/siigo-journal-form`} className="mb-1">
                     <button className='btn btn-primary' type='button'>
                         Nuevo comprobante contable
                     </button>
-                </Link>
+                </Link> */}
                 <Card>
                     <CardBody>
                         <CardTitle tag="h5">Lista de comprobantes contables registrados en el sistema SIIGO</CardTitle>

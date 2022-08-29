@@ -1,6 +1,6 @@
-import { exact } from "prop-types";
 import React from "react";
 import { lazy } from "react";
+import { Navigate } from "react-router-dom";
 
 export function Router() {
   /****Layouts*****/
@@ -18,7 +18,6 @@ export function Router() {
   // const Tables = lazy(() => import("../views/ui/Tables"));
   // const Forms = lazy(() => import("../views/ui/Forms"));
   // const Breadcrumbs = lazy(() => import("../views/ui/Breadcrumbs"));
-  const Alerts = lazy(() => import("../views/ui/Alerts"));
   const SignIn = lazy(() => import("../views/ui/SignIn"));
   const SignUp = lazy(() => import("../views/ui/SignUp"))
   const UsersTable = lazy(() => import("../views/ui/UsersTable"));
@@ -63,7 +62,7 @@ export function Router() {
   /*****Routes******/
   const ThemeRoutes = [
     {
-      path: "/SignIn",
+      path: "/",
       element: <SignIn />,
     },
     {
@@ -75,86 +74,86 @@ export function Router() {
   if (JSON.parse(localStorage.getItem('user')) !== null) {
     JSON.parse(localStorage.getItem('user')).role === "user" ? ThemeRoutes.push(
       {
-        path: "/",
+        path: "/home",
         exact: true,
         element: <FullLayout />,
         children: [
-          { path: "/request-form", exact: true, element: <RequestForm /> },
-          { path: "/user-repair-requests", exact: true, element: <UserRepairRequests /> },
-          { path: "/user-retoma-requests", exact: true, element: <UserRetomaRequests /> },
-          { path: "/user-alerts", exact: true, element: <CustomerAlerts /> }
+          { path: "/home/request-form", exact: true, element: <RequestForm /> },
+          { path: "/home/user-repair-requests", exact: true, element: <UserRepairRequests /> },
+          { path: "/home/user-retoma-requests", exact: true, element: <UserRetomaRequests /> },
+          { path: "/home/user-alerts", exact: true, element: <CustomerAlerts /> }
         ],
       }
     ) : JSON.parse(localStorage.getItem('user')).role === "admin" ? ThemeRoutes.push(
       {
-        path: "/",
+        path: "/home",
         exact: true,
         element: <FullLayout />,
         children: [
-          { path: "/users-table", exact: true, element: <UsersTable /> },
-          { path: "/repair-requests-table", exact: true, element: <RepairRequestsTable /> },
-          { path: "/retoma-requests-table", exact: true, element: <RetomaRequestsTable /> },
-          { path: "/equipments-table", exact: true, element: <EquipmentsTable /> },
-          { path: "/request-status-table", exact: true, element: <RequestStatusTable /> },
-          { path: "/technicians-table", exact: true, element: <TechniciansTable /> },
-          { path: "/repair-table", exact: true, element: <RepairTable /> },
-          { path: "/update-repair-form", exact: true, element: <UpdateRepairForm /> },
-          { path: "/request-status-form", exact: true, element: <RequestStatusForm /> },
-          { path: "/request-status-form/:id", exact: true, element: <RequestStatusForm /> },
-          { path: "/update-repair-form/:id", exact: true, element: <UpdateRepairForm /> },
-          { path: "/update-retoma-form/:id", exact: true, element: <UpdateRetomaForm /> },
-          { path: "/repair-payment-form/:id", exact: true, element: <RepairPaymentForm /> },
-          { path: "/retoma-payment-form/:id", exact: true, element: <RetomaPaymentForm /> },
-          { path: "/siigo-products-table", exact: true, element: <SiigoProductsTable /> },
-          { path: "/siigo-product-form", exact: true, element: <SiigoProductForm /> },
-          { path: "/siigo-customers-table", exact: true, element: <SiigoCustomersTable /> },
-          { path: "/siigo-customer-form", exact: true, element: <SiigoCustomerForm /> },
-          { path: "/siigo-invoices-table", exact: true, element: <SiigoInvoicesTables /> },
-          { path: "/siigo-invoices-form", exact: true, element: <SiigoInvoiceForm /> },
-          { path: "/siigo-credit-notes-table", exact: true, element: <SiigoCreditNotesTable /> },
-          { path: "/siigo-credit-notes-form", exact: true, element: <SiigoCreditNotesForm /> },
-          { path: "/siigo-vouchers-table", exact: true, element: <SiigoVouchersTable /> },
-          { path: "/siigo-voucher-form", exact: true, element: <SiigoVoucherForm /> },
-          { path: "/siigo-journals-table", exact: true, element: <SiigoJournalsTable /> },
-          { path: "/siigo-journal-form", exact: true, element: <SiigoJournalsForm /> },
-          { path: "/siigo-account-groups-table", exact: true, element: <SiigoAccountGroupsTable /> },
-          { path: "/siigo-taxes-table", exact: true, element: <SiigoTaxesTable /> },
-          { path: "/siigo-price-lists-table", exact: true, element: <SiigoPriceListsTable /> },
-          { path: "/siigo-ware-houses-table", exact: true, element: <SiigoWareHousesTable /> },
-          { path: "/siigo-users-table", exact: true, element: <SiigoUsersTable /> },
-          { path: "/siigo-cost-centers-table", exact: true, element: <SiigoCostCentersTable /> },
-          { path: "/siigo-fixed-assets-table", exact: true, element: <SiigoFixedAssetsTable /> },
-          { path: "/admin-alerts", exact: true, element: <AdminAlerts /> }
+          { path: "/home/users-table", exact: true, element: <UsersTable /> },
+          { path: "/home/repair-requests-table", exact: true, element: <RepairRequestsTable /> },
+          { path: "/home/retoma-requests-table", exact: true, element: <RetomaRequestsTable /> },
+          { path: "/home/equipments-table", exact: true, element: <EquipmentsTable /> },
+          { path: "/home/request-status-table", exact: true, element: <RequestStatusTable /> },
+          { path: "/home/technicians-table", exact: true, element: <TechniciansTable /> },
+          { path: "/home/repair-table", exact: true, element: <RepairTable /> },
+          { path: "/home/update-repair-form", exact: true, element: <UpdateRepairForm /> },
+          { path: "/home/request-status-form", exact: true, element: <RequestStatusForm /> },
+          { path: "/home/request-status-form/:id", exact: true, element: <RequestStatusForm /> },
+          { path: "/home/update-repair-form/:id", exact: true, element: <UpdateRepairForm /> },
+          { path: "/home/update-retoma-form/:id", exact: true, element: <UpdateRetomaForm /> },
+          { path: "/home/repair-payment-form/:id", exact: true, element: <RepairPaymentForm /> },
+          { path: "/home/retoma-payment-form/:id", exact: true, element: <RetomaPaymentForm /> },
+          { path: "/home/siigo-products-table", exact: true, element: <SiigoProductsTable /> },
+          { path: "/home/siigo-product-form", exact: true, element: <SiigoProductForm /> },
+          { path: "/home/siigo-customers-table", exact: true, element: <SiigoCustomersTable /> },
+          { path: "/home/siigo-customer-form", exact: true, element: <SiigoCustomerForm /> },
+          { path: "/home/siigo-invoices-table", exact: true, element: <SiigoInvoicesTables /> },
+          { path: "/home/siigo-invoices-form", exact: true, element: <SiigoInvoiceForm /> },
+          { path: "/home/siigo-credit-notes-table", exact: true, element: <SiigoCreditNotesTable /> },
+          { path: "/home/siigo-credit-notes-form", exact: true, element: <SiigoCreditNotesForm /> },
+          { path: "/home/siigo-vouchers-table", exact: true, element: <SiigoVouchersTable /> },
+          { path: "/home/siigo-voucher-form", exact: true, element: <SiigoVoucherForm /> },
+          { path: "/home/siigo-journals-table", exact: true, element: <SiigoJournalsTable /> },
+          { path: "/home/siigo-journal-form", exact: true, element: <SiigoJournalsForm /> },
+          { path: "/home/siigo-account-groups-table", exact: true, element: <SiigoAccountGroupsTable /> },
+          { path: "/home/siigo-taxes-table", exact: true, element: <SiigoTaxesTable /> },
+          { path: "/home/siigo-price-lists-table", exact: true, element: <SiigoPriceListsTable /> },
+          { path: "/home/siigo-ware-houses-table", exact: true, element: <SiigoWareHousesTable /> },
+          { path: "/home/siigo-users-table", exact: true, element: <SiigoUsersTable /> },
+          { path: "/home/siigo-cost-centers-table", exact: true, element: <SiigoCostCentersTable /> },
+          { path: "/home/siigo-fixed-assets-table", exact: true, element: <SiigoFixedAssetsTable /> },
+          { path: "/home/admin-alerts", exact: true, element: <AdminAlerts /> }
         ],
       },
     ) : JSON.parse(localStorage.getItem('user')).role === "tecnico" ? ThemeRoutes.push(
       {
-        path: "/",
+        path: "/home",
         exact: true,
         element: <FullLayout />,
         children: [
-          { path: "/repair-requests-table", exact: true, element: <RepairRequestsTable /> },
-          { path: "/retoma-requests-table", exact: true, element: <RetomaRequestsTable /> },
-          { path: "/repair-table", exact: true, element: <RepairTable /> },
-          { path: "/update-repair-form", exact: true, element: <UpdateRepairForm /> },
-          { path: "/update-retoma-form/:id", exact: true, element: <UpdateRetomaForm /> },
-          { path: "/request-status-form/:id", exact: true, element: <RequestStatusForm /> },
-          { path: "/update-repair-form/:id", exact: true, element: <UpdateRepairForm /> },
-          { path: "/technician-alerts", exact: true, element: <TechnicianAlerts /> }
+          { path: "/home/repair-requests-table", exact: true, element: <RepairRequestsTable /> },
+          { path: "/home/retoma-requests-table", exact: true, element: <RetomaRequestsTable /> },
+          { path: "/home/repair-table", exact: true, element: <RepairTable /> },
+          { path: "/home/update-repair-form", exact: true, element: <UpdateRepairForm /> },
+          { path: "/home/update-retoma-form/:id", exact: true, element: <UpdateRetomaForm /> },
+          { path: "/home/request-status-form/:id", exact: true, element: <RequestStatusForm /> },
+          { path: "/home/update-repair-form/:id", exact: true, element: <UpdateRepairForm /> },
+          { path: "/home/technician-alerts", exact: true, element: <TechnicianAlerts /> }
         ],
       },
     ) : JSON.parse(localStorage.getItem('user')).role === "mensajero" ? ThemeRoutes.push(
       {
-        path: "/",
+        path: "/home",
         exact: true,
         element: <FullLayout />,
         children: [
-          { path: "/repair-requests-table", exact: true, element: <RepairRequestsTable /> },
-          { path: "/retoma-requests-table", exact: true, element: <RetomaRequestsTable /> },
-          { path: "/repair-table", exact: true, element: <RepairTable /> },
-          { path: "/update-repair-form", exact: true, element: <UpdateRepairForm /> },
-          { path: "/request-status-form/:id", exact: true, element: <RequestStatusForm /> },
-          { path: "/courier-alerts", exact: true, element: <CourierAlerts /> }
+          { path: "/home/repair-requests-table", exact: true, element: <RepairRequestsTable /> },
+          { path: "/home/retoma-requests-table", exact: true, element: <RetomaRequestsTable /> },
+          { path: "/home/repair-table", exact: true, element: <RepairTable /> },
+          { path: "/home/update-repair-form", exact: true, element: <UpdateRepairForm /> },
+          { path: "/home/request-status-form/:id", exact: true, element: <RequestStatusForm /> },
+          { path: "/home/courier-alerts", exact: true, element: <CourierAlerts /> }
         ],
       },
     ) : ThemeRoutes.push(

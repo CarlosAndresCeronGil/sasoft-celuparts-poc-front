@@ -64,7 +64,7 @@ export default function RepairRequestsTable() {
                                         <td>{tdata.statusQuote}</td>
                                         <td>{tdata.requestStatus[0].status}</td>
                                         <td>
-                                            <Link to={`/request-status-form/${tdata.requestStatus[0].idRequestStatus}`}>
+                                            <Link to={`/home/request-status-form/${tdata.requestStatus[0].idRequestStatus}`}>
                                                 <button className="btn btn-primary">Actualizar</button>
                                             </Link>
                                         </td>
@@ -84,7 +84,7 @@ export default function RepairRequestsTable() {
                                                             tdata.requestStatus[0].status === 'En camino' ? (
                                                             <button className="btn btn-secondary" disabled>Actualizar</button>
                                                         ) : (
-                                                            <Link to={`/update-repair-form/${tdata.repairs[0].idRepair}`}>
+                                                            <Link to={`/home/update-repair-form/${tdata.repairs[0].idRepair}`}>
                                                                 <button className="btn btn-secondary">Actualizar</button>
                                                             </Link>
                                                         )
@@ -108,7 +108,7 @@ export default function RepairRequestsTable() {
                                                                 Actualizar
                                                             </button>
                                                         ) : (
-                                                            <Link to={`/repair-payment-form/${tdata.repairs[0].repairPayments[0].idRepairPayment}`}>
+                                                            <Link to={`/home/repair-payment-form/${tdata.repairs[0].repairPayments[0].idRepairPayment}`}>
                                                                 <button className='btn btn-secondary' type='button'>
                                                                     Actualizar
                                                                 </button>

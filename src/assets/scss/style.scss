@@ -9,3 +9,18 @@
   width: 100%;
   height: 30px;
 }
+
+.all-space {
+  width: 100%;
+}
+
+.principal-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+}

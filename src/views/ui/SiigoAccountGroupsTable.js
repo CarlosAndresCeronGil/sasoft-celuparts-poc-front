@@ -36,7 +36,7 @@ export default function SiigoAccountGroupsTable() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {siigoAccountGroups.map((tdata, index) => (
+                                {siigoAccountGroups?.map((tdata, index) => (
                                     <tr key={index} className="border-top">
                                         <td>{tdata.id}</td>
                                         <td>{tdata.name}</td>

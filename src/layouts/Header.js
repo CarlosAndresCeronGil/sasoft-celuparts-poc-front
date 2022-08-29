@@ -113,7 +113,7 @@ const Header = () => {
             {
               JSON.parse(localStorage.getItem('user')).role === "user" ? (
                 <DropdownItem>
-                  <Link to="/request-form">
+                  <Link to="./request-form">
                     Nueva Solicitud
                   </Link>
                 </DropdownItem>
@@ -122,7 +122,7 @@ const Header = () => {
             {
               JSON.parse(localStorage.getItem('user')).role === "user" ? (
                 <DropdownItem>
-                  <Link to="/user-repair-requests">
+                  <Link to="./user-repair-requests">
                     Mis Reparaciones
                   </Link>
                 </DropdownItem>
@@ -131,7 +131,7 @@ const Header = () => {
             {
               JSON.parse(localStorage.getItem('user')).role === "user" ? (
                 <DropdownItem>
-                  <Link to="/user-retoma-requests">
+                  <Link to="./user-retoma-requests">
                     Mis Retomas
                   </Link>
                 </DropdownItem>
@@ -140,7 +140,7 @@ const Header = () => {
 
             <DropdownItem divider />
             <DropdownItem>
-              <Link to="/SignIn" onClick={handleLogOut}>
+              <Link to="/" onClick={handleLogOut}>
                 Salir
               </Link>
             </DropdownItem>

@@ -24,11 +24,11 @@ export default function SiigoProductsTable() {
     return (
         loading ? <div> Cargando... </div> : (
             <div>
-                <Link to={`/siigo-product-form`} className="mb-1">
+                {/* <Link to={`/home/siigo-product-form`} className="mb-1">
                     <button className='btn btn-primary' type='button'>
                         Nuevo producto
                     </button>
-                </Link>
+                </Link> */}
                 <Card>
                     <CardBody>
                         <CardTitle tag="h5">Lista de productos registrados en el sistema SIIGO</CardTitle>

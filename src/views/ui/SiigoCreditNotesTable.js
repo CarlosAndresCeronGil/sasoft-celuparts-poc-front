@@ -25,11 +25,11 @@ export default function SiigoCreditNotesTable() {
     return (
         loading ? <div> Cargando... </div> : (
             <div>
-                <Link to={`/siigo-credit-notes-form`} className="mb-1">
+                {/* <Link to={`/home/siigo-credit-notes-form`} className="mb-1">
                     <button className='btn btn-primary' type='button'>
                         Nueva nota de crédito
                     </button>
-                </Link>
+                </Link> */}
                 <Card>
                     <CardBody>
                         <CardTitle tag="h5">Lista de notas de crédito registradas en el sistema SIIGO</CardTitle>

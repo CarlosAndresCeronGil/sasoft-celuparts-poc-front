@@ -62,7 +62,7 @@ const Sidebar = () => {
       // },
       {
         title: "Notificaciones",
-        href: "/admin-alerts"
+        href: "./admin-alerts"
       },
       {
         title: "Lista de usuarios",
@@ -90,55 +90,55 @@ const Sidebar = () => {
       },
       {
         title: "Lista de productos de SIIGO",
-        href: "/siigo-products-table"
+        href: "./siigo-products-table"
       }, 
       {
         title: "Lista de clientes de SIIGO",
-        href: "/siigo-customers-table"
+        href: "./siigo-customers-table"
       }, 
       {
         title: "Lista de facturas de venta de SIIGO",
-        href: "/siigo-invoices-table"
+        href: "./siigo-invoices-table"
       },
       {
         title: "Lista de notas de credito de SIIGO",
-        href: "/siigo-credit-notes-table"
+        href: "./siigo-credit-notes-table"
       },
       {
         title: "Lista de recibos de caja de SIIGO",
-        href: "/siigo-vouchers-table"
+        href: "./siigo-vouchers-table"
       },
       {
         title: "Lista de comprobantes contables de SIIGO",
-        href: "/siigo-journals-table"
+        href: "./siigo-journals-table"
       },
       {
         title: "Lista de grupos de inventario de SIIGO",
-        href: "/siigo-account-groups-table"
+        href: "./siigo-account-groups-table"
       },
       {
         title: "Lista de impuestos de SIIGO",
-        href: "/siigo-taxes-table"
+        href: "./siigo-taxes-table"
       },
       {
         title: "Lista de precios de SIIGO",
-        href: "/siigo-price-lists-table"
+        href: "./siigo-price-lists-table"
       },
       {
         title: "Lista de bodegas de SIIGO",
-        href: "/siigo-ware-houses-table"
+        href: "./siigo-ware-houses-table"
       },
       {
         title: "Lista de usuarios de SIIGO",
-        href: "/siigo-users-table"
+        href: "./siigo-users-table"
       },
       {
         title: "Lista de centros de costo de SIIGO",
-        href: "/siigo-cost-centers-table"
+        href: "./siigo-cost-centers-table"
       },
       {
         title: "Lista de activos fijos de SIIGO",
-        href: "/siigo-fixed-assets-table"
+        href: "./siigo-fixed-assets-table"
       },
     );
   } else if(JSON.parse(localStorage.getItem('user')).role === "tecnico" ) {
