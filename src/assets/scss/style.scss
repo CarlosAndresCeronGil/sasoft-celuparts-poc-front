@@ -5,13 +5,30 @@
 @import "./layout/sidebar";
 @import "./layout/container";
 
+
 .small-image {
   width: 100%;
   height: 30px;
 }
 
+.header-image {
+  width: 100%;
+  height: 46px;
+}
+
+.medium-image {
+  width: 100%;
+  height: 100px;
+}
+
 .all-space {
   width: 100%;
+}
+
+.welcome-image {
+  width: 100%;
+  height: 100%;
+  position: inherit;
 }
 
 .principal-container {
@@ -23,4 +40,125 @@
   height: 100%;
   width: 100%;
   background-color: black;
+}
+
+.home-container {
+  width: auto;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: red;
+  background-size: cover;
+}
+
+.home-image-container {
+  background-image: url("../images/welcome-image.jpg");
+  background-color: grey;
+  filter: blur(2px) grayscale(0.8);
+  opacity: 0.1;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  // padding-top: 300px;
+  // padding-bottom: 300px;
+  // min-height: 100%;
+  width: auto;
+  height: 100%;
+}
+
+.home-image {
+  width: 100%;
+  height: 380px;
+}
+
+.home-title {
+  position: absolute;
+  color: black;
+  font-weight: bold;
+  top: 50%;
+  left: 50%;
+  font-size: 38px;
+  font-weight: bold;
+}
+
+// .footer-container {
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-around;
+//   flex-direction: row;
+//   height: 100%;
+//   width: 100%;
+//   color: white;
+//   background-color: black;
+// }
+
+// .footer-column {
+//   width: 200px;
+//   margin: 15px;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+// }
+
+// .footer-column.title {
+//   font-weight: bold;
+// }
+
+.footer-container {
+  background-color: black;
+  padding: 2rem 0 4rem 0;
+}
+
+.footer {
+  height: 40vh;
+  background-color: black;
+  color: white;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 0 auto;
+}
+
+.footer-heading {
+  display: flex;
+  flex-direction: column;
+  margin-right: 4rem;
+}
+
+.footer-heading h2 {
+  margin-bottom: 2rem;
+}
+
+.footer-heading a {
+  color: white;
+  text-decoration: none;
+  margin-bottom: 0.5rem;
+}
+
+.footer-heading a:hover {
+  color: red;
+  transition: 0.3s ease-out;
+}
+
+@media screen and (max-width: 1150px) {
+  .footer {
+    height: 50vh;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .footer-3 {
+    display: none;
+  }
+  .footer {
+    padding-top: 2rem;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .footer {
+    height: 50vh;
+  }
 }

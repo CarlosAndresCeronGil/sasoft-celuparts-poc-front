@@ -359,7 +359,7 @@ export default function RequestForm() {
                                                 <span className="sr-only">Cargando...</span>
                                             </button>
                                         ) : (
-                                            <Button color="primary">
+                                            <Button color="celuparts-dark-blue">
                                                 Enviar
                                             </Button>
                                         )

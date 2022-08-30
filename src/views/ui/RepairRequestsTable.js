@@ -65,7 +65,7 @@ export default function RepairRequestsTable() {
                                         <td>{tdata.requestStatus[0].status}</td>
                                         <td>
                                             <Link to={`/home/request-status-form/${tdata.requestStatus[0].idRequestStatus}`}>
-                                                <button className="btn btn-primary">Actualizar</button>
+                                                <button className="btn btn-celuparts-dark-blue">Actualizar</button>
                                             </Link>
                                         </td>
                                         {
@@ -85,7 +85,7 @@ export default function RepairRequestsTable() {
                                                             <button className="btn btn-secondary" disabled>Actualizar</button>
                                                         ) : (
                                                             <Link to={`/home/update-repair-form/${tdata.repairs[0].idRepair}`}>
-                                                                <button className="btn btn-secondary">Actualizar</button>
+                                                                <button className="btn btn-celuparts-black">Actualizar</button>
                                                             </Link>
                                                         )
                                                     }
@@ -109,7 +109,7 @@ export default function RepairRequestsTable() {
                                                             </button>
                                                         ) : (
                                                             <Link to={`/home/repair-payment-form/${tdata.repairs[0].repairPayments[0].idRepairPayment}`}>
-                                                                <button className='btn btn-secondary' type='button'>
+                                                                <button className='btn btn-celuparts-black' type='button'>
                                                                     Actualizar
                                                                 </button>
                                                             </Link>

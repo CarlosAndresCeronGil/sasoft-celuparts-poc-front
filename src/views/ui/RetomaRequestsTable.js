@@ -63,7 +63,7 @@ export default function RetomaRequestsTable() {
                                         <td>{tdata.requestStatus[0].status}</td>
                                         <td>
                                             <Link to={`/home/request-status-form/${tdata.requestStatus[0].idRequestStatus}`}>
-                                                <button className="btn btn-primary">Actualizar</button>
+                                                <button className="btn btn-celuparts-dark-blue">Actualizar</button>
                                             </Link>
                                         </td>
                                         {
@@ -83,7 +83,7 @@ export default function RetomaRequestsTable() {
                                                             <button className="btn btn-secondary" disabled>Actualizar</button>
                                                         ) : (
                                                             <Link to={`/home/update-retoma-form/${tdata?.retoma[0].idRetoma}`}>
-                                                                <button className="btn btn-secondary">Actualizar</button>
+                                                                <button className="btn btn-celuparts-black">Actualizar</button>
                                                             </Link>
                                                         )
                                                     }
@@ -107,7 +107,7 @@ export default function RetomaRequestsTable() {
                                                             </button>
                                                         ) : (
                                                             <Link to={`/home/retoma-payment-form/${tdata.retoma[0].retomaPayments[0].idRetomaPayment}`}>
-                                                                <button className='btn btn-secondary' type='button'>
+                                                                <button className='btn btn-celuparts-black' type='button'>
                                                                     Actualizar
                                                                 </button>
                                                             </Link>

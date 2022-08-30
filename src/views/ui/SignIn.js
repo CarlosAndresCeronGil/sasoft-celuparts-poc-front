@@ -58,14 +58,14 @@ export default function SignIn() {
     return (
         <div className='principal-container'>
             <div className='image'>
-                <img src="/celuparts-login-logo.png" alt="celuparts-logo" className="small-image"></img>
+                <img src="/celuparts-login-logo.png" alt="celuparts-logo" className="medium-image"></img>
             </div>
             <div>
                 <Row>
                     <Col>
                         <Card>
-                            <CardTitle tag="h2" className="border-bottom p-3 mb-0 row justify-content-center">
-                                Login
+                            <CardTitle tag="h2" className="border-bottom p-3 mb-0 align-self-center justify-content-center">
+                                Bienvenido
                             </CardTitle>
                             <CardBody>
                                 <Form onSubmit={handleSubmit}>

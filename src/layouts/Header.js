@@ -44,7 +44,7 @@ const Header = () => {
       <div className="d-flex align-items-center">
         <div className="d-lg-block d-none me-5 pe-3">
           {/* <Logo /> */}
-          <img src="/celuparts-transparent.png" alt="celuparts-logo" className="small-image"></img>
+          <img src="/celuparts-transparent-2.png" alt="celuparts-logo" className="header-image"></img>
         </div>
         <NavbarBrand href="/">
           <LogoWhite className=" d-lg-none" />

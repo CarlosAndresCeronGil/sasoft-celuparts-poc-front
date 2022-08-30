@@ -58,6 +58,7 @@ export function Router() {
   const CustomerAlerts = lazy(() => import("../views/ui/CustomerAlerts"));
   const TechnicianAlerts = lazy(() => import("../views/ui/TechnicianAlerts"));
   const AdminAlerts = lazy(() => import("../views/ui/AdminAlerts"));
+  const Home = lazy(() => import("../views/ui/Home"));
 
   /*****Routes******/
   const ThemeRoutes = [
@@ -78,6 +79,7 @@ export function Router() {
         exact: true,
         element: <FullLayout />,
         children: [
+          { path: "/home", exact: true, element: <Home /> }, 
           { path: "/home/request-form", exact: true, element: <RequestForm /> },
           { path: "/home/user-repair-requests", exact: true, element: <UserRepairRequests /> },
           { path: "/home/user-retoma-requests", exact: true, element: <UserRetomaRequests /> },
@@ -90,6 +92,7 @@ export function Router() {
         exact: true,
         element: <FullLayout />,
         children: [
+          { path: "/home", exact: true, element: <Home /> }, 
           { path: "/home/users-table", exact: true, element: <UsersTable /> },
           { path: "/home/repair-requests-table", exact: true, element: <RepairRequestsTable /> },
           { path: "/home/retoma-requests-table", exact: true, element: <RetomaRequestsTable /> },

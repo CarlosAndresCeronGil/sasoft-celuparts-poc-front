@@ -1,8 +1,10 @@
 /*******************/
 // Theme Fonts
 /********************/
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap");
-$font-family-sans-serif: "Poppins", sans-serif;
+// @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+// $font-family-sans-serif: "Poppins", sans-serif;
+$font-family-sans-serif: "Montserrat", sans-serif;
 /*******************/
 // Theme Colors
 /********************/
@@ -16,6 +18,7 @@ $light: #eaf2fb;
 $secondary: #35363b;
 $celuparts-dark-blue: #0000ff !default;
 $celuparts-light-blue: #00ffff !default;
+$celuparts-black: #000000 !default;
 
 $theme-colors: (
   "primary": $primary,
@@ -33,6 +36,7 @@ $theme-colors: (
   "light-danger": #f8dddd,
   "celuparts-dark-blue": $celuparts-dark-blue,
   "celuparts-light-blue": $celuparts-light-blue,
+  "celuparts-black": $celuparts-black
 );
 // scss-docs-start gray-color-variables
 $white: #fff !default;
