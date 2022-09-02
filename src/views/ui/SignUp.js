@@ -40,8 +40,8 @@ export default function SignUp() {
     }
 
     return (
-        <div>
-            <Row>
+        <div className='sing-up-container'>
+            <Row className=''>
                 <Col>
                     <Card className='container'>
                         <CardTitle tag="h2" className="border-bottom p-3 mb-0 row justify-content-center">
@@ -57,7 +57,7 @@ export default function SignUp() {
                                     </Input>
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label for="idNumber">Numero de cedula*</Label>
+                                    <Label for="idNumber">Número de cedula*</Label>
                                     <Input
                                         id="idNumber"
                                         name="idNumber"

@@ -5,7 +5,6 @@
 @import "./layout/sidebar";
 @import "./layout/container";
 
-
 .small-image {
   width: 100%;
   height: 30px;
@@ -31,7 +30,7 @@
   position: inherit;
 }
 
-.principal-container {
+.sing-in-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -42,28 +41,94 @@
   background-color: black;
 }
 
-.home-container {
-  width: auto;
+.sing-up-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  width: 100%;
   height: 100%;
-  margin: 0;
-  padding: 0;
-  background-color: red;
-  background-size: cover;
+  background-color: black;
+  overflow-y: scroll;
+  max-height: 100%;
 }
 
-.home-image-container {
-  background-image: url("../images/welcome-image.jpg");
-  background-color: grey;
+// .home-image-container-admin {
+//   display: flex;
+//   background-image: url("../images/welcome-image.jpg");
+//   background-attachment: fixed;
+//   filter: blur(2px) grayscale(0.8);
+//   opacity: 0.1;
+//   background-size: cover;
+//   background-repeat: no-repeat;
+//   background-position: center center;
+//   padding-top: 300px;
+//   padding-bottom: 300px;
+//   min-height: 100%;
+//   width: 100%;
+//   height: 1672px;
+// }
+
+.home-container-admin {
+  // position: relative;
+  height: 1672px;
+  clip-path: inset(0);
+}
+
+.home-container {
+  // position: relative;
+  height: 620px;
+  clip-path: inset(0);
+}
+
+.home-image-container-admin img{
   filter: blur(2px) grayscale(0.8);
+  position: fixed;
   opacity: 0.1;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-  // padding-top: 300px;
-  // padding-bottom: 300px;
-  // min-height: 100%;
-  width: auto;
-  height: 100%;
+  object-fit: cover;
+  top: 0;
+  left: 0;
+  object-position: center center;
+  min-height: 100%;
+  width: 100%;
+  height: 1672px;
+  overflow: hidden;
+}
+
+// .home-image-container {
+//   display: flex;
+//   background-image: url("../images/welcome-image.jpg");
+//   background-attachment: fixed;
+//   // background-color: grey;
+//   filter: blur(2px) grayscale(0.8);
+//   opacity: 0.1;
+//   background-size: cover;
+//   background-repeat: no-repeat;
+//   background-position: center center;
+//   padding-top: 300px;
+//   padding-bottom: 300px;
+//   min-height: 100%;
+//   width: 100%;
+// }
+
+.home-image-container img{
+  filter: blur(2px) grayscale(0.8);
+  position: fixed;
+  opacity: 0.1;
+  object-fit: cover;
+  top: 0;
+  left: 0;
+  object-position: center center;
+  min-height: 100%;
+  width: 100%;
+  height: 620px;
+  overflow: hidden;
+}
+
+.contentArea {
+  flex-grow: 1;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
 .home-image {
@@ -80,31 +145,6 @@
   font-size: 38px;
   font-weight: bold;
 }
-
-// .footer-container {
-//   display: flex;
-//   align-items: center;
-//   justify-content: space-around;
-//   flex-direction: row;
-//   height: 100%;
-//   width: 100%;
-//   color: white;
-//   background-color: black;
-// }
-
-// .footer-column {
-//   width: 200px;
-//   margin: 15px;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   overflow: hidden;
-//   text-overflow: ellipsis;
-// }
-
-// .footer-column.title {
-//   font-weight: bold;
-// }
 
 .footer-container {
   background-color: black;
@@ -142,6 +182,23 @@
   transition: 0.3s ease-out;
 }
 
+// HANDLING SCREEN SIZES
+
+@media screen and (max-height: 694px) {
+  .sing-up-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    padding-top: 15rem;
+    overflow-y: scroll;
+    max-height: 100%;
+  }
+}
+
 @media screen and (max-width: 1150px) {
   .footer {
     height: 50vh;
@@ -149,6 +206,15 @@
 }
 
 @media screen and (max-width: 900px) {
+  .home-title {
+    position: absolute;
+    color: black;
+    font-weight: bold;
+    top: 50%;
+    left: 30%;
+    font-size: 28px;
+    font-weight: bold;
+  }
   .footer-3 {
     display: none;
   }
@@ -158,6 +224,21 @@
 }
 
 @media screen and (max-width: 720px) {
+  .footer {
+    height: 50vh;
+  }
+}
+
+@media screen and (max-width: 280px) {
+  .home-title {
+    position: absolute;
+    color: black;
+    font-weight: bold;
+    top: 50%;
+    left: 15%;
+    font-size: 28px;
+    font-weight: bold;
+  }
   .footer {
     height: 50vh;
   }

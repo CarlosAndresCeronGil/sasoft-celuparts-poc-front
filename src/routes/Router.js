@@ -135,6 +135,7 @@ export function Router() {
         exact: true,
         element: <FullLayout />,
         children: [
+          { path: "/home", exact: true, element: <Home /> }, 
           { path: "/home/repair-requests-table", exact: true, element: <RepairRequestsTable /> },
           { path: "/home/retoma-requests-table", exact: true, element: <RetomaRequestsTable /> },
           { path: "/home/repair-table", exact: true, element: <RepairTable /> },
@@ -151,6 +152,7 @@ export function Router() {
         exact: true,
         element: <FullLayout />,
         children: [
+          { path: "/home", exact: true, element: <Home /> }, 
           { path: "/home/repair-requests-table", exact: true, element: <RepairRequestsTable /> },
           { path: "/home/retoma-requests-table", exact: true, element: <RetomaRequestsTable /> },
           { path: "/home/repair-table", exact: true, element: <RepairTable /> },

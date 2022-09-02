@@ -56,7 +56,7 @@ export default function SignIn() {
     }
 
     return (
-        <div className='principal-container'>
+        <div className='sing-in-container'>
             <div className='image'>
                 <img src="/celuparts-login-logo.png" alt="celuparts-logo" className="medium-image"></img>
             </div>
@@ -102,9 +102,6 @@ export default function SignIn() {
                 </Row>
             </div>
         </div>
-        // <div className='blue'>
-        //     aasd
-        // </div>
     )
 }
 
