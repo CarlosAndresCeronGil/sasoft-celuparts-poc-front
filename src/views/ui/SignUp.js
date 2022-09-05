@@ -12,7 +12,7 @@ import {
     Input,
 } from "reactstrap";
 import authRegister from '../../services/authRegister';
-
+import Swal from 'sweetalert2'
 
 export default function SignUp() {
     const [loading, setLoading] = React.useState(false);
@@ -20,23 +20,40 @@ export default function SignUp() {
     const handleSubmit = (e) => {
         e.preventDefault();
         setLoading(true);
-        authRegister({
-            idType: e.target.elements.idType.value,
-            idNumber: e.target.elements.idNumber.value,
-            names: e.target.elements.names.value,
-            surnames: e.target.elements.surnames.value,
-            phone: e.target.elements.phone.value,
-            alternativePhone: e.target.elements.alternativePhone.value,
-            email: e.target.elements.email.value,
-            password: e.target.elements.password.value,
-            accountStatus: "Habilitada"
+        Swal.fire({
+            title: 'Condiciones de servicio.',
+            text: 'Las condiciones de uso y servicio de Celuparts incluyen el uso y tratamiento de datos requeridos para ofrecer el servicio.',
+            input: 'checkbox',
+            inputPlaceholder: 'Acepto las condiciones de servicio y política de privacidad de Celuparts.'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                if (result.value) {
+                    authRegister({
+                        idType: e.target.elements.idType.value,
+                        idNumber: e.target.elements.idNumber.value,
+                        names: e.target.elements.names.value,
+                        surnames: e.target.elements.surnames.value,
+                        phone: e.target.elements.phone.value,
+                        alternativePhone: e.target.elements.alternativePhone.value,
+                        email: e.target.elements.email.value,
+                        password: e.target.elements.password.value,
+                        accountStatus: "Habilitada"
+                    })
+                        .then(data => {
+                            setLoading(false);
+                            Swal.fire({ icon: 'success', text: 'Registro exitoso!' });
+                        }).catch(error => {
+                            console.log("ERROR", error);
+                            setLoading(false);
+                        });
+                } else {
+                    Swal.fire({ icon: 'error', text: "Debes aceptar los términos y condiciones para registrarte en el sistema." });
+                    setLoading(false);
+                }
+            } else {
+                console.log(`modal was dismissed by ${result.dismiss}`)
+            }
         })
-            .then(data => {
-                setLoading(false);
-            }).catch(error => {
-                console.log("ERROR", error);
-                setLoading(false);
-            });
     }
 
     return (

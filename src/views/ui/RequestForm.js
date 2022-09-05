@@ -53,6 +53,7 @@ export default function RequestForm() {
                         statusQuote: "Pendiente",
                     })
                         .then(data => {
+                            console.log("respuesta despues del post request", data);
                             postRepair({
                                 idRequest: data.idRequest,
                                 repairQuote: "0"
@@ -126,25 +127,25 @@ export default function RequestForm() {
                 imei: e.target.elements.imei.value,
                 equipmentInvoice: e.target.elements.equipmentInvoice.value,
             })
-                .then(data => {
+                .then(dataEquipment => {
                     postRequest({
                         idUser: JSON.parse(localStorage.getItem('user')).idUser,
-                        idEquipment: data.idEquipment,
+                        idEquipment: dataEquipment.idEquipment,
                         requestType: e.target.elements.requestType.value,
                         pickUpAddress: e.target.elements.pickUpAddress.value,
                         deliveryAddress: e.target.elements.deliveryAddress.value,
                         statusQuote: "Pendiente",
                     })
-                        .then(data => {
+                        .then(dataRequest => {
                             postRetoma({
-                                idRequest: data.idRequest,
+                                idRequest: dataRequest.idRequest,
                                 retomaQuote: "0",
                                 deviceDiagnostic: ""
                             })
-                                .then(data2 => {
-                                    console.log("Entro al then de retoma", data2);
+                                .then(dataRetoma => {
+                                    console.log("Entro al then de retoma", dataRetoma);
                                     postRetomaPayment({
-                                        idRetoma: data2.idRetoma,
+                                        idRetoma: dataRetoma.idRetoma,
                                         paymentMethod: e.target.elements.paymentMethod.value
                                     })
                                         .catch(error => {
@@ -157,7 +158,7 @@ export default function RequestForm() {
                                     setLoading(false);
                                 });
                             postRequestStatus({
-                                idRequest: data.idRequest,
+                                idRequest: dataRequest.idRequest,
                                 status: "Iniciada",
                                 paymentStatus: "No pago",
                                 productReturned: false,
@@ -168,7 +169,7 @@ export default function RequestForm() {
                                     console.log(error);
                                 });
                             postHomeService({
-                                idRequest: data.idRequest,
+                                idRequest: dataRequest.idRequest,
                                 pickUpDate: startDate,
                             })
                                 .catch(error => {
@@ -176,10 +177,10 @@ export default function RequestForm() {
                                     console.log(error);
                                 });
                             postRequestNotification({
-                                idRequest: data.idRequest,
-                                message: "Nueva solicitud de servicio a domicilio a la dirección: "+ data.pickUpAddress + " a nombre del señor/a " + JSON.parse(localStorage.getItem('user')).name,
+                                idRequest: dataRequest.idRequest,
+                                message: "Nueva solicitud de servicio a domicilio a la dirección: "+ dataRequest.pickUpAddress + " a nombre del señor/a " + JSON.parse(localStorage.getItem('user')).name,
                                 hideNotification: false,
-                                notificationType: "to_courier"
+                                notificationType: "to_courier",
                             })
                             setLoading(false);
                         })

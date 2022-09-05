@@ -32,17 +32,25 @@ export default function SignIn() {
                 password
             })
                 .then(response => {
-                    console.log("Response", response);
+                    console.log("Response from sign in:", response);
                     if (response !== undefined) {
-                        const user = jwtDecode(response)
-                        console.log("user", user);
-                        localStorage.setItem('user', JSON.stringify(user));
-                        setAuth(true);
-                        navigate('/home');
-                    }
+                        if(response === "Account disabled") {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Cuenta inhabilitada, contacte con el número 3xx-xxx-xxxx para soporte técnico'
+                            })
+                        } else {
+                            const user = jwtDecode(response)
+                            console.log("user", user);
+                            localStorage.setItem('user', JSON.stringify(user));
+                            setAuth(true);
+                            navigate('/home');
+                        }
+                    } 
                 })
                 .catch(error => {
-                    console.log(error);
+                    console.log("error:", error);
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',

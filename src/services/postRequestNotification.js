@@ -21,11 +21,12 @@ export default function postRequestNotification(data) {
             return data;
         })
         .catch(error => {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Parece que algo falló!',
-            })
+            //Estaba botando error del post cuando no lo hay
+            // Swal.fire({
+            //     icon: 'error',
+            //     title: 'Oops...',
+            //     text: 'Parece que algo falló!',
+            // })
             console.log(error);
             return error;
         }

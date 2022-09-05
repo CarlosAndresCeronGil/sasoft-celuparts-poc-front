@@ -30,7 +30,7 @@ export default function RepairRequestsTable() {
                     <Table className="no-wrap mt-3 align-middle" responsive borderless>
                         <thead>
                             <tr>
-                                <th>Tipo solicitud</th>
+                                <th>Fecha solicitud</th>
                                 <th>Dispositivo</th>
                                 <th>Dirección recogida</th>
                                 <th>Dirección entrega</th>
@@ -57,7 +57,7 @@ export default function RepairRequestsTable() {
                             {requests.map((tdata, index) => (
                                 tdata.requestType === "Reparacion" ? (
                                     <tr key={index} className="border-top">
-                                        <td>{tdata.requestType}</td>
+                                        <td>{tdata.requestDate}</td>
                                         <td>{tdata.equipment.equipmentBrand} {tdata.equipment.modelOrReference}</td>
                                         <td>{tdata.pickUpAddress}</td>
                                         <td>{tdata.deliveryAddress}</td>
