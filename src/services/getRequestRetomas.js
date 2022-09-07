@@ -1,11 +1,12 @@
 import { API_URL } from './settings'
 
-export default function getRequests() {
-    const apiURL = `${API_URL}/Request`;
+export default function getRequestRetomas({page}) {
+    const apiURL = `${API_URL}/Request/Retomas/${page}`;
 
     return fetch(apiURL)
         .then(response => response.json())
         .then((response) => {
+            console.log(response)
             return response;
         })
         .catch(error => {

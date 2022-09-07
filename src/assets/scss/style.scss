@@ -146,6 +146,11 @@
   font-weight: bold;
 }
 
+.buttons-previous-next {
+  display: flex;
+  justify-content: space-between;
+}
+
 .footer-container {
   background-color: black;
   padding: 2rem 0 4rem 0;
