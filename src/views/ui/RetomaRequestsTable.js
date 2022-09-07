@@ -11,16 +11,8 @@ export default function RetomaRequestsTable() {
     const [loading, setLoading] = useState(true)
     const [page, setPage] = useState(1)
 
-    const date = new Date()
-
-    const [initialDate, setInitialDate] = useState({
-        initialDate: new Date(
-            date.getFullYear(),
-            date.getMonth(),
-            date.getDate(),
-        )
-    })
-    const [finalDate, setFinalDate] = useState({ finalDate: new Date() })
+    const [initialDate, setInitialDate] = useState({ initialDate: null })
+    const [finalDate, setFinalDate] = useState({ finalDate: null })
 
     useEffect(function () {
         setLoading(true)
@@ -37,7 +29,63 @@ export default function RetomaRequestsTable() {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(initialDate.initialDate)
+        if (initialDate.initialDate !== null && finalDate.finalDate !== null) {
+            //Se consulta desde una fecha inicial hasta una fecha final
+            setLoading(true)
+
+            const selectedInitialDate = initialDate.initialDate
+            const selectedFinalDate = finalDate.finalDate
+
+            const formattedInitialDate = `${selectedInitialDate.getFullYear()}-${selectedInitialDate.getMonth() + 1}-${selectedInitialDate.getDate()}`
+            const formattedFinallDate = `${selectedFinalDate.getFullYear()}-${selectedFinalDate.getMonth() + 1}-${selectedFinalDate.getDate()}`
+            console.log("desde: " + formattedInitialDate + " hasta: " + formattedFinallDate)
+
+            getRequestRetomas({ page: 1, initialDate: formattedInitialDate, finalDate: formattedFinallDate })
+                .then((response) => {
+                    setRequests(response)
+                    setLoading(false)
+                })
+                .catch(error => {
+                    console.log(error)
+                    setLoading(false)
+                })
+        } else if (initialDate.initialDate !== null && finalDate.finalDate === null) {
+            //Se consulta desde una fecha inicial pero sin especificar fecha final
+            setLoading(true)
+
+            const selectedInitialDate = initialDate.initialDate
+
+            const formattedInitialDate = `${selectedInitialDate.getFullYear()}-${selectedInitialDate.getMonth() + 1}-${selectedInitialDate.getDate()}`
+            console.log("desde: " + formattedInitialDate)
+
+            getRequestRetomas({ page: 1, initialDate: formattedInitialDate })
+                .then((response) => {
+                    setRequests(response)
+                    setLoading(false)
+                })
+                .catch(error => {
+                    console.log(error)
+                    setLoading(false)
+                })
+        } else if (initialDate.initialDate === null && finalDate.finalDate !== null) {
+            //Se consulta desde una fecha final sin especificar fecha inicial
+            setLoading(true)
+
+            const selectedFinalDate = finalDate.finalDate
+
+            const formattedFinallDate = `${selectedFinalDate.getFullYear()}-${selectedFinalDate.getMonth() + 1}-${selectedFinalDate.getDate()}`
+            console.log(" hasta: " + formattedFinallDate)
+
+            getRequestRetomas({ page: 1, finalDate: formattedFinallDate })
+                .then((response) => {
+                    setRequests(response)
+                    setLoading(false)
+                })
+                .catch(error => {
+                    console.log(error)
+                    setLoading(false)
+                })
+        }
     }
 
     const handleNext = () => {
@@ -49,23 +97,35 @@ export default function RetomaRequestsTable() {
     }
 
     return (
-        loading ? <div>Cargando...</div> :
+        loading ? (
+            <div>Cargando...</div>
+        ) :
             <div>
                 <Card>
                     <CardBody>
                         <CardTitle tag="h5">Lista de retomas registradas en el sistema</CardTitle>
                         <Form onSubmit={handleSubmit}>
-                            Consultar por fechas.
-                            Desde:
-                            <DatePicker
-                                id='paymentDate'
-                                dateFormat="yyyy-MM-dd"
-                                placeholderText='Fecha desde'
-                                value={initialDate.initialDate}
-                                selected={initialDate.initialDate}
-                                onChange={(date) => setInitialDate({ initialDate: date })}
-                                showDisabledMonthNavigation
-                            />
+                            Consultar por fechas
+                            <div className='d-flex-column justify-content-start'>
+                                Desde:
+                                <DatePicker
+                                    id='initialDate'
+                                    dateFormat="yyyy-MM-dd"
+                                    value={initialDate.initialDate}
+                                    selected={initialDate.initialDate}
+                                    onChange={(date) => setInitialDate({ initialDate: date })}
+                                    showDisabledMonthNavigation
+                                />
+                                Hasta:
+                                <DatePicker
+                                    id='finalDate'
+                                    dateFormat="yyyy-MM-dd"
+                                    value={finalDate.finalDate}
+                                    selected={finalDate.finalDate}
+                                    onChange={(date) => setFinalDate({ finalDate: date })}
+                                    showDisabledMonthNavigation
+                                />
+                            </div>
                             <Button>
                                 Consultar
                             </Button>
@@ -73,7 +133,7 @@ export default function RetomaRequestsTable() {
                         <Table className="no-wrap mt-3 align-middle" responsive borderless>
                             <thead>
                                 <tr>
-                                    <th>Tipo solicitud</th>
+                                    <th>Fecha solicitud</th>
                                     <th>Dispositivo</th>
                                     <th>Dirección recogida</th>
                                     <th>Estado de cotización</th>
@@ -173,7 +233,7 @@ export default function RetomaRequestsTable() {
                                 Página número: {requests.currentPage} de {requests.pages}
                             </div>
                         }
-                        <div className='buttons-previous-next'>
+                        <div className='d-flex justify-content-between'>
                             {
                                 requests?.currentPage === 1 ?
                                     <button className="btn btn-celuparts-dark-blue" disabled>Anterior</button>

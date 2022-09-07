@@ -7,12 +7,13 @@ import {
     CardBody,
     CardTitle,
 } from "reactstrap";
+import getRequestNotificationToTechnician from '../../services/getRequestNotificationToTechnician';
 
 export default function TechnicianAlerts() {
     const [alerts, setAlerts] = useState([])
 
     useEffect(function () {
-        getRequestNotification()
+        getRequestNotificationToTechnician()
             .then(response => {
                 console.log(response)
                 setAlerts(response)

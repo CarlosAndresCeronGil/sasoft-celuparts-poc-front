@@ -47,7 +47,8 @@ const Header = () => {
           <img src="/celuparts-transparent-2.png" alt="celuparts-logo" className="header-image"></img>
         </div>
         <NavbarBrand href="/">
-          <LogoWhite className=" d-lg-none" />
+          {/* <LogoWhite className=" d-lg-none" /> */}
+          <img src="./celuparts-logo.png" alt="celupartsLogo" className="small-image-mobile"></img>
         </NavbarBrand>
         <Button
           color="primary"

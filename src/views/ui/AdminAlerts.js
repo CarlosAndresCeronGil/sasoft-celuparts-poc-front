@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import getRequestNotification from '../../services/getRequestNotification';
+// import getRequestNotification from '../../services/getRequestNotification';
 import {
     Alert,
     // UncontrolledAlert,
@@ -7,12 +7,13 @@ import {
     CardBody,
     CardTitle,
 } from "reactstrap";
+import getRequestNotificationToAdmin from '../../services/getRequestNotificationToAdmin';
 
 export default function AdminAlerts() {
     const [alerts, setAlerts] = useState([])
 
     useEffect(function () {
-        getRequestNotification()
+        getRequestNotificationToAdmin()
             .then(response => {
                 console.log(response)
                 setAlerts(response)
