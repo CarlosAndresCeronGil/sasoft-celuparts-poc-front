@@ -14,6 +14,7 @@ import {
     Input,
 } from "reactstrap";
 import getRequestNotification from '../../services/getRequestNotification';
+import getRequestNotificationByIdRequest from '../../services/getRequestNotificationByIdRequest';
 import getSingleEquipment from '../../services/getSingleEquipment';
 import getSingleRequest from '../../services/getSingleRequest';
 import getSingleRequestStatus from '../../services/getSingleRequestStatus';
@@ -51,7 +52,7 @@ export default function RequestStatusForm() {
             productReturned: productReturned.productReturned === 'true' ? true : false,
         })
             .then(data => {
-                console.log("DATA", data);
+                // console.log("DATA", data);
                 /*Aqui se mira el estado de la solicitud, para asi, enviar un mensaje en la 
                 notificacion a quien corresponda*/
                 status.status === "En proceso de recogida" ? (
@@ -251,26 +252,34 @@ export default function RequestStatusForm() {
         setLoading(true);
         getSingleRequestStatus({ id: params.id })
             .then((response) => {
-                console.log(response);
+                // console.log(response);
                 setDataRequestStatus(response)
                 setIdRequest({ idRequest: response.idRequest })
                 setStatus({ status: response.status })
                 setPaymentStatus({ paymentStatus: response.paymentStatus })
                 setProductReturned({ productReturned: response.productReturned })
-                getRequestNotification()
+                // getRequestNotificationByIdRequest({idRequest: response.idRequest})
+                //     .then((response) => {
+                //         console.log("requestNotificationByIdRequest:", response)
+                //     })
+                //     .catch(error => {
+                //         console.log("Error in requestNotificationByIdRequest",error)
+                //     })
+                getRequestNotificationByIdRequest({idRequest: response.idRequest})
                     .then(response2 => {
+                        console.log("requestNotificationByIdRequest:", response2)
                         setNotifications(response2)
                         /*Esta parte se necesita para el mensaje final al mensajero donde necesita saber fecha, 
                         nombre del producto y direccion de entrega*/
                         getSingleRequest({ id: response.idRequest })
                             .then(response3 => {
-                                console.log("ID EQUIPMENT", response3[0].idEquipment)
-                                console.log("DEVILERY DATE", response3[0].homeServices[0].deliveryDate)
+                                // console.log("ID EQUIPMENT", response3[0].idEquipment)
+                                // console.log("DEVILERY DATE", response3[0].homeServices[0].deliveryDate)
                                 setDeliveryDate({ deliveryDate: new Date(response3[0].homeServices[0].deliveryDate) })
                                 setDeliveryAddress({ deliveryAddress: response3[0].deliveryAddress })
                                 getSingleEquipment({ id: response3[0].idEquipment })
                                     .then(response => {
-                                        console.log("getSingleEquipment response:", response)
+                                        // console.log("getSingleEquipment response:", response)
                                         setEquipmentData({
                                             equipmentBrand: response.equipmentBrand,
                                             modelOrReference: response.modelOrReference

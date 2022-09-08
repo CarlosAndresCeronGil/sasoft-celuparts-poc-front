@@ -13,9 +13,12 @@ import {
 } from "reactstrap";
 import authRegister from '../../services/authRegister';
 import Swal from 'sweetalert2'
+import { Navigate, useNavigate } from 'react-router-dom';
 
 export default function SignUp() {
     const [loading, setLoading] = React.useState(false);
+
+    const navigate = useNavigate()
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -41,7 +44,22 @@ export default function SignUp() {
                     })
                         .then(data => {
                             setLoading(false);
-                            Swal.fire({ icon: 'success', text: 'Registro exitoso!' });
+                            console.log(data.status)
+                            if(data.status === 500) {
+                                Swal.fire({ 
+                                    icon: 'error',
+                                    text: 'El email que estas intentando ingresar ya esta registrado' 
+                                })
+                            } else {
+                                Swal.fire({ 
+                                    icon: 'success',
+                                    text: 'Registro exitoso!' 
+                                })
+                                .then(response => {
+                                    // console.log("respuesta del ok del alert", response)
+                                    navigate("/")
+                                })
+                            }
                         }).catch(error => {
                             console.log("ERROR", error);
                             setLoading(false);
@@ -62,7 +80,7 @@ export default function SignUp() {
                 <Col>
                     <Card className='container'>
                         <CardTitle tag="h2" className="border-bottom p-3 mb-0 row justify-content-center">
-                            Registrate
+                            Regístrate
                         </CardTitle>
                         <CardBody>
                             <Form onSubmit={handleSubmit}>
@@ -74,7 +92,7 @@ export default function SignUp() {
                                     </Input>
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label for="idNumber">Número de cedula*</Label>
+                                    <Label for="idNumber">Número de cédula*</Label>
                                     <Input
                                         id="idNumber"
                                         name="idNumber"
@@ -104,7 +122,7 @@ export default function SignUp() {
                                     />
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label for="phone">Número de telefono*</Label>
+                                    <Label for="phone">Número de teléfono*</Label>
                                     <Input
                                         id="phone"
                                         name="phone"
@@ -114,7 +132,7 @@ export default function SignUp() {
                                     />
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label for="alternativePhone">Número de telefono alternativo (opcional)</Label>
+                                    <Label for="alternativePhone">Número de teléfono alternativo (opcional)</Label>
                                     <Input
                                         id="alternativePhone"
                                         name="alternativePhone"

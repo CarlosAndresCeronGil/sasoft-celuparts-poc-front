@@ -11,7 +11,7 @@ export default function authRegister(data) {
         },
         body: JSON.stringify(data)
     })
-        .then(response => response.json())
+        // .then(response => response.json())
         .then(data => {
             Swal.fire({
                 icon: 'success',
