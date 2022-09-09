@@ -45,12 +45,7 @@ export default function SignUp() {
                         .then(data => {
                             setLoading(false);
                             console.log(data.status)
-                            if(data.status === 500) {
-                                Swal.fire({ 
-                                    icon: 'error',
-                                    text: 'El email que estas intentando ingresar ya esta registrado' 
-                                })
-                            } else {
+                            if(data.status === 200) {
                                 Swal.fire({ 
                                     icon: 'success',
                                     text: 'Registro exitoso!' 
@@ -58,6 +53,11 @@ export default function SignUp() {
                                 .then(response => {
                                     // console.log("respuesta del ok del alert", response)
                                     navigate("/")
+                                })
+                            } else {
+                                Swal.fire({ 
+                                    icon: 'error',
+                                    text: 'El email que estas intentando ingresar ya esta registrado' 
                                 })
                             }
                         }).catch(error => {
