@@ -81,7 +81,8 @@
 
 .home-container {
   // position: relative;
-  height: 620px;
+  //height: 620px;
+  height: 920px;
   clip-path: inset(0);
 }
 
@@ -150,6 +151,10 @@
   font-weight: bold;
 }
 
+.sidebar-label {
+  margin-left: 24px;
+}
+
 .footer-container {
   background-color: black;
   padding: 2rem 0 4rem 0;
@@ -202,6 +207,13 @@
     max-height: 100%;
   }
 }
+
+@media screen and (max-width: 1348px) {
+  .footer {
+    height: 50vh;
+  }
+}
+
 
 @media screen and (max-width: 1150px) {
   .footer {

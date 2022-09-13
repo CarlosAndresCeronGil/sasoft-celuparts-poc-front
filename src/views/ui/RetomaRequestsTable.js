@@ -133,6 +133,7 @@ export default function RetomaRequestsTable() {
                         <Table className="no-wrap mt-3 align-middle" responsive borderless>
                             <thead>
                                 <tr>
+                                    <th>Nombre cliente</th>
                                     <th>Fecha solicitud</th>
                                     <th>Dispositivo</th>
                                     <th>Dirección recogida</th>
@@ -159,7 +160,8 @@ export default function RetomaRequestsTable() {
                                 {requests?.requests.map((tdata, index) => (
                                     tdata.requestType === "Retoma" ? (
                                         <tr key={index} className="border-top">
-                                            <td>{tdata.requestDate}</td>
+                                            <td>{tdata.userDto.names} {tdata.userDto.surnames}</td>
+                                            <td>{`${new Date(tdata.requestDate).getFullYear()}-${new Date(tdata.requestDate).getMonth() + 1}-${new Date(tdata.requestDate).getDate()}`}</td>
                                             <td>{tdata.equipment.equipmentBrand} {tdata.equipment.modelOrReference}</td>
                                             <td>{tdata.pickUpAddress}</td>
                                             <td>{tdata.statusQuote}</td>

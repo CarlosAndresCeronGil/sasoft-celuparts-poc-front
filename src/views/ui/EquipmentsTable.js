@@ -27,7 +27,7 @@ export default function EquipmentsTable() {
                                 <th>Tipo de equipo</th>
                                 <th>Marca</th>
                                 <th>Modelo</th>
-                                <th>Imei</th>
+                                <th>Imei o serial</th>
                                 <th>Factura</th>
                             </tr>
                         </thead>
@@ -40,7 +40,7 @@ export default function EquipmentsTable() {
                                     <td>{tdata.typeOfEquipment}</td>
                                     <td>{tdata.equipmentBrand}</td>
                                     <td>{tdata.modelOrReference}</td>
-                                    <td>{tdata.imei}</td>
+                                    <td>{tdata.imeiOrSerial}</td>
                                     <td>{tdata.equipmentInvoice}</td>
                                 </tr>
                             ))}

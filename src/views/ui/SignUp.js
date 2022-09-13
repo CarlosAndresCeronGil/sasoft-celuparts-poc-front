@@ -13,7 +13,7 @@ import {
 } from "reactstrap";
 import authRegister from '../../services/authRegister';
 import Swal from 'sweetalert2'
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 export default function SignUp() {
     const [loading, setLoading] = React.useState(false);
@@ -158,6 +158,8 @@ export default function SignUp() {
                                         placeholder="Ingrese su contraseña"
                                         type="password"
                                         required
+                                        minLength={5}
+                                        maxLength={10}
                                     />
                                 </FormGroup>
                                 {
@@ -173,6 +175,7 @@ export default function SignUp() {
                                     )
                                 }
                             </Form>
+                            Volver a <Link to="/"> Inicio de sesión</Link>
                         </CardBody>
                     </Card>
                 </Col>

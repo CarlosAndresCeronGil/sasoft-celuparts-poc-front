@@ -14,6 +14,8 @@ import {
 } from "reactstrap";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import setHours from 'date-fns/setHours';
+import setMinutes from 'date-fns/setMinutes';
 import Swal from 'sweetalert2'
 
 import postRequest from '../../services/postRequest';
@@ -25,12 +27,23 @@ import postHomeService from '../../services/postHomeService';
 import postRetoma from '../../services/postRetoma';
 import postRetomaPayment from '../../services/postRetomaPayment';
 import postRequestNotification from '../../services/postRequestNotification'
+import { useNavigate } from 'react-router-dom';
 
 export default function RequestForm() {
     const [requestType, setRequestType] = useState({ requestType: 'Reparacion' })
-    const [startDate, setStartDate] = useState(new Date());
-    const [finishDate, setFinishDate] = useState(new Date())
+    const [typeOfEquipment, setTypeOfEquipment] = useState({ typeOfEquipment: 'Computador portatil' })
+
+    const [startDate, setStartDate] = useState(setHours(setMinutes(new Date(), 30), 16))
+    const [finishDate, setFinishDate] = useState(new Date().setDate(new Date().getDate() + 1))
     const [loading, setLoading] = useState(false);
+
+    //Variables para permitir que se haga un registro en una hora correcta
+    const isSelectedDateToday = new Date().getDate() === startDate.getDate();
+    let minTimeHour = new Date().getHours();
+    if (!isSelectedDateToday) minTimeHour = 0;
+
+    const navigate = useNavigate()
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -40,7 +53,7 @@ export default function RequestForm() {
                 typeOfEquipment: e.target.elements.typeOfEquipment.value,
                 equipmentBrand: e.target.elements.equipmentBrand.value,
                 modelOrReference: e.target.elements.modelOrReference.value,
-                imei: e.target.elements.imei.value,
+                imeiOrSerial: e.target.elements.imei.value,
                 equipmentInvoice: e.target.elements.equipmentInvoice.value,
             })
                 .then(data => {
@@ -64,10 +77,20 @@ export default function RequestForm() {
                                         idRepair: data2.idRepair,
                                         paymentMethod: e.target.elements.paymentMethod.value,
                                     })
-                                        .catch(error => {
-                                            console.log(error);
-                                            setLoading(false);
-                                        });
+                                    .then(finalResponse => {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Exito!',
+                                            text: 'Solicitud de reparación enviada!',
+                                        })
+                                        .then(response => {
+                                            navigate("/home/user-repair-requests")
+                                        })
+                                    })
+                                    .catch(error => {
+                                        console.log(error);
+                                        setLoading(false);
+                                    });
                                 })
                                 .catch(error => {
                                     console.log(error);
@@ -95,7 +118,7 @@ export default function RequestForm() {
                                 });
                             postRequestNotification({
                                 idRequest: data.idRequest,
-                                message: "Nueva solicitud de servicio a domicilio a la dirección: "+ data.pickUpAddress + " a nombre del señor/a " + JSON.parse(localStorage.getItem('user')).name,
+                                message: "Nueva solicitud de servicio a domicilio a la dirección: " + data.pickUpAddress + " a nombre del señor/a " + JSON.parse(localStorage.getItem('user')).name,
                                 hideNotification: false,
                                 notificationType: "to_courier"
                             })
@@ -110,21 +133,26 @@ export default function RequestForm() {
                             console.log(error);
                         })
                 })
+                .then(dataFinal => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Exito!',
+                        text: 'Solicitud de reparacióm enviada!',
+                    })
+                    .then(response => {
+                        navigate("/home/user-repair-requests")
+                    })
+                })
                 .catch(error => {
                     setLoading(false);
                     console.log(error);
                 });
-            Swal.fire({
-                icon: 'success',
-                title: 'Exito!',
-                text: 'Solicitud de reparacióm enviada!',
-            })
         } else if (requestType.requestType === "Retoma") {
             postEquipment({
                 typeOfEquipment: e.target.elements.typeOfEquipment.value,
                 equipmentBrand: e.target.elements.equipmentBrand.value,
                 modelOrReference: e.target.elements.modelOrReference.value,
-                imei: e.target.elements.imei.value,
+                imeiOrSerial: e.target.elements.imei.value,
                 equipmentInvoice: e.target.elements.equipmentInvoice.value,
             })
                 .then(dataEquipment => {
@@ -147,6 +175,16 @@ export default function RequestForm() {
                                     postRetomaPayment({
                                         idRetoma: dataRetoma.idRetoma,
                                         paymentMethod: e.target.elements.paymentMethod.value
+                                    })
+                                    .then(finalResponse => {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Exito!',
+                                            text: 'Solicitud de retoma enviada!',
+                                        })
+                                        .then(response => {
+                                            navigate("/home/user-retoma-requests")
+                                        })
                                     })
                                         .catch(error => {
                                             console.log(error);
@@ -178,7 +216,7 @@ export default function RequestForm() {
                                 });
                             postRequestNotification({
                                 idRequest: dataRequest.idRequest,
-                                message: "Nueva solicitud de servicio a domicilio a la dirección: "+ dataRequest.pickUpAddress + " a nombre del señor/a " + JSON.parse(localStorage.getItem('user')).name,
+                                message: "Nueva solicitud de servicio a domicilio a la dirección: " + dataRequest.pickUpAddress + " a nombre del señor/a " + JSON.parse(localStorage.getItem('user')).name,
                                 hideNotification: false,
                                 notificationType: "to_courier",
                             })
@@ -198,7 +236,16 @@ export default function RequestForm() {
                 title: 'Exito!',
                 text: 'Solicitud de retoma enviada!',
             })
+            .then(response => {
+                navigate("/home/user-retoma-requests")
+            })
         }
+    }
+
+    const isWeekDay = (date) => {
+        const day = date.getDay();
+        // return day !== 0 && day !== 6; sabados y domingos
+        return day !== 0 //solo ignora los domingos
     }
 
     return (
@@ -255,6 +302,30 @@ export default function RequestForm() {
                                             id='PickUpTime'
                                             dateFormat="yyyy-MM-dd h:mm aa"
                                             showTimeSelect
+                                            minTime={new Date(new Date().setHours(minTimeHour, 0, 0, 0))}
+                                            maxTime={new Date(new Date().setHours(23, 59, 0, 0))}
+                                            minDate={new Date()}
+                                            includeTimes={[
+                                                setHours(setMinutes(new Date(), 30), 8),
+                                                setHours(setMinutes(new Date(), 0), 9),
+                                                setHours(setMinutes(new Date(), 30), 9),
+                                                setHours(setMinutes(new Date(), 0), 10),
+                                                setHours(setMinutes(new Date(), 30), 10),
+                                                setHours(setMinutes(new Date(), 0), 11),
+                                                setHours(setMinutes(new Date(), 30), 11),
+                                                setHours(setMinutes(new Date(), 0), 12),
+                                                setHours(setMinutes(new Date(), 0), 14),
+                                                setHours(setMinutes(new Date(), 30), 14),
+                                                setHours(setMinutes(new Date(), 0), 15),
+                                                setHours(setMinutes(new Date(), 30), 15),
+                                                setHours(setMinutes(new Date(), 0), 16),
+                                                setHours(setMinutes(new Date(), 30), 16),
+                                                setHours(setMinutes(new Date(), 0), 17),
+                                                setHours(setMinutes(new Date(), 30), 17),
+                                                setHours(setMinutes(new Date(), 0), 18),
+                                            ]}
+                                            locale="es-CO"
+                                            filterDate={isWeekDay}
                                             selected={startDate}
                                             onChange={(date) => setStartDate(date)}
                                             timeFormat="HH:mm"
@@ -267,7 +338,27 @@ export default function RequestForm() {
                                                 <DatePicker
                                                     id='DeliveryDate'
                                                     dateFormat="yyyy-MM-dd h:mm aa"
+                                                    minDate={new Date().setDate(new Date().getDate() + 1)}
                                                     showTimeSelect
+                                                    includeTimes={[
+                                                        setHours(setMinutes(new Date(), 30), 8),
+                                                        setHours(setMinutes(new Date(), 0), 9),
+                                                        setHours(setMinutes(new Date(), 30), 9),
+                                                        setHours(setMinutes(new Date(), 0), 10),
+                                                        setHours(setMinutes(new Date(), 30), 10),
+                                                        setHours(setMinutes(new Date(), 0), 11),
+                                                        setHours(setMinutes(new Date(), 30), 11),
+                                                        setHours(setMinutes(new Date(), 0), 12),
+                                                        setHours(setMinutes(new Date(), 0), 14),
+                                                        setHours(setMinutes(new Date(), 30), 14),
+                                                        setHours(setMinutes(new Date(), 0), 15),
+                                                        setHours(setMinutes(new Date(), 30), 15),
+                                                        setHours(setMinutes(new Date(), 0), 16),
+                                                        setHours(setMinutes(new Date(), 30), 16),
+                                                        setHours(setMinutes(new Date(), 0), 17),
+                                                        setHours(setMinutes(new Date(), 30), 17),
+                                                        setHours(setMinutes(new Date(), 0), 18),
+                                                    ]}
                                                     selected={finishDate}
                                                     onChange={(date) => setFinishDate(date)}
                                                     timeFormat="HH:mm"
@@ -279,8 +370,28 @@ export default function RequestForm() {
                                                 <DatePicker
                                                     id='DeliveryDate'
                                                     dateFormat="yyyy-MM-dd h:mm aa"
+                                                    minDate={new Date().setDate(new Date().getDate() + 1)}
                                                     showTimeSelect
                                                     selected={finishDate}
+                                                    includeTimes={[
+                                                        setHours(setMinutes(new Date(), 30), 8),
+                                                        setHours(setMinutes(new Date(), 0), 9),
+                                                        setHours(setMinutes(new Date(), 30), 9),
+                                                        setHours(setMinutes(new Date(), 0), 10),
+                                                        setHours(setMinutes(new Date(), 30), 10),
+                                                        setHours(setMinutes(new Date(), 0), 11),
+                                                        setHours(setMinutes(new Date(), 30), 11),
+                                                        setHours(setMinutes(new Date(), 0), 12),
+                                                        setHours(setMinutes(new Date(), 0), 14),
+                                                        setHours(setMinutes(new Date(), 30), 14),
+                                                        setHours(setMinutes(new Date(), 0), 15),
+                                                        setHours(setMinutes(new Date(), 30), 15),
+                                                        setHours(setMinutes(new Date(), 0), 16),
+                                                        setHours(setMinutes(new Date(), 30), 16),
+                                                        setHours(setMinutes(new Date(), 0), 17),
+                                                        setHours(setMinutes(new Date(), 30), 17),
+                                                        setHours(setMinutes(new Date(), 0), 18),
+                                                    ]}
                                                     onChange={(date) => setFinishDate(date)}
                                                     timeFormat="HH:mm"
                                                 />
@@ -308,7 +419,13 @@ export default function RequestForm() {
                                     </CardSubtitle>
                                     <FormGroup>
                                         <Label for="typeOfEquipment">Tipo de dispositivo*</Label>
-                                        <Input id="typeOfEquipment" name="select" type="select">
+                                        <Input
+                                            id="typeOfEquipment"
+                                            name="select"
+                                            type="select"
+                                            value={typeOfEquipment.typeOfEquipment}
+                                            onChange={(e) => setTypeOfEquipment({ typeOfEquipment: e.target.value })}
+                                        >
                                             <option value="Computador portatil">Computador portátil</option>
                                             <option value="Telefono celular">Teléfono celular</option>
                                         </Input>
@@ -333,16 +450,30 @@ export default function RequestForm() {
                                             required
                                         />
                                     </FormGroup>
-                                    <FormGroup>
-                                        <Label for="imei">Imei del dispositivo*</Label>
-                                        <Input
-                                            id="imei"
-                                            name="imei"
-                                            placeholder="Ingrese el imei dispositivo"
-                                            type="text"
-                                            required
-                                        />
-                                    </FormGroup>
+                                    {
+                                        typeOfEquipment.typeOfEquipment === "Computador portatil" ?
+                                            <FormGroup>
+                                                <Label for="imei">Serial del dispositivo*</Label>
+                                                <Input
+                                                    id="imei"
+                                                    name="imei"
+                                                    placeholder="Ingrese el imei dispositivo"
+                                                    type="text"
+                                                    required
+                                                />
+                                            </FormGroup>
+                                            :
+                                            <FormGroup>
+                                                <Label for="imei">Imei del dispositivo*</Label>
+                                                <Input
+                                                    id="imei"
+                                                    name="imei"
+                                                    placeholder="Ingrese el imei dispositivo"
+                                                    type="text"
+                                                    required
+                                                />
+                                            </FormGroup>
+                                    }
                                     <FormGroup>
                                         <Label for="equipmentInvoice">Factura del dispositivo*</Label>
                                         <Input

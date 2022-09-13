@@ -129,6 +129,26 @@ export function Router() {
           { path: "/home/admin-alerts", exact: true, element: <AdminAlerts /> }
         ],
       },
+    ) : JSON.parse(localStorage.getItem('user')).role === "aux_admin" ? ThemeRoutes.push(
+      {
+        path: "/home",
+        exact: true,
+        element: <FullLayout />,
+        children: [
+          { path: "/home", exact: true, element: <Home /> }, 
+          { path: "/home/repair-requests-table", exact: true, element: <RepairRequestsTable /> },
+          { path: "/home/retoma-requests-table", exact: true, element: <RetomaRequestsTable /> },
+          { path: "/home/request-status-table", exact: true, element: <RequestStatusTable /> },
+          { path: "/home/update-repair-form", exact: true, element: <UpdateRepairForm /> },
+          { path: "/home/request-status-form", exact: true, element: <RequestStatusForm /> },
+          { path: "/home/request-status-form/:id", exact: true, element: <RequestStatusForm /> },
+          { path: "/home/update-repair-form/:id", exact: true, element: <UpdateRepairForm /> },
+          { path: "/home/update-retoma-form/:id", exact: true, element: <UpdateRetomaForm /> },
+          { path: "/home/repair-payment-form/:id", exact: true, element: <RepairPaymentForm /> },
+          { path: "/home/retoma-payment-form/:id", exact: true, element: <RetomaPaymentForm /> },
+          { path: "/home/admin-alerts", exact: true, element: <AdminAlerts /> }
+        ],
+      },
     ) : JSON.parse(localStorage.getItem('user')).role === "tecnico" ? ThemeRoutes.push(
       {
         path: "/home",

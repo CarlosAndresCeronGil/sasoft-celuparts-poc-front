@@ -107,10 +107,10 @@ const Header = () => {
             ></img>
           </DropdownToggle>
           <DropdownMenu>
-            <DropdownItem header>Info</DropdownItem>
+            {/* <DropdownItem header>Info</DropdownItem>
             <DropdownItem>Mi Cuenta</DropdownItem>
             <DropdownItem>Editar Perfil</DropdownItem>
-            <DropdownItem divider />
+            <DropdownItem divider /> */}
             {
               JSON.parse(localStorage.getItem('user')).role === "user" ? (
                 <DropdownItem>

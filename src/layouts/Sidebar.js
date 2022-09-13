@@ -1,14 +1,15 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Button, Nav, NavItem } from "reactstrap";
-import { Link, useLocation } from "react-router-dom";
+// import { Link, useLocation } from "react-router-dom";
 import user1 from "../assets/images/users/user4.jpg";
 import probg from "../assets/images/bg/download.jpg";
+import SubMenu from "./SubMenu";
 
 const Sidebar = () => {
 
   const navigation = [];
 
-  if(JSON.parse(localStorage.getItem('user')).role === "admin" ) {
+  if (JSON.parse(localStorage.getItem('user')).role === "admin") {
     navigation.push(
       // {
       //   title: "Dashboard",
@@ -62,11 +63,106 @@ const Sidebar = () => {
       // },
       {
         title: "Notificaciones",
-        href: "./admin-alerts"
+        href: "./admin-alerts",
       },
       {
-        title: "Lista de usuarios",
-        href: "./users-table",
+        title: "Listas",
+        href: "#",
+        iconClosed: "bi bi-arrow-down-short",
+        iconOpened: "bi bi-arrow-up-short",
+        subNav: [
+          {
+            title: "Lista de usuarios",
+            href: "./users-table",
+          },
+          {
+            title: "Lista de reparaciones",
+            href: "./repair-requests-table",
+          },
+          {
+            title: "Lista de retomas",
+            href: "./retoma-requests-table",
+          },
+          {
+            title: "Lista de equipos",
+            href: "./equipments-table",
+          },
+          {
+            title: "Lista de técnicos",
+            href: "./technicians-table",
+          },
+          {
+            title: "Lista de tecnicos asociados a reparaciones",
+            href: "./repair-table",
+          },
+        ]
+      },
+      {
+        title: "Listas de SIIGO",
+        href: "#",
+        iconClosed: "bi bi-arrow-down-short",
+        iconOpened: "bi bi-arrow-up-short",
+        subNav: [
+          {
+            title: "Lista de productos de SIIGO",
+            href: "./siigo-products-table"
+          },
+          {
+            title: "Lista de clientes de SIIGO",
+            href: "./siigo-customers-table"
+          },
+          {
+            title: "Lista de facturas de venta de SIIGO",
+            href: "./siigo-invoices-table"
+          },
+          {
+            title: "Lista de notas de credito de SIIGO",
+            href: "./siigo-credit-notes-table"
+          },
+          {
+            title: "Lista de recibos de caja de SIIGO",
+            href: "./siigo-vouchers-table"
+          },
+          {
+            title: "Lista de comprobantes contables de SIIGO",
+            href: "./siigo-journals-table"
+          },
+          {
+            title: "Lista de grupos de inventario de SIIGO",
+            href: "./siigo-account-groups-table"
+          },
+          {
+            title: "Lista de impuestos de SIIGO",
+            href: "./siigo-taxes-table"
+          },
+          {
+            title: "Lista de precios de SIIGO",
+            href: "./siigo-price-lists-table"
+          },
+          {
+            title: "Lista de bodegas de SIIGO",
+            href: "./siigo-ware-houses-table"
+          },
+          {
+            title: "Lista de usuarios de SIIGO",
+            href: "./siigo-users-table"
+          },
+          {
+            title: "Lista de centros de costo de SIIGO",
+            href: "./siigo-cost-centers-table"
+          },
+          {
+            title: "Lista de activos fijos de SIIGO",
+            href: "./siigo-fixed-assets-table"
+          },
+        ]
+      },
+    );
+  } else if (JSON.parse(localStorage.getItem('user')).role === "aux_admin") {
+    navigation.push(
+      {
+        title: "Notificaciones",
+        href: "./admin-alerts",
       },
       {
         title: "Lista de reparaciones",
@@ -76,72 +172,8 @@ const Sidebar = () => {
         title: "Lista de retomas",
         href: "./retoma-requests-table",
       },
-      {
-        title: "Lista de equipos",
-        href: "./equipments-table",
-      },
-      {
-        title: "Lista de técnicos",
-        href: "./technicians-table",
-      },
-      {
-        title: "Lista de tecnicos asociados a reparaciones", 
-        href: "./repair-table",
-      },
-      {
-        title: "Lista de productos de SIIGO",
-        href: "./siigo-products-table"
-      }, 
-      {
-        title: "Lista de clientes de SIIGO",
-        href: "./siigo-customers-table"
-      }, 
-      {
-        title: "Lista de facturas de venta de SIIGO",
-        href: "./siigo-invoices-table"
-      },
-      {
-        title: "Lista de notas de credito de SIIGO",
-        href: "./siigo-credit-notes-table"
-      },
-      {
-        title: "Lista de recibos de caja de SIIGO",
-        href: "./siigo-vouchers-table"
-      },
-      {
-        title: "Lista de comprobantes contables de SIIGO",
-        href: "./siigo-journals-table"
-      },
-      {
-        title: "Lista de grupos de inventario de SIIGO",
-        href: "./siigo-account-groups-table"
-      },
-      {
-        title: "Lista de impuestos de SIIGO",
-        href: "./siigo-taxes-table"
-      },
-      {
-        title: "Lista de precios de SIIGO",
-        href: "./siigo-price-lists-table"
-      },
-      {
-        title: "Lista de bodegas de SIIGO",
-        href: "./siigo-ware-houses-table"
-      },
-      {
-        title: "Lista de usuarios de SIIGO",
-        href: "./siigo-users-table"
-      },
-      {
-        title: "Lista de centros de costo de SIIGO",
-        href: "./siigo-cost-centers-table"
-      },
-      {
-        title: "Lista de activos fijos de SIIGO",
-        href: "./siigo-fixed-assets-table"
-      },
     );
-  } else if(JSON.parse(localStorage.getItem('user')).role === "tecnico" ) {
+  } else if (JSON.parse(localStorage.getItem('user')).role === "tecnico") {
     navigation.push(
       {
         title: "Lista de reparaciones",
@@ -152,7 +184,7 @@ const Sidebar = () => {
         href: "./retoma-requests-table",
       },
       {
-        title: "Lista de tecnicos asociados a reparaciones", 
+        title: "Lista de tecnicos asociados a reparaciones",
         href: "./repair-table",
       },
       {
@@ -160,7 +192,7 @@ const Sidebar = () => {
         href: "./technician-alerts"
       }
     );
-  } else if (JSON.parse(localStorage.getItem('user')).role === "mensajero" ) {
+  } else if (JSON.parse(localStorage.getItem('user')).role === "mensajero") {
     navigation.push(
       {
         title: "Lista de reparaciones",
@@ -175,7 +207,7 @@ const Sidebar = () => {
         href: "./courier-alerts",
       }
     );
-  } else if(JSON.parse(localStorage.getItem('user')).role === "user" ) {
+  } else if (JSON.parse(localStorage.getItem('user')).role === "user") {
     navigation.push(
       {
         title: "Notificaciones",
@@ -187,7 +219,7 @@ const Sidebar = () => {
   const showMobilemenu = () => {
     document.getElementById("sidebarArea").classList.toggle("showSidebar");
   };
-  let location = useLocation();
+  // let location = useLocation();
 
   return (
     <div>
@@ -212,7 +244,7 @@ const Sidebar = () => {
         <Nav vertical className="sidebarNav">
           {navigation.map((navi, index) => (
             <NavItem key={index} className="sidenav-bg">
-              <Link
+              {/* <Link
                 to={navi.href}
                 className={
                   location.pathname === navi.href
@@ -222,7 +254,14 @@ const Sidebar = () => {
               >
                 <i className={navi.icon}></i>
                 <span className="ms-3 d-inline-block">{navi.title}</span>
-              </Link>
+                {navi.subNav && subNav
+                  ? <i className={navi.iconOpened}></i>
+                  : navi.subNav
+                    ? <i className={navi.iconClosed}></i>
+                    : null
+                }
+              </Link> */}
+              <SubMenu navi={navi}/>
             </NavItem>
           ))}
           {/* <Button
