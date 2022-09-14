@@ -65,6 +65,7 @@ export default function RequestRetomaForm() {
                     pickUpAddress: e.target.elements.pickUpAddress.value,
                     deliveryAddress: e.target.elements.deliveryAddress.value,
                     statusQuote: "Pendiente",
+                    autoDiagnosis: e.target.elements.autoDiagnosis.value
                 })
                     .then(dataRequest => {
                         getRequestWithUserInfo({ id: dataRequest.idRequest })
@@ -232,37 +233,78 @@ export default function RequestRetomaForm() {
                                             timeFormat="HH:mm"
                                         />
                                     </FormGroup>
-                                    <FormGroup>
-                                        <Label for="DeliveryDate">Fecha y hora tentativa a entrega en caso de no aceptar valor de venta*</Label>
-                                        <DatePicker
-                                            id='DeliveryDate'
-                                            dateFormat="yyyy-MM-dd h:mm aa"
-                                            minDate={new Date().setDate(new Date().getDate() + 1)}
-                                            showTimeSelect
-                                            selected={finishDate}
-                                            includeTimes={[
-                                                setHours(setMinutes(new Date(), 30), 8),
-                                                setHours(setMinutes(new Date(), 0), 9),
-                                                setHours(setMinutes(new Date(), 30), 9),
-                                                setHours(setMinutes(new Date(), 0), 10),
-                                                setHours(setMinutes(new Date(), 30), 10),
-                                                setHours(setMinutes(new Date(), 0), 11),
-                                                setHours(setMinutes(new Date(), 30), 11),
-                                                setHours(setMinutes(new Date(), 0), 12),
-                                                setHours(setMinutes(new Date(), 0), 14),
-                                                setHours(setMinutes(new Date(), 30), 14),
-                                                setHours(setMinutes(new Date(), 0), 15),
-                                                setHours(setMinutes(new Date(), 30), 15),
-                                                setHours(setMinutes(new Date(), 0), 16),
-                                                setHours(setMinutes(new Date(), 30), 16),
-                                                setHours(setMinutes(new Date(), 0), 17),
-                                                setHours(setMinutes(new Date(), 30), 17),
-                                                setHours(setMinutes(new Date(), 0), 18),
-                                            ]}
-                                            onChange={(date) => setFinishDate(date)}
-                                            timeFormat="HH:mm"
-                                        />
-                                    </FormGroup>
+                                    {
+                                        startDate.getDay() === 6 ?
+                                            <FormGroup>
+                                                <Label for="DeliveryDate">Fecha y hora tentativa a entrega en caso de no aceptar valor de venta*</Label>
+                                                <DatePicker
+                                                    id='DeliveryDate'
+                                                    dateFormat="yyyy-MM-dd h:mm aa"
+                                                    // minDate={new Date().setDate(new Date().getDate() + 1)}
+                                                    minDate={new Date().setDate(new Date(startDate).getDate() + 1)}
+                                                    showTimeSelect
+                                                    includeTimes={[
+                                                        setHours(setMinutes(new Date(), 30), 8),
+                                                        setHours(setMinutes(new Date(), 0), 9),
+                                                        setHours(setMinutes(new Date(), 30), 9),
+                                                        setHours(setMinutes(new Date(), 0), 10),
+                                                        setHours(setMinutes(new Date(), 30), 10),
+                                                        setHours(setMinutes(new Date(), 0), 11),
+                                                        setHours(setMinutes(new Date(), 30), 11),
+                                                        setHours(setMinutes(new Date(), 0), 12),
+                                                        setHours(setMinutes(new Date(), 0), 14),
+                                                        setHours(setMinutes(new Date(), 30), 14),
+                                                        setHours(setMinutes(new Date(), 0), 15),
+                                                        setHours(setMinutes(new Date(), 30), 15),
+                                                        setHours(setMinutes(new Date(), 0), 16),
+                                                        setHours(setMinutes(new Date(), 30), 16),
+                                                        setHours(setMinutes(new Date(), 0), 17),
+                                                        setHours(setMinutes(new Date(), 30), 17),
+                                                        setHours(setMinutes(new Date(), 0), 18),
+                                                    ]}
+                                                    // selected={new Date().setDate(new Date(startDate).getDate() + 2)}
+                                                    selected={finishDate}
+                                                    filterDate={isWeekDay}
+                                                    onChange={(date) => setFinishDate(date)}
+                                                    timeFormat="HH:mm"
+                                                />
+                                            </FormGroup>
+                                            :
+                                            <FormGroup>
+                                                <Label for="DeliveryDate">Fecha y hora tentativa a entrega en caso de no aceptar valor de venta*</Label>
+                                                <DatePicker
+                                                    id='DeliveryDate'
+                                                    dateFormat="yyyy-MM-dd h:mm aa"
+                                                    // minDate={new Date().setDate(new Date().getDate() + 1)}
+                                                    minDate={new Date().setDate(new Date(startDate).getDate() + 1)}
+                                                    showTimeSelect
+                                                    includeTimes={[
+                                                        setHours(setMinutes(new Date(), 30), 8),
+                                                        setHours(setMinutes(new Date(), 0), 9),
+                                                        setHours(setMinutes(new Date(), 30), 9),
+                                                        setHours(setMinutes(new Date(), 0), 10),
+                                                        setHours(setMinutes(new Date(), 30), 10),
+                                                        setHours(setMinutes(new Date(), 0), 11),
+                                                        setHours(setMinutes(new Date(), 30), 11),
+                                                        setHours(setMinutes(new Date(), 0), 12),
+                                                        setHours(setMinutes(new Date(), 0), 14),
+                                                        setHours(setMinutes(new Date(), 30), 14),
+                                                        setHours(setMinutes(new Date(), 0), 15),
+                                                        setHours(setMinutes(new Date(), 30), 15),
+                                                        setHours(setMinutes(new Date(), 0), 16),
+                                                        setHours(setMinutes(new Date(), 30), 16),
+                                                        setHours(setMinutes(new Date(), 0), 17),
+                                                        setHours(setMinutes(new Date(), 30), 17),
+                                                        setHours(setMinutes(new Date(), 0), 18),
+                                                    ]}
+                                                    // selected={new Date().setDate(new Date(startDate).getDate() + 2)}
+                                                    selected={finishDate}
+                                                    onChange={(date) => setFinishDate(date)}
+                                                    filterDate={isWeekDay}
+                                                    timeFormat="HH:mm"
+                                                />
+                                            </FormGroup>
+                                    }
                                     <FormGroup>
                                         <Label for="paymentMethod">Método de pago (de celuparts a ti)*</Label>
                                         <Input id="paymentMethod" name="paymentMethod" type="select">
@@ -332,16 +374,6 @@ export default function RequestRetomaForm() {
                                                 />
                                             </FormGroup>
                                     }
-                                    {/* <FormGroup>
-                                        <Label for="equipmentInvoice">Factura del dispositivo*</Label>
-                                        <Input
-                                            id="equipmentInvoice"
-                                            name="equipmentInvoice"
-                                            placeholder="Ingrese la factura dispositivo"
-                                            type="text"
-                                            required
-                                        />
-                                    </FormGroup> */}
                                     <FormGroup>
                                         <Label for="equipmentInvoice">Factura del dispositivo*</Label>
                                         <Input
@@ -350,6 +382,17 @@ export default function RequestRetomaForm() {
                                             placeholder="Ingrese la factura dispositivo"
                                             type="file"
                                             accept='.pdf'
+                                            required
+                                        />
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Label for="autoDiagnosis">Cuentanos brevemente el estado de tu dispositivo a vender*</Label>
+                                        <Input
+                                            id="autoDiagnosis"
+                                            name="autoDiagnosis"
+                                            placeholder="Ingrese una breve descripción del estado de su dispositivo"
+                                            type="textarea"
+                                            maxLength={250}
                                             required
                                         />
                                     </FormGroup>

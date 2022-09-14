@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useContext } from 'react'
 import {
     Card,
     Row,
@@ -15,7 +15,17 @@ import authRegister from '../../services/authRegister';
 import Swal from 'sweetalert2'
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 
+import authLogin from '../../services/authLogin';
+import jwtDecode from 'jwt-decode';
+import AuthContext from '../../context/AuthProvider';
+
+
 export default function SignUp() {
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    
+    const { setAuth } = useContext(AuthContext);
+
     const [loading, setLoading] = React.useState(false);
 
     const navigate = useNavigate()
@@ -52,7 +62,38 @@ export default function SignUp() {
                                 })
                                 .then(response => {
                                     // console.log("respuesta del ok del alert", response)
-                                    navigate("/")
+                                    // Una vez el registro sea exitoso, ingresar al usuario dentro del
+                                    // sistema
+                                    authLogin({
+                                        email,
+                                        password
+                                    })
+                                        .then(response => {
+                                            console.log("Response from sign in:", response);
+                                            if (response !== undefined) {
+                                                if (response === "Account disabled") {
+                                                    Swal.fire({
+                                                        icon: 'error',
+                                                        title: 'Oops...',
+                                                        text: 'Cuenta inhabilitada, contacte con el número 3xx-xxx-xxxx para soporte técnico'
+                                                    })
+                                                } else {
+                                                    const user = jwtDecode(response)
+                                                    console.log("user", user);
+                                                    localStorage.setItem('user', JSON.stringify(user));
+                                                    setAuth(true);
+                                                    navigate('/home');
+                                                }
+                                            }
+                                        })
+                                        .catch(error => {
+                                            console.log("error:", error);
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Oops...',
+                                                text: 'Usuario o contraseña incorrecto!'
+                                            })
+                                        });
                                 })
                             } else {
                                 Swal.fire({ 
@@ -147,8 +188,10 @@ export default function SignUp() {
                                     <Input
                                         id="email"
                                         name="email"
+                                        value={email}
                                         placeholder="Ingrese su email"
                                         type="email"
+                                        onChange={(e) => setEmail(e.target.value)}
                                         required
                                     />
                                 </FormGroup>
@@ -157,9 +200,11 @@ export default function SignUp() {
                                     <Input
                                         id="password"
                                         name="password"
+                                        value={password}
                                         placeholder="Ingrese su contraseña"
                                         type="password"
                                         required
+                                        onChange={(e) => setPassword(e.target.value)}
                                         minLength={5}
                                         maxLength={10}
                                     />
