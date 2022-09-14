@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
     Card,
     Row,
@@ -20,6 +20,7 @@ import getSingleRequest from '../../services/getSingleRequest';
 import getSingleRequestStatus from '../../services/getSingleRequestStatus';
 import putRequestNotification from '../../services/putRequestNotification';
 import putRequestStatus from '../../services/putRequestStatus';
+import Swal from 'sweetalert2'
 
 export default function RequestStatusForm() {
     const [dataRequestStatus, setDataRequestStatus] = useState({});
@@ -40,6 +41,7 @@ export default function RequestStatusForm() {
     const [loadingPut, setLoadingPut] = useState(false);
 
     const params = useParams()
+    const navigate = useNavigate()
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -220,6 +222,16 @@ export default function RequestStatusForm() {
                 ) : console.log("do nothing")
                 setLoadingPut(false);
             })
+            .then(finalResponse => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Exito!',
+                    text: 'Estado de solicitud actualizado!',
+                })
+                    .then(response => {
+                        navigate(-1)
+                    })
+            })
             .catch(error => {
                 console.log(error);
                 setLoadingPut(false);
@@ -252,7 +264,6 @@ export default function RequestStatusForm() {
         setLoading(true);
         getSingleRequestStatus({ id: params.id })
             .then((response) => {
-                // console.log(response);
                 setDataRequestStatus(response)
                 setIdRequest({ idRequest: response.idRequest })
                 setStatus({ status: response.status })
@@ -265,7 +276,7 @@ export default function RequestStatusForm() {
                 //     .catch(error => {
                 //         console.log("Error in requestNotificationByIdRequest",error)
                 //     })
-                getRequestNotificationByIdRequest({idRequest: response.idRequest})
+                getRequestNotificationByIdRequest({ idRequest: response.idRequest })
                     .then(response2 => {
                         console.log("requestNotificationByIdRequest:", response2)
                         setNotifications(response2)
@@ -273,13 +284,10 @@ export default function RequestStatusForm() {
                         nombre del producto y direccion de entrega*/
                         getSingleRequest({ id: response.idRequest })
                             .then(response3 => {
-                                // console.log("ID EQUIPMENT", response3[0].idEquipment)
-                                // console.log("DEVILERY DATE", response3[0].homeServices[0].deliveryDate)
                                 setDeliveryDate({ deliveryDate: new Date(response3[0].homeServices[0].deliveryDate) })
                                 setDeliveryAddress({ deliveryAddress: response3[0].deliveryAddress })
                                 getSingleEquipment({ id: response3[0].idEquipment })
                                     .then(response => {
-                                        // console.log("getSingleEquipment response:", response)
                                         setEquipmentData({
                                             equipmentBrand: response.equipmentBrand,
                                             modelOrReference: response.modelOrReference
@@ -319,42 +327,65 @@ export default function RequestStatusForm() {
                                             <i className="bi bi-card-list"> </i>
                                             <strong>Datos del estado</strong>
                                         </CardSubtitle>
-                                        <FormGroup>
-                                            <Label for="status">Estado solicitud</Label>
-                                            <Input
-                                                type="select"
-                                                name="status"
-                                                id="status"
-                                                value={status.status}
-                                                onChange={handleStatusChange}
-                                            >
-                                                <option>Iniciada</option>
-                                                <option>En proceso de recogida</option>
-                                                <option value="Recibida tecnico">Recibida técnico</option>
-                                                <option>Revisado</option>
-                                                <option value="En reparacion">En reparación</option>
-                                                <option value="Reparado pendiente de pago">Reparado, pendiente de pago</option>
-                                                <option>En camino</option>
-                                                <option>Terminada</option>
-                                                <option value="En devolucion">En devolución</option>
-                                                <option value="Devuelto sin reparacion">Devuelto sin reparación</option>
-                                                <option>Retoma</option>
-                                                <option>Abandonada</option>
-                                            </Input>
-                                        </FormGroup>
-                                        <FormGroup>
-                                            <Label for="paymentStatus">Estado de pago</Label>
-                                            <Input
-                                                type="select"
-                                                name="paymentStatus"
-                                                id="paymentStatus"
-                                                defaultValue={paymentStatus.paymentStatus}
-                                                onChange={handlePaymentStatusChange}
-                                            >
-                                                <option>Pago</option>
-                                                <option>No pago</option>
-                                            </Input>
-                                        </FormGroup>
+                                        {
+                                            JSON.parse(localStorage.getItem('user')).role === "mensajero" ?
+                                                <FormGroup>
+                                                    <Label for="status">Estado solicitud</Label>
+                                                    <Input
+                                                        type="select"
+                                                        name="status"
+                                                        id="status"
+                                                        value={status.status}
+                                                        onChange={handleStatusChange}
+                                                    >
+                                                        <option>Iniciada</option>
+                                                        <option>En proceso de recogida</option>
+                                                        <option>En camino</option>
+                                                        <option value="En devolucion">En devolución</option>
+                                                        <option value="Devuelto sin reparacion">Devuelto sin reparación</option>
+                                                    </Input>
+                                                </FormGroup>
+                                                :
+                                                <FormGroup>
+                                                    <Label for="status">Estado solicitud</Label>
+                                                    <Input
+                                                        type="select"
+                                                        name="status"
+                                                        id="status"
+                                                        value={status.status}
+                                                        onChange={handleStatusChange}
+                                                    >
+                                                        <option>Iniciada</option>
+                                                        <option value="Recibida tecnico">Recibida técnico</option>
+                                                        <option>Revisado</option>
+                                                        <option value="En reparacion">En reparación</option>
+                                                        <option value="Reparado pendiente de pago">Reparado, pendiente de pago</option>
+                                                        <option>En camino</option>
+                                                        <option>Terminada</option>
+                                                        <option value="En devolucion">En devolución</option>
+                                                        <option value="Devuelto sin reparacion">Devuelto sin reparación</option>
+                                                        <option>Retoma</option>
+                                                        <option>Abandonada</option>
+                                                    </Input>
+                                                </FormGroup>
+                                        }
+                                        {
+                                            JSON.parse(localStorage.getItem('user')).role === "mensajero" ?
+                                                null :
+                                                <FormGroup>
+                                                    <Label for="paymentStatus">Estado de pago</Label>
+                                                    <Input
+                                                        type="select"
+                                                        name="paymentStatus"
+                                                        id="paymentStatus"
+                                                        defaultValue={paymentStatus.paymentStatus}
+                                                        onChange={handlePaymentStatusChange}
+                                                    >
+                                                        <option>Pago</option>
+                                                        <option>No pago</option>
+                                                    </Input>
+                                                </FormGroup>
+                                        }
                                         <FormGroup>
                                             <Label for="productReturned">Producto devuelto</Label>
                                             <Input

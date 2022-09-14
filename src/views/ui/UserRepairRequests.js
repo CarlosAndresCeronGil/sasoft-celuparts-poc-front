@@ -19,6 +19,7 @@ export default function UserRepairRequests() {
 
     useEffect(function () {
         setLoading(true);
+        console.log(JSON.parse(localStorage.getItem('user')).idUser)
         getSingleUser({ id: JSON.parse(localStorage.getItem('user')).idUser })
             .then(response => {
                 console.log(response);

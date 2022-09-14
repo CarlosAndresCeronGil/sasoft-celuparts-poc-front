@@ -28,19 +28,26 @@ import postRetoma from '../../services/postRetoma';
 import postRetomaPayment from '../../services/postRetomaPayment';
 import postRequestNotification from '../../services/postRequestNotification'
 import { useNavigate } from 'react-router-dom';
+import getRequestWithUserInfo from '../../services/getRequestWithUserInfo';
 
 export default function RequestForm() {
+    //Variables del formulario
     const [requestType, setRequestType] = useState({ requestType: 'Reparacion' })
     const [typeOfEquipment, setTypeOfEquipment] = useState({ typeOfEquipment: 'Computador portatil' })
 
+    //Variables para las fechas, finish date empieza en un día despues al día actual
     const [startDate, setStartDate] = useState(setHours(setMinutes(new Date(), 30), 16))
     const [finishDate, setFinishDate] = useState(new Date().setDate(new Date().getDate() + 1))
+
     const [loading, setLoading] = useState(false);
 
     //Variables para permitir que se haga un registro en una hora correcta
     const isSelectedDateToday = new Date().getDate() === startDate.getDate();
     let minTimeHour = new Date().getHours();
     if (!isSelectedDateToday) minTimeHour = 0;
+
+    //Datos necesarios para el mensaje de recogida al mensajero
+    const [userPhone, setUserPhone] = useState("")
 
     const navigate = useNavigate()
 
@@ -66,7 +73,20 @@ export default function RequestForm() {
                         statusQuote: "Pendiente",
                     })
                         .then(data => {
-                            console.log("respuesta despues del post request", data);
+                            getRequestWithUserInfo({ id: data.idRequest })
+                                .then(userInfo => {
+                                    setUserPhone(userInfo[0].userDto.phone)
+                                    postRequestNotification({
+                                        idRequest: data.idRequest,
+                                        message: "Nueva solicitud de servicio a domicilio a la dirección: " + data.pickUpAddress + " para la fecha " + startDate.getFullYear()+"/"+(startDate.getMonth()+1)+"/"+startDate.getDate()+ " a las " + startDate.getHours() + ":"+ startDate.getMinutes() + " para recoger el dispositivo " + e.target.elements.equipmentBrand.value + " " + e.target.elements.modelOrReference.value + " a nombre del señor/a " + JSON.parse(localStorage.getItem('user')).name + ", número de telefono de contácto: " + userInfo[0].userDto.phone,
+                                        hideNotification: false,
+                                        notificationType: "to_courier"
+                                    })
+                                        .catch(error => {
+                                            setLoading(false)
+                                            console.log(error)
+                                        })
+                                })
                             postRepair({
                                 idRequest: data.idRequest,
                                 repairQuote: "0"
@@ -77,20 +97,20 @@ export default function RequestForm() {
                                         idRepair: data2.idRepair,
                                         paymentMethod: e.target.elements.paymentMethod.value,
                                     })
-                                    .then(finalResponse => {
-                                        Swal.fire({
-                                            icon: 'success',
-                                            title: 'Exito!',
-                                            text: 'Solicitud de reparación enviada!',
+                                        .then(finalResponse => {
+                                            Swal.fire({
+                                                icon: 'success',
+                                                title: 'Exito!',
+                                                text: 'Solicitud de reparación enviada!',
+                                            })
+                                                .then(response => {
+                                                    navigate("/home/user-repair-requests")
+                                                })
                                         })
-                                        .then(response => {
-                                            navigate("/home/user-repair-requests")
-                                        })
-                                    })
-                                    .catch(error => {
-                                        console.log(error);
-                                        setLoading(false);
-                                    });
+                                        .catch(error => {
+                                            console.log(error);
+                                            setLoading(false);
+                                        });
                                 })
                                 .catch(error => {
                                     console.log(error);
@@ -116,32 +136,22 @@ export default function RequestForm() {
                                     setLoading(false);
                                     console.log(error);
                                 });
-                            postRequestNotification({
-                                idRequest: data.idRequest,
-                                message: "Nueva solicitud de servicio a domicilio a la dirección: " + data.pickUpAddress + " a nombre del señor/a " + JSON.parse(localStorage.getItem('user')).name,
-                                hideNotification: false,
-                                notificationType: "to_courier"
-                            })
-                                .catch(error => {
-                                    setLoading(false)
-                                    console.log(error)
-                                })
+                            // postRequestNotification({
+                            //     idRequest: data.idRequest,
+                            //     message: "Nueva solicitud de servicio a domicilio a la dirección: " + data.pickUpAddress + " para la fecha " + startDate + " para recoger el dispositivo " + e.target.elements.equipmentBrand.value + " " + e.target.elements.modelOrReference.value + " a nombre del señor/a " + JSON.parse(localStorage.getItem('user')).name + ", número de telefono de contácto: " + userPhone,
+                            //     hideNotification: false,
+                            //     notificationType: "to_courier"
+                            // })
+                            //     .catch(error => {
+                            //         setLoading(false)
+                            //         console.log(error)
+                            //     })
                             setLoading(false);
                         })
                         .catch(error => {
                             setLoading(false);
                             console.log(error);
                         })
-                })
-                .then(dataFinal => {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Exito!',
-                        text: 'Solicitud de reparacióm enviada!',
-                    })
-                    .then(response => {
-                        navigate("/home/user-repair-requests")
-                    })
                 })
                 .catch(error => {
                     setLoading(false);
@@ -165,6 +175,20 @@ export default function RequestForm() {
                         statusQuote: "Pendiente",
                     })
                         .then(dataRequest => {
+                            getRequestWithUserInfo({ id: dataRequest.idRequest })
+                                .then(userInfo => {
+                                    setUserPhone(userInfo[0].userDto.phone)
+                                    postRequestNotification({
+                                        idRequest: dataRequest.idRequest,
+                                        message: "Nueva solicitud de servicio a domicilio a la dirección: " + dataRequest.pickUpAddress + " para la fecha " + startDate.getFullYear()+"/"+(startDate.getMonth()+1)+"/"+startDate.getDate()+ " a las " + startDate.getHours() + ":"+ startDate.getMinutes() + " para recoger el dispositivo " + e.target.elements.equipmentBrand.value + " " + e.target.elements.modelOrReference.value + " a nombre del señor/a " + JSON.parse(localStorage.getItem('user')).name + ", número de telefono de contácto: " + userInfo[0].userDto.phone,
+                                        hideNotification: false,
+                                        notificationType: "to_courier"
+                                    })
+                                        .catch(error => {
+                                            setLoading(false)
+                                            console.log(error)
+                                        })
+                                })
                             postRetoma({
                                 idRequest: dataRequest.idRequest,
                                 retomaQuote: "0",
@@ -176,16 +200,16 @@ export default function RequestForm() {
                                         idRetoma: dataRetoma.idRetoma,
                                         paymentMethod: e.target.elements.paymentMethod.value
                                     })
-                                    .then(finalResponse => {
-                                        Swal.fire({
-                                            icon: 'success',
-                                            title: 'Exito!',
-                                            text: 'Solicitud de retoma enviada!',
+                                        .then(finalResponse => {
+                                            Swal.fire({
+                                                icon: 'success',
+                                                title: 'Exito!',
+                                                text: 'Solicitud de retoma enviada!',
+                                            })
+                                                .then(response => {
+                                                    navigate("/home/user-retoma-requests")
+                                                })
                                         })
-                                        .then(response => {
-                                            navigate("/home/user-retoma-requests")
-                                        })
-                                    })
                                         .catch(error => {
                                             console.log(error);
                                             setLoading(false);
@@ -236,9 +260,9 @@ export default function RequestForm() {
                 title: 'Exito!',
                 text: 'Solicitud de retoma enviada!',
             })
-            .then(response => {
-                navigate("/home/user-retoma-requests")
-            })
+                .then(response => {
+                    navigate("/home/user-retoma-requests")
+                })
         }
     }
 

@@ -7,9 +7,11 @@ export default function postEquipment(data) {
     return fetch(apiURL, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            // 'Content-Type': 'multipart/form-data',
+            // 'Accept': '*/*',
         },
-        body: JSON.stringify(data)
+        // body: JSON.stringify(data)
+        body: (data)
     })
         .then(response => response.json())
         .then(data => {

@@ -34,7 +34,7 @@ export default function SignIn() {
                 .then(response => {
                     console.log("Response from sign in:", response);
                     if (response !== undefined) {
-                        if(response === "Account disabled") {
+                        if (response === "Account disabled") {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Oops...',
@@ -47,7 +47,7 @@ export default function SignIn() {
                             setAuth(true);
                             navigate('/home');
                         }
-                    } 
+                    }
                 })
                 .catch(error => {
                     console.log("error:", error);
@@ -65,15 +65,15 @@ export default function SignIn() {
 
     return (
         <div className='sing-in-container'>
-            <div className='image'>
+            {/* <div className='image'>
                 <img src="/celuparts-login-logo.png" alt="celuparts-logo" className="medium-image"></img>
-            </div>
+            </div> */}
             <div>
                 <Row>
-                    <Col>
-                        <Card>
+                    <Col className='left-column'>
+                        <Card className='left-card'>
                             <CardTitle tag="h2" className="border-bottom p-3 mb-0 align-self-center justify-content-center">
-                                Bienvenido
+                                Ingresar
                             </CardTitle>
                             <CardBody>
                                 <Form onSubmit={handleSubmit}>
@@ -105,6 +105,20 @@ export default function SignIn() {
                                 </Form>
                                 ¿No tienes cuenta? <Link to='/Signup'>registrate! </Link>
                             </CardBody>
+                        </Card>
+                    </Col>
+                    <Col className='right-column'>
+                        <Card className='right-card'>
+                            <div>
+                                <CardTitle tag="h2" className="p-3 mb-0 align-self-center justify-content-center">
+                                    Bienvenido/a a
+                                </CardTitle>
+                                <CardBody className='right-card-text'>
+                                    <div className='image'>
+                                        <img src="/celuparts-transparent-2.png" alt="celuparts-logo" className="right-card-image"></img>
+                                    </div>
+                                </CardBody>
+                            </div>
                         </Card>
                     </Col>
                 </Row>

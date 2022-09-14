@@ -87,12 +87,14 @@ export default function SignUp() {
                                 <FormGroup>
                                     <Label for="idType">Tipo de documento*</Label>
                                     <Input id="idType" name="select" type="select">
-                                        <option>CC</option>
-                                        <option>TI</option>
+                                        <option value="CC">Cédula de ciudadania</option>
+                                        <option value="TI">Tarjeta de identidad</option>
+                                        <option value="CE">Cédula de extranjeria</option>
+                                        <option value="NIP">Número de identificación tributaria</option>
                                     </Input>
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label for="idNumber">Número de cédula*</Label>
+                                    <Label for="idNumber">Número de identificación*</Label>
                                     <Input
                                         id="idNumber"
                                         name="idNumber"

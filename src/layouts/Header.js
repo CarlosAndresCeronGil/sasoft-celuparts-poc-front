@@ -113,11 +113,24 @@ const Header = () => {
             <DropdownItem divider /> */}
             {
               JSON.parse(localStorage.getItem('user')).role === "user" ? (
-                <DropdownItem>
-                  <Link to="./request-form">
-                    Nueva Solicitud
-                  </Link>
-                </DropdownItem>
+                <div>
+                  <DropdownItem>
+                    <Link to="./request-repair-form">
+                      Solicitar Reparación
+                    </Link>
+                  </DropdownItem>
+                  <DropdownItem>
+                    <Link to="./request-retoma-form">
+                      Solicitar Retoma
+                    </Link>
+                  </DropdownItem>
+                  <DropdownItem>
+                    <Link to="./test-upload-equipment">
+                      Test nuevo equipo
+                    </Link>
+                  </DropdownItem>
+                </div>
+
               ) : null
             }
             {
@@ -140,11 +153,11 @@ const Header = () => {
             }
 
             <DropdownItem divider />
-            <DropdownItem>
-              <Link to="/" onClick={handleLogOut}>
+            <Link to="/" onClick={handleLogOut}>
+              <DropdownItem>
                 Salir
-              </Link>
-            </DropdownItem>
+              </DropdownItem>
+            </Link>
           </DropdownMenu>
         </Dropdown>
         {/* <Dropdown>

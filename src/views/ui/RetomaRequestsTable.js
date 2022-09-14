@@ -137,6 +137,7 @@ export default function RetomaRequestsTable() {
                                     <th>Fecha solicitud</th>
                                     <th>Dispositivo</th>
                                     <th>Dirección recogida</th>
+                                    <th>Dirección entrega</th>
                                     <th>Estado de cotización</th>
                                     <th>Estado de solicitud</th>
                                     <th>Actualizar estado Solicitud</th>
@@ -164,6 +165,7 @@ export default function RetomaRequestsTable() {
                                             <td>{`${new Date(tdata.requestDate).getFullYear()}-${new Date(tdata.requestDate).getMonth() + 1}-${new Date(tdata.requestDate).getDate()}`}</td>
                                             <td>{tdata.equipment.equipmentBrand} {tdata.equipment.modelOrReference}</td>
                                             <td>{tdata.pickUpAddress}</td>
+                                            <td>{tdata.deliveryAddress}</td>
                                             <td>{tdata.statusQuote}</td>
                                             <td>{tdata.requestStatus[0].status}</td>
                                             <td>
