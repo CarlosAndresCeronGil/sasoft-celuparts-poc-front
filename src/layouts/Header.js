@@ -124,11 +124,11 @@ const Header = () => {
                       Solicitar Retoma
                     </Link>
                   </DropdownItem>
-                  <DropdownItem>
+                  {/* <DropdownItem>
                     <Link to="./test-upload-equipment">
                       Test nuevo equipo
                     </Link>
-                  </DropdownItem>
+                  </DropdownItem> */}
                 </div>
 
               ) : null

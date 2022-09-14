@@ -61,7 +61,7 @@ export function Router() {
   const Home = lazy(() => import("../views/ui/Home"));
   const RequestRepairForm = lazy(() => import("../views/ui/RequestRepairForm"));
   const RequestRetomaForm = lazy(() => import("../views/ui/RequestRetomaForm"));
-  const TestUploadEquipment = lazy(() => import("../views/ui/TestUploadEquipment"));
+  // const TestUploadEquipment = lazy(() => import("../views/ui/TestUploadEquipment"));
 
   /*****Routes******/
   const ThemeRoutes = [
@@ -89,7 +89,7 @@ export function Router() {
           { path: "/home/user-alerts", exact: true, element: <CustomerAlerts /> },
           { path: "/home/request-repair-form", exact: true, element: <RequestRepairForm /> },
           { path: "/home/request-retoma-form", exact: true, element: <RequestRetomaForm />  },
-          { path: "/home/test-upload-equipment", exact: true, element: <TestUploadEquipment /> }
+          // { path: "/home/test-upload-equipment", exact: true, element: <TestUploadEquipment /> }
         ],
       }
     ) : JSON.parse(localStorage.getItem('user')).role === "admin" ? ThemeRoutes.push(
