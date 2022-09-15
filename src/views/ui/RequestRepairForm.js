@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Card,
     Row,
@@ -27,10 +27,14 @@ import postHomeService from '../../services/postHomeService';
 import postRequestNotification from '../../services/postRequestNotification'
 import { useNavigate } from 'react-router-dom';
 import getRequestWithUserInfo from '../../services/getRequestWithUserInfo';
+import getVerifyImei from '../../services/getVerifyImei';
 
 export default function RequestRepairForm() {
     //Variables del formulario
     const [typeOfEquipment, setTypeOfEquipment] = useState({ typeOfEquipment: 'Computador portatil' })
+    const [imei, setImei] = useState('')
+    const [serial, setSerial] = useState('')
+    const [verifyResponse, setVerifyResponse] = useState('')
 
     //Variables para las fechas, finish date empieza en un día despues al día actual
     const [startDate, setStartDate] = useState(setHours(setMinutes(new Date(), 30), 16))
@@ -40,8 +44,17 @@ export default function RequestRepairForm() {
 
     //Variables para permitir que se haga un registro en una hora correcta
     const isSelectedDateToday = new Date().getDate() === startDate.getDate();
+    const isSelectedDateInFuture = +startDate > +new Date()
     let minTimeHour = new Date().getHours();
     if (!isSelectedDateToday) minTimeHour = 0;
+
+    const date = new Date();
+    let currentMins = date.getMinutes();
+    let currentHour = date.getHours();
+    if (isSelectedDateInFuture) {
+        currentHour = 0;
+        currentMins = 0;
+    }
 
     const navigate = useNavigate()
 
@@ -149,6 +162,30 @@ export default function RequestRepairForm() {
         return day !== 0 //solo ignora los domingos
     }
 
+    const handleVerifySerial = (e) => {
+        e.preventDefault()
+        getVerifyImei({ id: serial })
+            .then(response => {
+                console.log(response)
+                setVerifyResponse(response)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
+    const handleVerifyImei = (e) => {
+        e.preventDefault()
+        getVerifyImei({ id: imei })
+            .then(response => {
+                console.log(response)
+                setVerifyResponse(response)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
     return (
         <div>
             <div>
@@ -190,7 +227,8 @@ export default function RequestRepairForm() {
                                             id='PickUpTime'
                                             dateFormat="yyyy-MM-dd h:mm aa"
                                             showTimeSelect
-                                            minTime={new Date(new Date().setHours(minTimeHour, 0, 0, 0))}
+                                            minTime={new Date(new Date().setHours(minTimeHour, currentMins, 0, 0))}
+                                            // minTime={new Date(new Date().setHours(currentHour, currentMins, 0, 0))}
                                             maxTime={new Date(new Date().setHours(23, 59, 0, 0))}
                                             minDate={new Date()}
                                             includeTimes={[
@@ -339,27 +377,66 @@ export default function RequestRepairForm() {
                                     </FormGroup>
                                     {
                                         typeOfEquipment.typeOfEquipment === "Computador portatil" ?
-                                            <FormGroup>
-                                                <Label for="imei">Serial del dispositivo*</Label>
-                                                <Input
-                                                    id="imei"
-                                                    name="imei"
-                                                    placeholder="Ingrese el imei dispositivo"
-                                                    type="text"
-                                                    required
-                                                />
-                                            </FormGroup>
+                                            <div>
+                                                <FormGroup>
+                                                    <Label for="imei">Serial del dispositivo*</Label>
+                                                    <Input
+                                                        id="imei"
+                                                        name="imei"
+                                                        value={serial}
+                                                        placeholder="Ingrese el imei dispositivo"
+                                                        type="text"
+                                                        onChange={(e) => setSerial(e.target.value)}
+                                                        required
+                                                    />
+                                                </FormGroup>
+                                                {
+                                                    serial === '' ?
+                                                        <FormGroup>
+                                                            <Button disabled>
+                                                                Verificar serial
+                                                            </Button>
+                                                        </FormGroup>
+                                                        :
+                                                        <FormGroup>
+                                                            <Button onClick={handleVerifySerial}>
+                                                                Verificar serial
+                                                            </Button>
+                                                        </FormGroup>
+                                                }
+                                            </div>
                                             :
-                                            <FormGroup>
-                                                <Label for="imei">Imei del dispositivo*</Label>
-                                                <Input
-                                                    id="imei"
-                                                    name="imei"
-                                                    placeholder="Ingrese el imei dispositivo"
-                                                    type="text"
-                                                    required
-                                                />
-                                            </FormGroup>
+                                            <div>
+                                                <FormGroup>
+                                                    <Label for="imei">Imei del dispositivo*</Label>
+                                                    <Input
+                                                        id="imei"
+                                                        name="imei"
+                                                        value={imei}
+                                                        placeholder="Ingrese el imei dispositivo"
+                                                        type="text"
+                                                        onChange={(e) => setImei(e.target.value)}
+                                                        required
+                                                    />
+                                                </FormGroup>
+                                                {
+                                                    imei === '' ?
+                                                        <FormGroup>
+                                                            <Button disabled>
+                                                                Verificar imei
+                                                            </Button>
+                                                        </FormGroup>
+                                                        :
+                                                        <FormGroup>
+                                                            <Button onClick={handleVerifyImei}>
+                                                                Verificar imei
+                                                            </Button>
+                                                        </FormGroup>
+                                                }
+                                            </div>
+                                    }
+                                    {
+                                        verifyResponse
                                     }
                                     <FormGroup>
                                         <Label for="equipmentInvoice">Factura del dispositivo*</Label>
