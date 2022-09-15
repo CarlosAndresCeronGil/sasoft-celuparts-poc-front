@@ -61,7 +61,7 @@ export function Router() {
   const Home = lazy(() => import("../views/ui/Home"));
   const RequestRepairForm = lazy(() => import("../views/ui/RequestRepairForm"));
   const RequestRetomaForm = lazy(() => import("../views/ui/RequestRetomaForm"));
-  // const TestUploadEquipment = lazy(() => import("../views/ui/TestUploadEquipment"));
+  const EquipmentDetail = lazy(() => import("../views/ui/EquipmentDetail"));
 
   /*****Routes******/
   const ThemeRoutes = [
@@ -132,7 +132,8 @@ export function Router() {
           { path: "/home/siigo-users-table", exact: true, element: <SiigoUsersTable /> },
           { path: "/home/siigo-cost-centers-table", exact: true, element: <SiigoCostCentersTable /> },
           { path: "/home/siigo-fixed-assets-table", exact: true, element: <SiigoFixedAssetsTable /> },
-          { path: "/home/admin-alerts", exact: true, element: <AdminAlerts /> }
+          { path: "/home/admin-alerts", exact: true, element: <AdminAlerts /> },
+          { path: "/home/equipment-detail/:id", exact: true, element: <EquipmentDetail /> }
         ],
       },
     ) : JSON.parse(localStorage.getItem('user')).role === "aux_admin" ? ThemeRoutes.push(

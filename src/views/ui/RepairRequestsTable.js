@@ -16,7 +16,7 @@ export default function RepairRequestsTable() {
 
     useEffect(function () {
         setLoading(true)
-        getRequestRepairs({ page  })
+        getRequestRepairs({ page })
             .then((response) => {
                 setRequests(response)
                 setLoading(false)
@@ -153,6 +153,7 @@ export default function RepairRequestsTable() {
                                             null
                                         )
                                     }
+                                    <td>Observaciones del cliente</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -223,6 +224,13 @@ export default function RepairRequestsTable() {
                                                     null
                                                 )
                                             }
+                                            <td>
+                                                <Link to={`/home/equipment-detail/${tdata.idRequest}`}>
+                                                    <button className='btn btn-celuparts-black' type='button'>
+                                                        Ver
+                                                    </button>
+                                                </Link>
+                                            </td>
                                         </tr>
                                     ) : (
                                         null

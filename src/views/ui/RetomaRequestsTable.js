@@ -155,6 +155,7 @@ export default function RetomaRequestsTable() {
                                             null
                                         )
                                     }
+                                    <td>Observaciones del cliente</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -225,6 +226,13 @@ export default function RetomaRequestsTable() {
                                                     null
                                                 )
                                             }
+                                            <td>
+                                                <Link to={`/home/equipment-detail/${tdata.idRequest}`}>
+                                                    <button className='btn btn-celuparts-black' type='button'>
+                                                        Ver
+                                                    </button>
+                                                </Link>
+                                            </td>
                                         </tr>
                                     ) : (
                                         null
