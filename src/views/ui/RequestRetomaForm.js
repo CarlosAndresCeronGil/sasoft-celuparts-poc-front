@@ -122,18 +122,30 @@ export default function RequestRetomaForm() {
                             productReturned: false,
                             productSold: false
                         })
-                            .catch(error => {
-                                setLoading(false);
-                                console.log(error);
-                            });
-                        postHomeService({
-                            idRequest: dataRequest.idRequest,
-                            pickUpDate: startDate,
+                        .then(() => {
+                            postHomeService({
+                                idRequest: dataRequest.idRequest,
+                                pickUpDate: startDate,
+                                deliveryDate: finishDate
+                            })
+                                .catch(error => {
+                                    setLoading(false);
+                                    console.log(error);
+                                });
                         })
                             .catch(error => {
                                 setLoading(false);
                                 console.log(error);
                             });
+                        // postHomeService({
+                        //     idRequest: dataRequest.idRequest,
+                        //     pickUpDate: startDate,
+                        //     deliveryDate: finishDate
+                        // })
+                        //     .catch(error => {
+                        //         setLoading(false);
+                        //         console.log(error);
+                        //     });
                         // postRequestNotification({
                         //     idRequest: dataRequest.idRequest,
                         //     message: "Nueva solicitud de servicio a domicilio a la dirección: " + dataRequest.pickUpAddress + " a nombre del señor/a " + JSON.parse(localStorage.getItem('user')).name,

@@ -131,19 +131,30 @@ export default function RequestRepairForm() {
                             productReturned: false,
                             productSold: false
                         })
-                            .catch(error => {
-                                setLoading(false);
-                                console.log(error);
-                            });
-                        postHomeService({
-                            idRequest: data.idRequest,
-                            pickUpDate: startDate,
-                            deliveryDate: finishDate
+                        .then(() => {
+                            postHomeService({
+                                idRequest: data.idRequest,
+                                pickUpDate: startDate,
+                                deliveryDate: finishDate
+                            })
+                                .catch(error => {
+                                    setLoading(false);
+                                    console.log(error);
+                                });
                         })
                             .catch(error => {
                                 setLoading(false);
                                 console.log(error);
                             });
+                        // postHomeService({
+                        //     idRequest: data.idRequest,
+                        //     pickUpDate: startDate,
+                        //     deliveryDate: finishDate
+                        // })
+                        //     .catch(error => {
+                        //         setLoading(false);
+                        //         console.log(error);
+                        //     });
                         setLoading(false);
                     })
                     .catch(error => {
