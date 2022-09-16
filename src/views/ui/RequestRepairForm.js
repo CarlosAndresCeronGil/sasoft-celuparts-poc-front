@@ -68,7 +68,8 @@ export default function RequestRepairForm() {
         formData.append("modelOrReference", e.target.elements.modelOrReference.value)
         formData.append("imeiOrSerial", e.target.elements.imei.value)
         formData.append("equipmentInvoice", e.target.elements.equipmentInvoice.files[0])
-
+        console.log("startDate", startDate)
+        console.log("finishDate", finishDate)
         postEquipment(formData)
             .then(data => {
                 postRequest({
@@ -255,6 +256,7 @@ export default function RequestRepairForm() {
                                             selected={startDate}
                                             onChange={(date) => setStartDate(date)}
                                             timeFormat="HH:mm"
+                                            required
                                         />
                                     </FormGroup>
                                     {
@@ -291,6 +293,7 @@ export default function RequestRepairForm() {
                                                     filterDate={isWeekDay}
                                                     onChange={(date) => setFinishDate(date)}
                                                     timeFormat="HH:mm"
+                                                    required
                                                 />
                                             </FormGroup>
                                             :
@@ -326,6 +329,7 @@ export default function RequestRepairForm() {
                                                     onChange={(date) => setFinishDate(date)}
                                                     filterDate={isWeekDay}
                                                     timeFormat="HH:mm"
+                                                    required
                                                 />
                                             </FormGroup>
                                     }
